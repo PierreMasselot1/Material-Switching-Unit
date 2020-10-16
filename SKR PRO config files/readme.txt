@@ -1,0 +1,1 @@
+These are my config files and will most likely not work with your setup. I HIGHLY recommend you create your own config files. These are for the SKR PRO V1.1 board using a TFT 24 V1.1 screen and A4988 drivers.
