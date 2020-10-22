@@ -15,4 +15,6 @@ Software:
 * any potential bug
 * quality of life improvement: physical buttons, info on LCD + interface, implementing a filament sensor ( error detection and "SpoolJoin" )
 
+THE IDLER BODY SPACE ISN'T CORRECT, I AM DOING SOME TESTING THIS WEEK AND A PROPER VERSION SHOULD BE UPLOADED SOON
+
 
