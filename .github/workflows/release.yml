@@ -21,6 +21,8 @@ jobs:
     
     - name: Download OpenSCAD
       run: |
+        wget -qO - https://files.openscad.org/OBS-Repository-Key.pub | sudo apt-key add -
+        echo "deb https://download.opensuse.org/repositories/home:/t-paul/xUbuntu_18.04/ ./" | sudo tee /etc/apt/sources.list.d/openscad.list
         sudo apt-get update
         sudo apt-get install openscad
     
@@ -28,7 +30,24 @@ jobs:
       run: for file in "./physical parts/SCAD/*"; do openscad -o "./dist/${i%.*}.stl" --render "./physical parts/SCAD/$i"; done
       
     - name: Copy STEP files
-      run: cp "./physical parts/STEP/*" "./out/"
+      run: cp "./physical parts/STEP/*" "./dist/"
+    
+    - name: Zip Assets
+      run: zip dist.zip ./dist/*
     
     - name: Draft Release
       uses: release-drafter/release-drafter@v5.12.1
+      id: draft-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: Upload Release Assets
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.draft-release.outputs.upload_url }}
+        asset_path: ./dist.zip
+        asset_name: Files.zip
+        asset_content_type: application/zip
