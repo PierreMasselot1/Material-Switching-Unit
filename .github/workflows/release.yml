@@ -22,9 +22,9 @@ jobs:
     - name: Download OpenSCAD
       run: |
         wget -qO - https://files.openscad.org/OBS-Repository-Key.pub | sudo apt-key add -
-        echo "deb https://download.opensuse.org/repositories/home:/t-paul/xUbuntu_18.04/ ./" | sudo tee /etc/apt/sources.list.d/openscad.list
+        echo "deb https://download.opensuse.org/repositories/home:/t-paul/xUbuntu_18.04/ ./" | sudo tee /etc/apt/sources.list
         sudo apt-get update
-        sudo apt-get install openscad
+        sudo apt-get install -y openscad
     
     - name: Convert Files
       run: for file in "./physical parts/SCAD/*"; do openscad -o "./dist/${i%.*}.stl" --render "./physical parts/SCAD/$i"; done
