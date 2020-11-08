@@ -27,25 +27,9 @@ jobs:
         mkdir dist
         for file in ./parts/SCAD/*; do openscad -o "./dist/$(basename $file .scad).stl" "$file"; done
       
-    - name: Copy STEP files
-      run: cp ./parts/STEP/* "./dist/"
-    
-    - name: Zip Assets
-      run: zip dist.zip ./dist/*
-    
-    - name: Draft Release
-      uses: release-drafter/release-drafter@v5.12.1
-      id: draft-release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Uplaod Artifacts
+      uses: actions/upload-artifact@v2
       with:
-        upload_url: ${{ steps.draft-release.outputs.upload_url }}
-        asset_path: ./dist.zip
-        asset_name: Files.zip
-        asset_content_type: application/zip
+        path: |
+          ./parts/STEP/*
+          ./dist/*
