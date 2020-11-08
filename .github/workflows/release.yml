@@ -1,0 +1,32 @@
+# This is a basic workflow that is manually triggered
+
+name: Draft Release
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: 
+  pull_request:
+    branches: master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Download OpenSCAD
+      run: sudo apt install openscad
+    
+    - name: Convert Files
+      run: for file in "./physical parts/SCAD/*"; do openscad -o "./dist/${i%.*}.stl" --render "./physical parts/SCAD/$i"; done
+      
+    - name: Copy STEP files
+      run: cp "./physical parts/STEP/*" "./out/"
+    
+    - name: Draft Release
+      uses: release-drafter/release-drafter@v5.12.1
