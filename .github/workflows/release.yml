@@ -27,7 +27,7 @@ jobs:
         mkdir dist
         for file in ./parts/SCAD/*; do openscad -o "./dist/$(basename $file .scad).stl" "$file"; done
       
-    - name: Uplaod Artifacts
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         path: |
