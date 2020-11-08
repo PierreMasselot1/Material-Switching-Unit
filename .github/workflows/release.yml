@@ -28,7 +28,7 @@ jobs:
         for file in ./parts/SCAD/*; do openscad -o "./dist/$(basename $file .scad).stl" "$file"; done
       
     - name: Copy STEP files
-      run: cp "./parts/STEP/*" "./dist/"
+      run: cp ./parts/STEP/* "./dist/"
     
     - name: Zip Assets
       run: zip dist.zip ./dist/*
