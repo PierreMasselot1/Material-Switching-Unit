@@ -10,24 +10,24 @@
 
 module motor_screws()
 {
-    translate([-34,15.5,15.5+1.5]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
-    translate([-24.1,15.5,15.5+1.5]) rotate([0,90,0]) cylinder(r=3.2+0.8, h=15, $fn=50); 
-    translate([-24.1,15.5-3.2-0.8,15.5+1.5]) cube([15,6.4+1.6,10]);
-    translate([-10,15.5-2-2,15.5+1.5]) rotate([0,-30,0]) cube([20,4+4,10]);
+    translate([-34,15.5,15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
+    translate([-24.1,15.5,15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=3.2+0.8, h=15, $fn=50); 
+    translate([-24.1,15.5-3.2-0.8,15.5+1.5-0.4]) cube([15,6.4+1.6,10]);
+    translate([-10,15.5-2-2,15.5+1.5-0.4]) rotate([0,-30,0]) cube([20,4+4,10]);
 
 
-    translate([-34,-15.5,15.5+1.5]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
+    translate([-34,-15.5,15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
 
-    translate([-24.1,-15.5,15.5+1.5]) rotate([0,90,0]) cylinder(r=3.2+0.8, h=15, $fn=50); 
-    translate([-24.1,-15.5-3.2-0.8,15.5+1.5]) cube([15,6.4+1.6,10]);
-    translate([-10,-15.5-2-2,15.5+1.5]) rotate([0,-30,0]) cube([20,4+4,10]);
+    translate([-24.1,-15.5,15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=3.2+0.8, h=15, $fn=50); 
+    translate([-24.1,-15.5-3.2-0.8,15.5+1.5-0.4]) cube([15,6.4+1.6,10]);
+    translate([-10,-15.5-2-2,15.5+1.5-0.4]) rotate([0,-30,0]) cube([20,4+4,10]);
 
 
-    translate([-34,15.5,-15.5+1.5]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
-    translate([-24.1,15.5,-15.5+1.5]) rotate([0,90,0]) cylinder(r=3.2, h=15, $fn=50); 
+    translate([-34,15.5,-15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
+    translate([-24.1,15.5,-15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=3.2, h=15, $fn=50); 
 
-    translate([-34,-15.5,-15.5+1.5]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
-    translate([-24.1,-15.5,-15.5+1.5]) rotate([0,90,0]) cylinder(r=3.2, h=15, $fn=50); 
+    translate([-34,-15.5,-15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=1.65, h=10, $fn=50); 
+    translate([-24.1,-15.5,-15.5+1.5-0.4]) rotate([0,90,0]) cylinder(r=3.2, h=15, $fn=50); 
 }
 
 
@@ -68,15 +68,15 @@ module idler_body_base()
         // body
         union()
         {
-            translate([-29,-25,0]) cube([125,50,23+1.5]);
-            translate([-29,-25,-20+1.5]) cube([10,49,42]);
-            translate([70.5,0,0+1.5]) rotate([0,90,0]) cylinder(r=15, h=10, $fn=50); 
+            translate([-29,-25,0]) cube([125,50,23+1.5-0.4]);
+            translate([-29,-25,-20+1.5-0.4]) cube([10,49,42]);
+            translate([70.5,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=15, h=10, $fn=50); 
             
             // spring screw mounts
-            translate([86,-33,-2]) cube([10,57,25+1.5]);
-            translate([-27,-33,-2]) cube([10,57,25+1.5]);
-            translate([91,-33,-2]) rotate([0,0,0]) cylinder(r=5, h=25+1.5, $fn=6); 
-            translate([-22,-33,-2]) rotate([0,0,0]) cylinder(r=5, h=25+1.5, $fn=6); 
+            translate([86,-33,-2]) cube([10,57,25+1.5-0.4]);
+            translate([-27,-33,-2]) cube([10,57,25+1.5-0.4]);
+            translate([91,-33,-2]) rotate([0,0,0]) cylinder(r=5, h=25+1.5-0.4, $fn=6); 
+            translate([-22,-33,-2]) rotate([0,0,0]) cylinder(r=5, h=25+1.5-0.4, $fn=6); 
             //translate([-27,-20,-8]) rotate([20,0,0]) cube([8,10,10]);
             
             // hold together shaft housing
@@ -88,13 +88,13 @@ module idler_body_base()
         }
 
         // shaft
-        translate([70,0,0+1.5]) rotate([0,90,0]) cylinder(r=11.1, h=12, $fn=50); 
-        translate([80.5,0,0+1.5]) rotate([0,90,0]) cylinder(r=3, h=20, $fn=50); 
-        translate([81,-3,-10+1.5]) cube([20,6,10]);
-        translate([85,0,-11.5+1.5]) rotate([45,0,0]) cube([15,10,10]);
-        translate([83.5,0,-9+1.5]) rotate([0,0,0]) cylinder(r=3, h=12, $fn=50); 
-        translate([83.5,0,0+1.5]) rotate([0,0,0]) cylinder(r=1.4, h=12, $fn=50); 
-        translate([83.5,0,2+1.5]) rotate([0,0,0]) cylinder(r2=1.4,r1=1.7, h=3, $fn=50); 
+        translate([70,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=11.1, h=12, $fn=50); 
+        translate([80.5,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=3, h=20, $fn=50); 
+        translate([81,-3,-10+1.5-0.4]) cube([20,6,10]);
+        translate([85,0,-11.5+1.5-0.4]) rotate([45,0,0]) cube([15,10,10]);
+        translate([83.5,0,-9+1.5-0.4]) rotate([0,0,0]) cylinder(r=3, h=12, $fn=50); 
+        translate([83.5,0,0+1.5-0.4]) rotate([0,0,0]) cylinder(r=1.4, h=12, $fn=50); 
+        translate([83.5,0,2+1.5-0.4]) rotate([0,0,0]) cylinder(r2=1.4,r1=1.7, h=3, $fn=50); 
         
         // hold together shafts
         translate([80,30,-24]) rotate([0,90,0]) cylinder(r=2.55, h=12, $fn=50); 
@@ -112,20 +112,20 @@ module idler_body_base()
         
         
         // idler bearing spaces
-        translate([-0.5,0,0+1.5]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
-        translate([-0.5+14,0,0+1.5]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
-        translate([-0.5+28,0,0+1.5]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
-        translate([-0.5+42,0,0+1.5]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
-        translate([-0.5+56,0,0+1.5]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
+        translate([-0.5,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
+        translate([-0.5+14,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
+        translate([-0.5+28,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
+        translate([-0.5+42,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
+        translate([-0.5+56,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=22, h=9, $fn=50); 
         
         // idler body space
-        translate([-5,0,0+1.5]) rotate([0,90,0]) cylinder(r=18, h=75.5, $fn=50); 
-        translate([-30,0,0+1.5]) rotate([0,90,0]) cylinder(r=14, h=5, $fn=50); 
-        translate([-30,0,-8+1.5]) rotate([0,90,0]) cylinder(r=4, h=5, $fn=50); 
+        translate([-5,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=18, h=75.5, $fn=50); 
+        translate([-30,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=14, h=5, $fn=50); 
+        translate([-30,0,-8+1.5-0.4]) rotate([0,90,0]) cylinder(r=4, h=5, $fn=50); 
         
         // motor coupling space
-        translate([-26,0,0+1.5]) rotate([0,90,0]) cylinder(r=18, h=22, $fn=50);
-        translate([-24.1-5,-10-1,-30+1.5]) cube([15,22,20+5]);
+        translate([-26,0,0+1.5-0.4]) rotate([0,90,0]) cylinder(r=18, h=22, $fn=50);
+        translate([-24.1-5,-10-1,-30+1.5-0.4]) cube([15,22,20+5]);
 
         // motor screws
         motor_screws();
@@ -188,22 +188,22 @@ module idler_body()
         {
             idler_body_base();
             difference(){
-            translate([10-1-2.6+0.40,15.5-1,3+1.2+5]) cube([6.6+2,20.2+2,20-5-1.3+1.5]);
-            translate([0,10,0]) cube([100,12,43]);
+            translate([10-1-2.6+0.40,15.5-1-1.5,3+1.2+5]) cube([6.6+2,20.2+2,20-5-1.3+1.5-0.4]);
+            translate([0,10-1.5,0]) cube([100,12,43]);
            }
           
         }
         
             union(){
-                translate([10-2.6+0.40,15.5,3-1]) cube([6.6,20.2,9+25]);
-     translate([0,15.5+20.2-5.2,4+10]) rotate([0,90,0]) cylinder(r=2.7/2, h=50, $fn=50);
+                translate([10-2.6+0.40,15.5-1.5,3-1]) cube([6.6,20.2,9+25]);
+     translate([0,15.5+20.2-5.2-1.5,4+10]) rotate([0,90,0]) cylinder(r=2.7/2, h=50, $fn=50);
                 translate ([70.5-1,-20+5,-19]) cube([12,30,15]);
                 
                 }
     
   
     }
-     translate([10-1-2.6+0.40,15.5-1,3+1.2+12.5+1.5]) cube([6.6+2,1+1,20-12.5-1.3]);
+     translate([10-1-2.6+0.40+1,15.5-1-1.5,3+1.2+12.5+1.5-0.4]) cube([6.6,1+1,20-12.5-1.3]);
 }
 
 
