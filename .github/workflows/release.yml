@@ -20,7 +20,9 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Download OpenSCAD
-      run: sudo apt install openscad
+      run: |
+        sudo apt-get update
+        sudo apt-get install openscad
     
     - name: Convert Files
       run: for file in "./physical parts/SCAD/*"; do openscad -o "./dist/${i%.*}.stl" --render "./physical parts/SCAD/$i"; done
