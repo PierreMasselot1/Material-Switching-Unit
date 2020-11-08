@@ -23,7 +23,7 @@ jobs:
       run: sudo apt-get install -y openscad
     
     - name: Convert Files
-      run: for file in "./parts/SCAD/*"; do openscad -o "./dist/${i%.*}.stl" "./parts/SCAD/$i"; done
+      run: for file in "./parts/SCAD/*"; do openscad -o "./dist/${file%.*}.stl" "./parts/SCAD/$file"; done
       
     - name: Copy STEP files
       run: cp "./parts/STEP/*" "./dist/"
