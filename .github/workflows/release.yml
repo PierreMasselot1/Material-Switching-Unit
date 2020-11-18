@@ -1,3 +1,4 @@
+#disabled the stl conversion for now, will nee a bit of improvement before being completly usable (adding the files to the repo, not trigerring on every push but simply on ones that contain scad files )
 # This is a basic workflow that is manually triggered
 
 name: Draft Release
