@@ -185,7 +185,21 @@
  */
 //#define PRUSA_MMU2
 
+//MMU clone using two stepper motors, one for the filament selection using a barel and the other functioning as and extruder
 #define MMU_CLONE
+#if ENABLED(MMU_CLONE)
+  //#define BOWDEN_TUBE enable when working with the MMU as a bowden extruder itself
+  //#define DIRECT_DRIVE //enable to work in a direct drive setup
+
+  #define MMU_EXTRUDER_PIN 0//define the MMU extruder motor pin
+  #define MMU_IDLER_PIN 1 //defube the extruder pin that the idler is connected to
+  #if ENABLED(DIRECT_DRIVE)
+    #define EXTRUDER_PIN 2//define the extruder pin that the actual extruder is connected to 
+  #endif
+
+  #define BOWDEN_TUBE_LENGTH 40//bowden tube length from the merger to the extruder 
+
+#endif
 
 // A dual extruder that uses a single stepper motor
 //#define SWITCHING_EXTRUDER
