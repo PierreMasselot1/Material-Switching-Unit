@@ -188,7 +188,7 @@
 //MMU clone using two stepper motors, one for the filament selection using a barel and the other functioning as and extruder
 #define MMU_CLONE
 #if ENABLED(MMU_CLONE)
-  //#define BOWDEN_TUBE enable when working with the MMU as a bowden extruder itself
+  #define BOWDEN_TUBE //enable when working with the MMU as a bowden extruder itself
   //#define DIRECT_DRIVE //enable to work in a direct drive setup
 
   #define MMU_EXTRUDER_PIN 0//define the MMU extruder motor pin
