@@ -10,8 +10,8 @@
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
 
-boolean idlerHomed = false;  //idler status
-boolean homingidler = false; //idler currently homing
+bool idlerHomed = false;  //idler status
+bool homingidler = false; //idler currently homing
 float idlerPosition;
 float offsetEndstopTo1 = 0.3;      //space from the endstop to the first bearing position(Filament 1)
 float spaceBetweenBearings = 0.75; //space in between each bearing
@@ -144,7 +144,7 @@ void MPMMU::tool_change(uint8_t index)
     break;
   }
 }
-boolean MPMMU::idler_is_moving()
+bool MPMMU::idler_is_moving()
 {
   return homingidler;
 }
