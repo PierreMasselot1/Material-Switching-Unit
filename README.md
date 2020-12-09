@@ -8,15 +8,4 @@ The code is in another repository (https://github.com/PierreMasselot1/Marlin-MMU
 The list below is only ideas and any help is appreciated so if you have a cool idea or feature you would like to see added go for it.
 What would be helpful:
 
-Physical:
-* cleaner models (I didn't really take care of aesthetics so if you think you can improve the design go for it)
-* clean way to add a filament sensor
-* cleaner merger/pulley body connection
-
-Software:
-* any potential bug
-* quality of life improvement: physical buttons, info on LCD + interface, implementing a filament sensor ( error detection and "SpoolJoin" )
-
-THE IDLER BODY SPACE ISN'T CORRECT, I AM DOING SOME TESTING THIS WEEK AND A PROPER VERSION SHOULD BE UPLOADED SOON
-
 
