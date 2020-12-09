@@ -5,7 +5,4 @@ The code is in another repository (https://github.com/PierreMasselot1/Marlin-MMU
  If you want to contact me, asks questions, provide ideas or just saty up to date with this project join the discord server: https://discord.gg/Pj8bwTn
  If you want to contact me privatly, you can do so on discord or email me at: pierre.masselot.d@gmail.com
 
-The list below is only ideas and any help is appreciated so if you have a cool idea or feature you would like to see added go for it.
-What would be helpful:
-
 
