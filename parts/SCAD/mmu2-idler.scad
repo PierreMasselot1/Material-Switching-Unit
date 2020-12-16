@@ -119,11 +119,11 @@ module idler()
     {
         translate([8-0.5,0,0]) rotate([0,90,0]) cylinder(r=20, h=6+1, $fn=50); 
         translate([8-0.5,0,0]) rotate([0,90,0]) cylinder(r=14.5, h=6+1, $fn=50); 
-        difference()
-        {
-            translate([-5,-48,-30]) cube([30,50,50]);
-            translate([-5,-16,9]) cube([30,30,30]);
-        }
+        /*difference()
+        {*/
+            translate([-5,-48,-30]) cube([350,54,50]);/*
+            translate([-5,-16,9]) cube([30,30,30]);*/ //should not need that but need testing
+        //}
     }
     
     // removal opening
@@ -137,7 +137,7 @@ module idler()
 }}
 
 
- translate([-70+2,0,0]) rotate([0,-90,0]) cylinder(r=3.95, h=12, $fn=50); 
+ translate([-70+2,0,0]) rotate([0,-90,0]) cylinder(r=3.95, h=7, $fn=50); 
 rotate([0,180,0]) 
 idler();
 

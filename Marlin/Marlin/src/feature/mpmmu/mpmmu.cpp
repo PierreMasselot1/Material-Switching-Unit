@@ -13,10 +13,11 @@
 bool idlerHomed = false;  //idler status
 bool homingidler = false; //idler currently homing
 float idlerPosition;
+float parkedPosition=0;
 float offsetEndstopTo1 = 0.3;      //space from the endstop to the first bearing position(Filament 1)
 float spaceBetweenBearings = 0.75; //space in between each bearing
 float absolutePosition;            //position for the idler to be pressing on the correct filament
-float MMUToNozzleLength = 40;      //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
+float MMUToNozzleLength = BOWDEN_TUBE_LENGTH;      //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
 
 void MPMMU::tool_change(uint8_t index)
 {
@@ -25,7 +26,7 @@ void MPMMU::tool_change(uint8_t index)
     homingidler = true;
     endstops.enable(true);
 
-    planner.buffer_line(0, 0, 0, current_position.e + 1000, 1, 1); //move towards endstop until it's hit
+    planner.buffer_line(0, 0, 0, current_position.e + 1000, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
     planner.synchronize();                                         //wait for the move to finish
     endstops.validate_homing_move();
     homingidler = false;              //homing completed
@@ -43,19 +44,35 @@ void MPMMU::tool_change(uint8_t index)
     SERIAL_ECHOLNPAIR("change to filament #1");
 
     //unload filament
-    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, -MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
+
     //idler select new filament
     absolutePosition = offsetEndstopTo1;
-    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, 1);
+    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
     planner.synchronize();
     planner.position.resetExtruder();
+
     //reload the new filament
-    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
     idlerPosition = absolutePosition;
+
+    //if direct drive is enabled park the idler leting the filament move freely through the MMU
+    #ifdef DIRECT_DRIVE
+      absolutePosition = parkedPosition;
+      planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
 
     break;
   case 1:
@@ -63,84 +80,140 @@ void MPMMU::tool_change(uint8_t index)
     SERIAL_ECHOLNPAIR("change to filament #2");
 
     //unload filament
-    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, -MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
 
     //idler select new filament
     absolutePosition = offsetEndstopTo1 + 1 * spaceBetweenBearings;
-    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, 1);
+    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
     planner.synchronize();
     planner.position.resetExtruder();
 
     //reload the new filament
-    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
     idlerPosition = absolutePosition;
+
+    //if direct drive is enabled park the idler leting the filament move freely through the MMU
+    #ifdef DIRECT_DRIVE
+      absolutePosition = parkedPosition;
+      planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
     break;
   case 2:
     SERIAL_ECHOPGM("change to filament #3");
     SERIAL_ECHOLNPAIR("change to filament #3");
 
     //unload filament
-    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, -MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
 
     //idler select new filament
     absolutePosition = offsetEndstopTo1 + 2 * spaceBetweenBearings;
-    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, 1);
+    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
     planner.synchronize();
     planner.position.resetExtruder();
 
     //reload the new filament
-    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
     idlerPosition = absolutePosition;
+
+    //if direct drive is enabled park the idler leting the filament move freely through the MMU
+    #ifdef DIRECT_DRIVE
+      absolutePosition = parkedPosition;
+      planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
     break;
   case 3:
     SERIAL_ECHOPGM("change to filament #4");
     SERIAL_ECHOLNPAIR("change to filament #4");
 
     //unload filament
-    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, -MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
 
     //idler select new filament
     absolutePosition = offsetEndstopTo1 + 3 * spaceBetweenBearings;
-    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, 1);
+    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
     planner.synchronize();
     planner.position.resetExtruder();
 
     //reload the new filament
-    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
     idlerPosition = absolutePosition;
+
+    //if direct drive is enabled park the idler leting the filament move freely through the MMU
+    #ifdef DIRECT_DRIVE
+      absolutePosition = parkedPosition;
+      planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
     break;
   case 4:
     SERIAL_ECHOPGM("change to filament #5");
     SERIAL_ECHOLNPAIR("change to filament #5");
 
     //unload filament
-    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, -MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, -MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
 
     //idler select new filament
     absolutePosition = offsetEndstopTo1 + 4 * spaceBetweenBearings;
-    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, 1);
+    planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
     planner.synchronize();
     planner.position.resetExtruder();
 
     //reload the new filament
-    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, 0);
+    planner.buffer_line(0, 0, 0, MMUToNozzleLength, 4, MMU_EXTRUDER_PIN);
+    #ifdef DIRECT_DRIVE
+    planner. buffer_line(0, 0, 0, MMUToNozzleLength, 4, EXTRUDER_PIN);
+    #endif
     planner.synchronize();
     planner.position.resetExtruder();
     idlerPosition = absolutePosition;
+
+    //if direct drive is enabled park the idler leting the filament move freely through the MMU
+    #ifdef DIRECT_DRIVE
+      absolutePosition = parkedPosition;
+      planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
     break;
   }
 }
