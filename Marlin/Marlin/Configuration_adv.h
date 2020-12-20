@@ -842,8 +842,11 @@
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
 #define DISABLE_INACTIVE_Z true  // Set 'false' if the nozzle could fall onto your printed part!
-#define DISABLE_INACTIVE_E true
-
+#ifndef MMU_CLONE
+  #define DISABLE_INACTIVE_E false
+#else
+  #define DISABLE_INACTIVE_E true
+#endif
 // If the Nozzle or Bed falls when the Z stepper is disabled, set its resting position here.
 //#define Z_AFTER_DEACTIVATE Z_HOME_POS
 
