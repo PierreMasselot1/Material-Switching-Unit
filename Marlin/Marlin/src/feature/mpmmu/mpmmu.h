@@ -10,7 +10,9 @@ public:
     //add loop for error manadgment later
 
     static void tool_change(uint8_t index);
+    static void idler_home();
     static bool idler_is_moving();
+
 
 
 
