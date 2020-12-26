@@ -196,6 +196,12 @@
   #if ENABLED(DIRECT_DRIVE)
     #define EXTRUDER_PIN 2//define the extruder pin that the actual extruder is connected to 
   #endif
+  #define ROTARY_ENCODER //rotary encoder for filament sensor
+  #ifdef ROTARY_ENCODER
+    #define ROTARY_ENCODER_PIN1 1//dummy value so that the compiler doesmn't complain
+    #define ROTARY_ENCODER_PIN2 1//dummy value so that the compiler doesmn't complain
+  #endif
+
 
   #define BOWDEN_TUBE_LENGTH 40//bowden tube length from the merger to the extruder 
 
@@ -1206,7 +1212,7 @@
     // Enable this option to use an encoder disc that toggles the runout pin
     // as the filament moves. (Be sure to set FILAMENT_RUNOUT_DISTANCE_MM
     // large enough to avoid false positives.)
-    //#define FILAMENT_MOTION_SENSOR
+   // #define FILAMENT_MOTION_SENSOR
   #endif
 #endif
 
