@@ -18,9 +18,9 @@ float offsetEndstopTo1 = 0.3*4.16;                 //space from the endstop to t
 float spaceBetweenBearings = 0.75*4.16;            //space in between each bearing
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
 float MMUToNozzleLength = BOWDEN_TUBE_LENGTH; //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
-
+float storeExtruderPosition;
 void MPMMU::tool_change(uint8_t index)
-{
+{ storeExtruderPosition=planner.position.e;
   if (idlerHomed == false)
   {
     idler_home();
@@ -57,7 +57,7 @@ planner.buffer_line(planner.get_axis_position_mm(X_AXIS), planner.get_axis_posit
   planner.synchronize();
   planner.position.resetExtruder();
   idlerPosition = absolutePosition;
-
+  planner.position.e=storeExtruderPosition;
 //if direct drive is enabled park the idler leting the filament move freely through the MMU
 #ifdef DIRECT_DRIVE
   absolutePosition = parkedPosition;
