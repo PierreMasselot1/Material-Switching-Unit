@@ -14,8 +14,8 @@ bool idlerHomed = false;  //idler status
 bool homingidler = false; //idler currently homing
 float idlerPosition;
 float parkedPosition = 0;
-float offsetEndstopTo1 = 0.3*4.16;                 //space from the endstop to the first bearing position(Filament 1)
-float spaceBetweenBearings = 0.75*4.16;            //space in between each bearing
+float offsetEndstopTo1 = 1.250;                 //space from the endstop to the first bearing position(Filament 1)
+float spaceBetweenBearings =3.12;            //space in between each bearing
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
 float MMUToNozzleLength = BOWDEN_TUBE_LENGTH; //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
 float storeExtruderPosition;
