@@ -28,23 +28,39 @@ float distance=0;
 int Pin1State=0;
 int Pin2State=0;
 int Pin1PrevState=0;
-int Pin2PrevState=0;
 
-RotaryEncoder rotaryencoder;
+
+RotaryEncoder rotary_encoder;
+
 void RotaryEncoder::init(){
     SET_INPUT(ROTARY_ENCODER_PIN1);
     SET_INPUT(ROTARY_ENCODER_PIN2);
     Pin1PrevState=READ(ROTARY_ENCODER_PIN1);
-    Pin2PrevState=READ(ROTARY_ENCODER_PIN2);
+    
 }
 void RotaryEncoder::enable(const bool onoff){
  enabled=onoff;
 }
+void RotaryEncoder::getDistance(){
+    SERIAL_ECHOPGM("rotary encoder distance:");
+    SERIAL_ECHO(distance);
+}
 void RotaryEncoder::poll(){
- Pin1State=READ(ROTARY_ENCODER_PIN1);
+    
+    Pin1State = READ(ROTARY_ENCODER_PIN1);
+    Pin2State = READ(ROTARY_ENCODER_PIN2);
+   
  if(Pin1State!=Pin1PrevState){
      //pulse occured
-     
+     if(Pin2State != Pin1State){
+         //rotating clockwise
+         distance++;
+     }
+     else{
+         //rotating counter-clockwise
+         distance--;
+     }
  }
+ Pin1PrevState = Pin1State;
 }
 #endif

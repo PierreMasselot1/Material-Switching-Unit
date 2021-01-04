@@ -27,5 +27,7 @@ class RotaryEncoder{
         static float filamentPos();//returns the extruded filament lenght
         static void enable(const bool onoff);
         static void poll();
+        static void getDistance();
 
 };
+extern RotaryEncoder rotary_encoder;
