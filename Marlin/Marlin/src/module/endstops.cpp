@@ -818,9 +818,11 @@ void Endstops::update() {
       #endif
     }
   }
+  #if ENABLED(MMU_CLONE)
   if(mpmmu.idler_is_moving()){
     PROCESS_ENDSTOP_X(MAX);
   }
+  #endif
 
   if (stepper.axis_is_moving(Z_AXIS)) {
     if (stepper.motor_direction(Z_AXIS_HEAD)) { // Z -direction. Gantry down, bed up.
