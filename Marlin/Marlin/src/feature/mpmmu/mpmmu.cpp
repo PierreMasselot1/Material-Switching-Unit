@@ -10,12 +10,11 @@
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
 
-bool idlerHomed = false;  //idler status
-bool homingidler = false; //idler currently homing
+
 float idlerPosition;
 
 float offsetEndstopTo1 = 0.3 * 4.16;          //space from the endstop to the first bearing position(Filament 1)
-
+bool homingIdler=false;
 float spaceBetweenBearings = 0.75 * 4.16;     //space in between each bearing
 float parkedPosition = 0;
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
@@ -24,15 +23,6 @@ float storeExtruderPosition;
 void MPMMU::tool_change(uint8_t index)
 {
   storeExtruderPosition = planner.position.e;
-  if (idlerHomed == false)
-  {
-    idler_home();
-    //get the idler out of the way after homing
-    planner.buffer_line(0, 0, 0, -(parkedPosition - idlerPosition), 2, MMU_IDLER_PIN);
-    planner.synchronize();
-    planner.position.resetExtruder();
-    idlerPosition = parkedPosition;
-  }
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   //unload filament slow
   planner.buffer_line(planner.get_axis_position_mm(X_AXIS), planner.get_axis_position_mm(Y_AXIS), planner.get_axis_position_mm(Z_AXIS), -10, 4, MMU_EXTRUDER_PIN);
@@ -76,22 +66,22 @@ void MPMMU::tool_change(uint8_t index)
 }
 void MPMMU::idler_home()
 {
-  homingidler = true;
+  homingIdler = true;
   endstops.enable(true);
 
-  planner.buffer_line(0, 0, 0, current_position.e + 100, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
+  planner.buffer_line(planner.get_axis_position_mm(X_AXIS),  planner.get_axis_position_mm(Y_AXIS), planner.get_axis_position_mm(Z_AXIS), current_position.e + 100, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
   planner.synchronize();                                                    //wait for the move to finish
   endstops.validate_homing_move();
-  homingidler = false;              //homing completed
+  homingIdler = false;              //homing completed
   idlerPosition = 0;                //new idler position
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   endstops.not_homing();
 
-  idlerHomed = true;
+  
 }
 bool MPMMU::idler_is_moving()
 {
-  return homingidler;
+  return homingIdler;
 }
 
 #endif

@@ -58,6 +58,10 @@
   #include "../../feature/spindle_laser.h"
 #endif
 
+#if ENABLED(MMU_CLONE)
+  #include "../../feature/mpmmu/mpmmu.h"
+#endif
+
 #define DEBUG_OUT ENABLED(DEBUG_LEVELING_FEATURE)
 #include "../../core/debug_out.h"
 
@@ -419,6 +423,10 @@ void GcodeSuite::G28() {
     }
 
   #endif // DUAL_X_CARRIAGE
+
+  #if ENABLED(MMU_CLONE)
+    mpmmu.idler_home();
+  #endif
 
   endstops.not_homing();
 
