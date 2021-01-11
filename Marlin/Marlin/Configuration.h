@@ -190,7 +190,10 @@
 #if ENABLED(MMU_CLONE)
   #define BOWDEN_TUBE //enable when working with the MMU as a bowden extruder itself
   //#define DIRECT_DRIVE //enable to work in a direct drive setup
-
+  //#define SERVO_IDLER //enable to control the idler using a servo
+    #if ENABLED(SERVO_IDLER)
+      #define SERVO_IDLER_NBR 1 //when using multiple servo motors specify the one that the idler is connected to
+    #endif
   #define MMU_EXTRUDER_PIN 0//define the MMU extruder motor pin
   #define MMU_IDLER_PIN 1 //defube the extruder pin that the idler is connected to
   #if ENABLED(DIRECT_DRIVE)

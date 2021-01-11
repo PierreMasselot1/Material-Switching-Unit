@@ -9,7 +9,7 @@
 #include "../../module/stepper.h"
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
-
+#include "../../module/servo.h"
 
 float idlerPosition;
 
@@ -23,7 +23,8 @@ float storeExtruderPosition;
 xyz_pos_t position= xyz_pos_t(current_position);
 
 void MPMMU::tool_change(uint8_t index)
-{ position= xyz_pos_t(current_position);
+{ servo[SERVO_IDLER_NBR].move(120);
+  position= xyz_pos_t(current_position);
   apply_motion_limits(position);
   storeExtruderPosition = planner.position.e;
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
