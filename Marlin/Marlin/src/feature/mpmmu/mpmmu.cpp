@@ -59,7 +59,7 @@ position.e= -MMUToNozzleLength;
   planner.buffer_line(position, 10, 4, EXTRUDER_PIN);
 #endif
   //reload the new filament fast
-  position.e=current_position.e+MMUToNozzleLength;
+  position.e=MMUToNozzleLength;
   planner.buffer_line(position, 16, MMU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
