@@ -9,7 +9,7 @@
 #include "../../module/stepper.h"
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
-#include "../../module/servo.h"
+
 
 float idlerPosition;
 
@@ -20,20 +20,24 @@ float parkedPosition = 0;
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
 float MMUToNozzleLength = BOWDEN_TUBE_LENGTH; //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
 float storeExtruderPosition;
-xyz_pos_t position= xyz_pos_t(current_position);
+xyze_pos_t position;
 
 void MPMMU::tool_change(uint8_t index)
-{ servo[SERVO_IDLER_NBR].move(120);
-  position= xyz_pos_t(current_position);
+{ position= current_position;
+  
   apply_motion_limits(position);
   storeExtruderPosition = planner.position.e;
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   //unload filament slow
-  planner.buffer_line(position, -10, 4, MMU_EXTRUDER_PIN);
+  position.e= -10;
+  planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
 #ifdef DIRECT_DRIVE
-  planner.buffer_line(0, 0, 0, -10, 4, EXTRUDER_PIN);
+  planner.position.resetExtruder();
+  position.e= -10;
+  planner.buffer_line(position, 4, EXTRUDER_PIN);
 #endif
-  planner.buffer_line(position, -MMUToNozzleLength, 16, MMU_EXTRUDER_PIN);
+position.e= -MMUToNozzleLength;
+  planner.buffer_line(position,  16, MMU_EXTRUDER_PIN);
 #ifdef DIRECT_DRIVE
   planner.buffer_line(position , -MMUToNozzleLength + 10, 16, EXTRUDER_PIN);
 #endif
@@ -42,17 +46,22 @@ void MPMMU::tool_change(uint8_t index)
 
   //idler select new filament
   absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
-  planner.buffer_line(position, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+  position.e=-(absolutePosition - idlerPosition);
+  planner.buffer_line(position,  2, MMU_IDLER_PIN);
   planner.synchronize();
   planner.position.resetExtruder();
 
   //reload the new filament slow
-  planner.buffer_line(position, 10, 4, MMU_EXTRUDER_PIN);
+  position.e=10;
+  planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
+  planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   planner.buffer_line(position, 10, 4, EXTRUDER_PIN);
 #endif
   //reload the new filament fast
-  planner.buffer_line(position, MMUToNozzleLength, 16, MMU_EXTRUDER_PIN);
+  position.e=current_position.e+MMUToNozzleLength;
+  planner.buffer_line(position, 16, MMU_EXTRUDER_PIN);
+  planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   planner.buffer_line(position, MMUToNozzleLength, 16, EXTRUDER_PIN);
 #endif
@@ -69,13 +78,14 @@ void MPMMU::tool_change(uint8_t index)
 #endif
 }
 void MPMMU::idler_home()
-{
+{ 
   homingIdler = true;
   endstops.enable(true);
-  position= xyz_pos_t(current_position);
+  position= current_position;
   apply_motion_limits(position);
-
-  planner.buffer_line(position, current_position.e + 100, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
+  planner.position.resetExtruder();
+  position.e= 100;
+  planner.buffer_line(position, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
   planner.synchronize();                                                    //wait for the move to finish
   endstops.validate_homing_move();
   homingIdler = false;              //homing completed
