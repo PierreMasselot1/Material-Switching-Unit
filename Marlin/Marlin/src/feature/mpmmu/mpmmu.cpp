@@ -34,7 +34,6 @@ void MPMMU::tool_change(uint8_t index)
   //unload filament slow
   position.e= -10;
   planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
-  servoidler.write(90);
 #ifdef DIRECT_DRIVE
   planner.position.resetExtruder();
   position.e= -10;
@@ -107,7 +106,7 @@ void MPMMU::idler_home()
   homingIdler = true;
   endstops.enable(true);
   position= current_position;
-  apply_motion_limits(position);
+  //apply_motion_limits(position);
   planner.position.resetExtruder();
   position.e= 100;
   planner.buffer_line(position, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
@@ -120,10 +119,12 @@ void MPMMU::idler_home()
 #endif
   
 }
+#if ENABLED(SERVO_IDLER)
 void MPMMU::idler_servo_init(){
-servoidler.attach(SERVO_IDLER_PIN);
+  servoidler.attach(SERVO_IDLER_PIN);
   servoidler.write(parkedPosition);
 }
+#endif
 bool MPMMU::idler_is_moving()
 {
   return homingIdler;
