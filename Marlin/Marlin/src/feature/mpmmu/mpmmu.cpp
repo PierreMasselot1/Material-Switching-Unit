@@ -9,61 +9,77 @@
 #include "../../module/stepper.h"
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
-
+#include "../../module/servo.h"
 
 float idlerPosition;
 
 float offsetEndstopTo1 = 0.3 * 4.16;          //space from the endstop to the first bearing position(Filament 1)
+float servopos1=20;//first bearing position
+float servobearingangle=25;//space between each bearings
 bool homingIdler=false;
 float spaceBetweenBearings = 0.75 * 4.16;     //space in between each bearing
-float parkedPosition = 0;
+float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
 float MMUToNozzleLength = BOWDEN_TUBE_LENGTH; //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
 float storeExtruderPosition;
 xyze_pos_t position;
+Servo servoidler;
 
 void MPMMU::tool_change(uint8_t index)
-{ position= current_position;
-  
-  apply_motion_limits(position);
+{
+  position= current_position;
   storeExtruderPosition = planner.position.e;
+  apply_motion_limits(position);
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   //unload filament slow
   position.e= -10;
   planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
+  servoidler.write(90);
 #ifdef DIRECT_DRIVE
   planner.position.resetExtruder();
   position.e= -10;
   planner.buffer_line(position, 4, EXTRUDER_PIN);
 #endif
-position.e= -MMUToNozzleLength;
+ 
+  position.e= -MMUToNozzleLength;
   planner.buffer_line(position,  16, MMU_EXTRUDER_PIN);
+  planner.position.resetExtruder();
+  
 #ifdef DIRECT_DRIVE
-  planner.buffer_line(position , -MMUToNozzleLength + 10, 16, EXTRUDER_PIN);
+  position.e= -MMUToNozzleLength;
+  planner.buffer_line(position , 16, EXTRUDER_PIN);
 #endif
   planner.synchronize();
   planner.position.resetExtruder();
 
   //idler select new filament
+  #if ENABLED(SERVO_IDLER)
+  servoidler.write(servopos1+index*servobearingangle);
+  #else
   absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
   position.e=-(absolutePosition - idlerPosition);
   planner.buffer_line(position,  2, MMU_IDLER_PIN);
   planner.synchronize();
   planner.position.resetExtruder();
+  #endif
 
   //reload the new filament slow
   position.e=10;
   planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
+  position.e=10;
   planner.buffer_line(position, 10, 4, EXTRUDER_PIN);
+  planner.position.resetExtruder();
 #endif
   //reload the new filament fast
   position.e=MMUToNozzleLength;
   planner.buffer_line(position, 16, MMU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
-  planner.buffer_line(position, MMUToNozzleLength, 16, EXTRUDER_PIN);
+  position.e=MMUToNozzleLength;
+  planner.buffer_line(position, 16, EXTRUDER_PIN);
+  planner.position.resetExtruder();
 #endif
   planner.synchronize();
   planner.position.resetExtruder();
@@ -71,14 +87,23 @@ position.e= -MMUToNozzleLength;
   planner.position.e = storeExtruderPosition;
 //if direct drive is enabled park the idler leting the filament move freely through the MMU
 #ifdef DIRECT_DRIVE
+#if ENABLED(SERVO_IDLER)
+  servoidler.write(parkedPosition);
+#else
   absolutePosition = parkedPosition;
-  planner.buffer_line(0, 0, 0, -(absolutePosition - idlerPosition), 2, MMU_IDLER_PIN);
+  position.e=-(absolutePosition - idlerPosition);
+  planner.buffer_line(position,  2, MMU_IDLER_PIN);
   planner.synchronize();
   planner.position.resetExtruder();
 #endif
+#endif
 }
+
 void MPMMU::idler_home()
-{ 
+{
+#if ENABLED(SERVO_IDLER)
+  mpmmu.idler_servo_init();
+#else
   homingIdler = true;
   endstops.enable(true);
   position= current_position;
@@ -92,8 +117,12 @@ void MPMMU::idler_home()
   idlerPosition = 0;                //new idler position
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   endstops.not_homing();
-
+#endif
   
+}
+void MPMMU::idler_servo_init(){
+servoidler.attach(SERVO_IDLER_PIN);
+  servoidler.write(parkedPosition);
 }
 bool MPMMU::idler_is_moving()
 {
