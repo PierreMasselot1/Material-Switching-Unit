@@ -192,20 +192,15 @@
   //#define DIRECT_DRIVE //enable to work in a direct drive setup
   //#define SERVO_IDLER //enable to control the idler using a servo
     #if ENABLED(SERVO_IDLER)
-      #define SERVO_IDLER_NBR 1 //when using multiple servo motors specify the one that the idler is connected to
+      #define SERVO_IDLER_PIN SERVO0_PIN//if your board has servo support this is probably the default pin. 
+      //If not make sure to change this to the gpio pin connected to your servo
     #endif
   #define MMU_EXTRUDER_PIN 0//define the MMU extruder motor pin
   #define MMU_IDLER_PIN 1 //defube the extruder pin that the idler is connected to
   #if ENABLED(DIRECT_DRIVE)
     #define EXTRUDER_PIN 2//define the extruder pin that the actual extruder is connected to 
   #endif
-  #define ROTARY_ENCODER //rotary encoder for filament sensor
-  #ifdef ROTARY_ENCODER
-    #define ROTARY_ENCODER_PIN1 1//dummy value so that the compiler doesmn't complain
-    #define ROTARY_ENCODER_PIN2 1//dummy value so that the compiler doesmn't complain
-  #endif
-
-
+ 
   #define BOWDEN_TUBE_LENGTH 40//bowden tube length from the merger to the extruder 
 
 #endif
