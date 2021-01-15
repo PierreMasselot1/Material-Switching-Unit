@@ -9,8 +9,9 @@
 #include "../../module/stepper.h"
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
-#include "../../module/servo.h"
-
+#if ENABLED(SERVO_IDLER)
+  #include "../../module/servo.h"
+#endif
 float idlerPosition;
 
 float offsetEndstopTo1 = 0.3 * 4.16;          //space from the endstop to the first bearing position(Filament 1)
@@ -23,7 +24,9 @@ float absolutePosition;                       //position for the idler to be pre
 float MMUToNozzleLength = BOWDEN_TUBE_LENGTH; //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
 float storeExtruderPosition;
 xyze_pos_t position;
-Servo servoidler;
+#if ENABLED(SERVO_IDLER)
+  Servo servoidler;
+#endif
 
 void MPMMU::tool_change(uint8_t index)
 {
