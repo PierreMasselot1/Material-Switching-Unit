@@ -12,8 +12,8 @@
 #if ENABLED(SERVO_IDLER)
   #include "../../module/servo.h"
 #endif
-float idlerPosition;
 
+float idlerPosition;
 float offsetEndstopTo1 = 0.3 * 4.16;          //space from the endstop to the first bearing position(Filament 1)
 float servopos1=20;//first bearing position
 float servobearingangle=25;//space between each bearings
@@ -27,9 +27,15 @@ xyze_pos_t position;
 #if ENABLED(SERVO_IDLER)
   Servo servoidler;
 #endif
+bool servoinit=false;
 
 void MPMMU::tool_change(uint8_t index)
 {
+  #if ENABLED(SERVO_IDLER)
+  if(!servoinit)
+  idler_servo_init();
+  servoinit=true;
+  #endif
   position= current_position;
   storeExtruderPosition = planner.position.e;
   apply_motion_limits(position);
