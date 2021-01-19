@@ -99,8 +99,11 @@ You are now done with the idler.
 **For PrusaSlicer**
 
 Use paint on supports to support the endstop slot and support blockers to prevent any supports from blocking the motor shaft.
+
 ![enter image description here](https://i.postimg.cc/KYSVwKDX/image.png)
+
 Layer pause
+
 ![enter image description here](https://i.postimg.cc/C1vchdkx/image.png)
 
 Right click on the orange plus icon and insert pause print Gcode
@@ -127,10 +130,13 @@ The first thing is to assemble the merger and check that it works properly as me
 ![enter image description here](https://i.postimg.cc/zXw0vdnQ/image.png)
 
 You can now set the merger aside.
+
 ![enter image description here](https://i.postimg.cc/FK6x8w4Y/image.png)
 
 You will then need to setup your motor. Connect the motor and one of the 5mm metal rod. If you are using a flexible coupler, make sure that the two ends are touching to reduce flex to a maximum. Slide all the extruder gears onto the rod but do not tighten them too much yet: the screws used are really small and can be damaged easily and you will need to be further in assembly in order to align the gears properly.
+
 ![enter image description here](https://i.postimg.cc/h4T0ZC3G/image.png)
+
 The next parts that will need work are the pulley body and the idler. They both need heated inserts.
 
 [idler picture todo still not reprinted]
@@ -138,6 +144,7 @@ The next parts that will need work are the pulley body and the idler. They both 
 If you are not familiar with heated inserts here is a guide: [https://hackaday.com/2019/02/28/threading-3d-printed-parts-how-to-use-heat-set-inserts/](https://hackaday.com/2019/02/28/threading-3d-printed-parts-how-to-use-heat-set-inserts/)
 
 They are not that difficult to use just make sure to not heat up your part for too long.
+
 ![enter image description here](https://i.postimg.cc/RZFKmGGK/image.png)
 
 You can then insert the motor and shaft assembly. Secure the motor using M3*8 screws, if they don’t align with the motor (by about 1mm) checkout the latest update of this model since the previous one didn’t have the correct spacing (with a bit of work even that one worked just not perfectly). You can now align each of the gears with the filament slot corresponding and properly tighten them.
@@ -145,13 +152,16 @@ You can then insert the motor and shaft assembly. Secure the motor using M3*8 sc
 ![enter image description here](https://i.postimg.cc/PJyvs8wS/image.png)
 
 Attach each PC4-M6 couplers to the output of the MMU.
+
 ![enter image description here](https://i.postimg.cc/XqY751rg/image.png)
 
 You then have to wire up the endstop for idler body, which you will then secure using M2*12 screws and nuts. It should be facing inward towards the center of the idler
 ![enter image description here](https://i.postimg.cc/SKbSdxXR/image.png)
 
 Place a bearing on the end of the idler and pass it through the motor hole of the idler body. You will then be able to press fit it in the dedicated slot.
+
 ![enter image description here](https://i.postimg.cc/XJVVM1k0/image.png)
+
 Once it is done insert the motor in the idler and secure it to the body using M3x8 screws. After this is done put M3x12 screws in the idler (in the heated inserts) and secure it to the motor. No need to tighten them extremely hard since you might rip out the inserts.
 
 ![enter image description here](https://i.postimg.cc/KjWFMGSZ/image.png)
@@ -257,6 +267,7 @@ To print you will just need to import a multicolor model. Launch prusa slicer, o
 Click open
 
 ![enter image description here](https://i.postimg.cc/gJdBNfq3/image.png)
+
 Hit yes
 
 You will then be able to select different extruders on the right hand side of your screen. Happy printing!
