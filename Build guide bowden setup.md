@@ -68,6 +68,7 @@ This model prints vertically as shown below:
 ![enter image description here](https://i.postimg.cc/ryBSSSVL/image.png)
 
 Once the model is on the build plate you will need to use supports only touching build plate and add a support blocker in the center of the idler.
+
 ![enter image description here](https://i.postimg.cc/MTcQBGgT/image.png)
 
 All of the settings that I am using can easily be found inside other slicers (PrusaSlicer shown below)
@@ -87,6 +88,7 @@ Mark down this layer height for each bearing, you should have 5 values for the 5
 You then have to add a pause at layer line script for each of those values in cura go to extensions-> post processing-> modify gcode->add a script->pause at height.
 
 From the drop-down menu select pause at layer No and change the pause layer to the first value that you took. Repeat with each value.
+
 ![enter image description here](https://i.postimg.cc/vBWGCFVh/image.png)
 
 Reslice your model one last time and start the print, your printer should pause before closing a bearing enclosure and insert the 608 ball bearings before resuming the print.
@@ -94,6 +96,7 @@ Reslice your model one last time and start the print, your printer should pause 
 Once the print is completely done make sure that your bearings can spin freely and insert the heated inserts/embedded nuts into your print (heated inserts position and demo below)
 
 ![enter image description here](https://i.postimg.cc/cHWpgKv7/image.png)
+
 You are now done with the idler.
 
 **For PrusaSlicer**
@@ -156,6 +159,7 @@ Attach each PC4-M6 couplers to the output of the MMU.
 ![enter image description here](https://i.postimg.cc/XqY751rg/image.png)
 
 You then have to wire up the endstop for idler body, which you will then secure using M2*12 screws and nuts. It should be facing inward towards the center of the idler
+
 ![enter image description here](https://i.postimg.cc/SKbSdxXR/image.png)
 
 Place a bearing on the end of the idler and pass it through the motor hole of the idler body. You will then be able to press fit it in the dedicated slot.
@@ -236,6 +240,7 @@ You should now have 5 extruders to work with.
 In there you can change retraction settings (choose a setting similar to what you were using before) and also select the extruder color: extremely useful for multi-color prints.
 
 ![enter image description here](https://i.postimg.cc/Y0NrJcJk/image.png)
+
 Now go to the single extruder multimaterial parameters(Single extruder MM setup)
 
 You will have four things to adjust. First off, the cooling tube position. In order to find it simply measure from your nozzle to the middle of the cooling block on your extruder. The cooling tube length will vary depending on your extruder but 10mm seems to be a good value for most extruders. The filament parking position should be the cooling tube position+ (the cooling tube length/2) since we are handling the unloading and reloading in Marlin (may not be as necessary right now but when working with less capable boards will enable us to make some really interesting stuff…  more info on that later) the extra loading distance should be at 0 and be tweaked if you find that it doesn’t start extruding exactly when restarting (this is irrelevant when using a wipe tower).
@@ -247,9 +252,11 @@ You will then go in filament settings and make sure that you have keep fan alway
 ![enter image description here](https://i.postimg.cc/ZKVZ3Lmf/image.png)
 
 Then go in advanced and change 4 things. The number of cooling moves: too low and it will jam and too high and it will take a huge amount of time. 3 seems to work well for me, the speed of the cooling move can also be adjusted but it doesn’t matter much, a little faster will speed up a filament change
+
 ![enter image description here](https://i.postimg.cc/qRsH7sQx/image.png)
 
 The last thing in there that your will need to adjust is the ramming setting. The default one seems to work but with a bit of tweaking you can get a way cleaner filament tip the following picture is an example of what I am running but you will need to do a bit of experimenting on your side.
+
 ![enter image description here](https://i.postimg.cc/L6CKh6kw/image.png)
 
 You just need to click on ramming settings to get access to these controls.
