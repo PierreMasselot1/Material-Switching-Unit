@@ -1,5 +1,5 @@
 #include "../../inc/MarlinConfig.h"
-#if ENABLED(MMU_CLONE)
+#if ENABLED(MSU)
 
 #include "mpmmu.h"
 #include "../../MarlinCore.h"
@@ -42,7 +42,7 @@ void MPMMU::tool_change(uint8_t index)
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   //unload filament slow
   position.e= -10;
-  planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
+  planner.buffer_line(position, 4, MSU_EXTRUDER_PIN);
 #ifdef DIRECT_DRIVE
   planner.position.resetExtruder();
   position.e= -10;
@@ -50,7 +50,7 @@ void MPMMU::tool_change(uint8_t index)
 #endif
  
   position.e= -MMUToNozzleLength;
-  planner.buffer_line(position,  16, MMU_EXTRUDER_PIN);
+  planner.buffer_line(position,  16, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
   
 #ifdef DIRECT_DRIVE
@@ -66,14 +66,14 @@ void MPMMU::tool_change(uint8_t index)
   #else
   absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
   position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  2, MMU_IDLER_PIN);
+  planner.buffer_line(position,  2, MSU_IDLER_PIN);
   planner.synchronize();
   planner.position.resetExtruder();
   #endif
 
   //reload the new filament slow
   position.e=10;
-  planner.buffer_line(position, 4, MMU_EXTRUDER_PIN);
+  planner.buffer_line(position, 4, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   position.e=10;
@@ -82,7 +82,7 @@ void MPMMU::tool_change(uint8_t index)
 #endif
   //reload the new filament fast
   position.e=MMUToNozzleLength;
-  planner.buffer_line(position, 16, MMU_EXTRUDER_PIN);
+  planner.buffer_line(position, 16, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   position.e=MMUToNozzleLength;
@@ -100,7 +100,7 @@ void MPMMU::tool_change(uint8_t index)
 #else
   absolutePosition = parkedPosition;
   position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  2, MMU_IDLER_PIN);
+  planner.buffer_line(position,  2, MSU_IDLER_PIN);
   planner.synchronize();
   planner.position.resetExtruder();
 #endif
@@ -118,7 +118,7 @@ void MPMMU::idler_home()
   //apply_motion_limits(position);
   planner.position.resetExtruder();
   position.e= 100;
-  planner.buffer_line(position, 1, MMU_IDLER_PIN); //move towards endstop until it's hit
+  planner.buffer_line(position, 1, MSU_IDLER_PIN); //move towards endstop until it's hit
   planner.synchronize();                                                    //wait for the move to finish
   endstops.validate_homing_move();
   homingIdler = false;              //homing completed

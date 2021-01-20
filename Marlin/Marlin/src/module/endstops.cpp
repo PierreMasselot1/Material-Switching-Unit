@@ -48,7 +48,7 @@
   #include "../feature/joystick.h"
 #endif
 
-#if ENABLED(MMU_CLONE)
+#if ENABLED(MSU)
  #include "../feature/mpmmu/mpmmu.h"
 #endif
 
@@ -818,7 +818,7 @@ void Endstops::update() {
       #endif
     }
   }
-  #if ENABLED(MMU_CLONE)
+  #if ENABLED(MSU)
   if(mpmmu.idler_is_moving()){
     PROCESS_ENDSTOP_X(MAX);
   }

@@ -58,7 +58,7 @@
   #include "../../feature/spindle_laser.h"
 #endif
 
-#if ENABLED(MMU_CLONE)
+#if ENABLED(MSU)
   #include "../../feature/mpmmu/mpmmu.h"
 #endif
 
@@ -424,7 +424,7 @@ void GcodeSuite::G28() {
 
   #endif // DUAL_X_CARRIAGE
 
-  #if ENABLED(MMU_CLONE)
+  #if ENABLED(MSU)
     mpmmu.idler_home();
   #endif
 

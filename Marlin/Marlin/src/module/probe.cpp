@@ -242,7 +242,7 @@ xyz_pos_t Probe::offset; // Initialized by settings.load()
     TERN_(PROBING_HEATERS_OFF, thermalManager.pause(p));
     TERN_(PROBING_FANS_OFF, thermalManager.set_fans_paused(p));
     #if ENABLED(PROBING_STEPPERS_OFF)
-      #ifndef MMU_CLONE
+      #ifndef MSU
       disable_e_steppers();
       #endif
       #if NONE(DELTA, HOME_AFTER_DEACTIVATE)
