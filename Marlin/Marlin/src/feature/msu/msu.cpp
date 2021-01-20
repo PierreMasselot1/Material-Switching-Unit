@@ -1,4 +1,5 @@
 #include "../../inc/MarlinConfig.h"
+
 #if ENABLED(MSU)
 
 #include "msu.h"
@@ -9,16 +10,17 @@
 #include "../../module/stepper.h"
 #include "../../gcode/parser.h"
 #include "../../module/endstops.h"
+
 #if ENABLED(SERVO_IDLER)
   #include "../../module/servo.h"
 #endif
 
-float idlerPosition;
-float offsetEndstopTo1 = 0.3 * 4.16;          //space from the endstop to the first bearing position(Filament 1)
+float idlerPosition; //stores the idler position in mm
+float offsetEndstopTo1 = 1.248;          //space from the endstop to the first bearing position(Filament 1)
 float servopos1=20;//first bearing position
 float servobearingangle=25;//space between each bearings
 bool homingIdler=false;
-float spaceBetweenBearings = 0.75 * 4.16;     //space in between each bearing
+float spaceBetweenBearings = 3.12;     //space in between each bearing
 float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
 float storeExtruderPosition;
