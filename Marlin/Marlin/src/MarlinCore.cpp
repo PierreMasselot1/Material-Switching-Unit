@@ -214,7 +214,7 @@
 #endif
 
 #if ENABLED(MSU)
-  #include"feature/mpmmu/mpmmu.h"
+  #include"feature/msu/msu.h"
 #endif
 
 #if HAS_L64XX

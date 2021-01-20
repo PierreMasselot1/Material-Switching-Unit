@@ -90,7 +90,7 @@
 #endif
 
 #if ENABLED(MSU)
-  #include "../feature/mpmmu/mpmmu.h"
+  #include "../feature/msu/msu.h"
 #endif 
 
 #if HAS_LCD_MENU
@@ -862,7 +862,7 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
 
     mmu2.tool_change(new_tool);
   #elif ENABLED(MSU)
-    mpmmu.tool_change(new_tool);
+    msu.tool_change(new_tool);
 
   #elif EXTRUDERS == 0
 

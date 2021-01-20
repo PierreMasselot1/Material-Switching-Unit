@@ -59,7 +59,7 @@
 #endif
 
 #if ENABLED(MSU)
-  #include "../../feature/mpmmu/mpmmu.h"
+  #include "../../feature/msu/msu.h"
 #endif
 
 #define DEBUG_OUT ENABLED(DEBUG_LEVELING_FEATURE)
@@ -425,7 +425,7 @@ void GcodeSuite::G28() {
   #endif // DUAL_X_CARRIAGE
 
   #if ENABLED(MSU)
-    mpmmu.idler_home();
+    msu.idler_home();
   #endif
 
   endstops.not_homing();

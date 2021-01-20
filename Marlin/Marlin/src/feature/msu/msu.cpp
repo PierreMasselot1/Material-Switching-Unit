@@ -1,7 +1,7 @@
 #include "../../inc/MarlinConfig.h"
 #if ENABLED(MSU)
 
-#include "mpmmu.h"
+#include "msu.h"
 #include "../../MarlinCore.h"
 #include "../../gcode/gcode.h"
 #include "../../module/planner.h"
@@ -21,7 +21,6 @@ bool homingIdler=false;
 float spaceBetweenBearings = 0.75 * 4.16;     //space in between each bearing
 float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
 float absolutePosition;                       //position for the idler to be pressing on the correct filament
-float MMUToNozzleLength = BOWDEN_TUBE_LENGTH; //length, for now the unit is arbitrary but will have to set correct step per mm to get it in mm or scale acordingly
 float storeExtruderPosition;
 xyze_pos_t position;
 #if ENABLED(SERVO_IDLER)
@@ -29,7 +28,7 @@ xyze_pos_t position;
 #endif
 bool servoinit=false;
 
-void MPMMU::tool_change(uint8_t index)
+void MSU::tool_change(uint8_t index)
 {
   #if ENABLED(SERVO_IDLER)
   if(!servoinit)
@@ -49,12 +48,12 @@ void MPMMU::tool_change(uint8_t index)
   planner.buffer_line(position, 4, EXTRUDER_PIN);
 #endif
  
-  position.e= -MMUToNozzleLength;
+  position.e= -BOWDEN_TUBE_LENGTH;
   planner.buffer_line(position,  16, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
   
 #ifdef DIRECT_DRIVE
-  position.e= -MMUToNozzleLength;
+  position.e= -BOWDEN_TUBE_LENGTH;
   planner.buffer_line(position , 16, EXTRUDER_PIN);
 #endif
   planner.synchronize();
@@ -81,11 +80,11 @@ void MPMMU::tool_change(uint8_t index)
   planner.position.resetExtruder();
 #endif
   //reload the new filament fast
-  position.e=MMUToNozzleLength;
+  position.e=BOWDEN_TUBE_LENGTH;
   planner.buffer_line(position, 16, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
-  position.e=MMUToNozzleLength;
+  position.e=BOWDEN_TUBE_LENGTH;
   planner.buffer_line(position, 16, EXTRUDER_PIN);
   planner.position.resetExtruder();
 #endif
@@ -107,10 +106,10 @@ void MPMMU::tool_change(uint8_t index)
 #endif
 }
 
-void MPMMU::idler_home()
+void MSU::idler_home()
 {
 #if ENABLED(SERVO_IDLER)
-  mpmmu.idler_servo_init();
+  msu.idler_servo_init();
 #else
   homingIdler = true;
   endstops.enable(true);
@@ -129,12 +128,12 @@ void MPMMU::idler_home()
   
 }
 #if ENABLED(SERVO_IDLER)
-void MPMMU::idler_servo_init(){
+void MSU::idler_servo_init(){
   servoidler.attach(SERVO_IDLER_PIN);
   servoidler.write(parkedPosition);
 }
 #endif
-bool MPMMU::idler_is_moving()
+bool MSU::idler_is_moving()
 {
   return homingIdler;
 }

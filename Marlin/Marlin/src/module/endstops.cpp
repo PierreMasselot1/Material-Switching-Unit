@@ -49,7 +49,7 @@
 #endif
 
 #if ENABLED(MSU)
- #include "../feature/mpmmu/mpmmu.h"
+ #include "../feature/msu/msu.h"
 #endif
 
 Endstops endstops;
@@ -819,7 +819,7 @@ void Endstops::update() {
     }
   }
   #if ENABLED(MSU)
-  if(mpmmu.idler_is_moving()){
+  if(msu.idler_is_moving()){
     PROCESS_ENDSTOP_X(MAX);
   }
   #endif
