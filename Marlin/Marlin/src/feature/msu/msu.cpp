@@ -34,7 +34,7 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 
 
-void MSUMPMP::tool_change(uint8_t index)
+void MSUMP::tool_change(uint8_t index)
 {
   #if ENABLED(SERVO_IDLER)
     //if the servo hasn't been initiated before the tool change make sure to initiate it and update the init state of the servo
@@ -120,7 +120,7 @@ void MSUMPMP::tool_change(uint8_t index)
 }
 
 //homing sequence of the idler. If this is called when using the servo motor it will initiate it
-void MSU::idler_home()
+void MSUMP::idler_home()
 {
 #if ENABLED(SERVO_IDLER)
   msu.idler_servo_init();
@@ -144,14 +144,14 @@ void MSU::idler_home()
 #if ENABLED(SERVO_IDLER)
 
 //servo initiation sequence
-void MSU::idler_servo_init(){
+void MSUMP::idler_servo_init(){
   servoidler.attach(SERVO_IDLER_PIN);
   servoidler.write(parkedPosition);
 }
 #endif
 
 //used in the homing process. Will be used to fix the cold extrusion related bug when moving the idler
-bool MSU::idler_is_moving()
+bool MSUMP::idler_is_moving()
 {
   return homingIdler;
 }
