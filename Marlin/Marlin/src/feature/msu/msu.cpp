@@ -34,7 +34,7 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 
 
-void MSU::tool_change(uint8_t index)
+void MSUMPMP::tool_change(uint8_t index)
 {
   #if ENABLED(SERVO_IDLER)
     //if the servo hasn't been initiated before the tool change make sure to initiate it and update the init state of the servo
