@@ -819,7 +819,7 @@ void Endstops::update() {
     }
   }
   #if ENABLED(MSU)
-  if(msu.idler_is_moving()){
+  if(msu.idler_is_homing()){
     PROCESS_ENDSTOP_X(MAX);
   }
   #endif
