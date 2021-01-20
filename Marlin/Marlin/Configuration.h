@@ -185,23 +185,38 @@
  */
 //#define PRUSA_MMU2
 
-//MMU clone using two stepper motors, one for the filament selection using a barel and the other functioning as and extruder
-#define MMU_CLONE
-#if ENABLED(MMU_CLONE)
-  #define BOWDEN_TUBE //enable when working with the MMU as a bowden extruder itself
-  //#define DIRECT_DRIVE //enable to work in a direct drive setup
+/**
+ * Material Switching Unit(MSU)
+ * This device, based on the MMU2 uses a barrel system and an extruder to select the correct filament. When used in a bowden style setup the MSU itself works
+ * as the extruder.
+ * 
+ * Direct drive support is being worked on as well as enabling the use of a stepper motor splitter in order to connect both the MSU unit extruder and the actual
+ * extruder in the case of a direct drive setup. This would enable greater board compatibility
+ * 
+ * A filament flow sensor is also in the works
+ *
+ */
+#define MSU
+#if ENABLED(MSU)
+  #define BOWDEN_TUBE //enable when working with the MSU as a bowden extruder itself
+  //#define DIRECT_DRIVE //enable to work in a direct drive setup, if doing so don't forget to disable BOWDEN_TUBE
   //#define SERVO_IDLER //enable to control the idler using a servo
-    #if ENABLED(SERVO_IDLER)
-      #define SERVO_IDLER_PIN SERVO0_PIN//if your board has servo support this is probably the default pin. 
+  
+  #define MSU_EXTRUDER_PIN 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use 
+  //MSU_EXTRUDER_PIN 1
+
+  #if ENABLED(SERVO_IDLER)
+      #define SERVO_IDLER_PIN SERVO0_PIN//if your board has servo support this is probably the default pin if not you can change it to match what ever you are using
       //If not make sure to change this to the gpio pin connected to your servo
-    #endif
-  #define MMU_EXTRUDER_PIN 0//define the MMU extruder motor pin
-  #define MMU_IDLER_PIN 1 //defube the extruder pin that the idler is connected to
+  #else
+    #define MSU_IDLER_PIN 1 //define the idler extruder motor nbr.
+  #endif
+
   #if ENABLED(DIRECT_DRIVE)
-    #define EXTRUDER_PIN 2//define the extruder pin that the actual extruder is connected to 
+    #define EXTRUDER_PIN 2//define the extruder nbr that the actual extruder is connected to 
   #endif
  
-  #define BOWDEN_TUBE_LENGTH 40//bowden tube length from the merger to the extruder 
+  #define BOWDEN_TUBE_LENGTH 40//bowden tube length from the crossing point of the merger to the nozzle
 
 #endif
 

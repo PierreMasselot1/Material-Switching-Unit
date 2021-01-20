@@ -2,9 +2,9 @@
 
 #include "../../inc/MarlinConfig.h"
 
-class MPMMU{
+class MSUMP{
 public:
-    MPMMU();
+    MSUMP();
     //add init later
     //add reset later
     //add loop for error manadgment later
@@ -17,4 +17,4 @@ public:
 
 
 };
-extern MPMMU mpmmu;
+extern MSUMP msu;

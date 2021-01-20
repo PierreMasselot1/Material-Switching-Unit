@@ -1343,7 +1343,7 @@ void Planner::check_axes_activity() {
   if (TERN0(DISABLE_X, !axis_active.x)) DISABLE_AXIS_X();
   if (TERN0(DISABLE_Y, !axis_active.y)) DISABLE_AXIS_Y();
   if (TERN0(DISABLE_Z, !axis_active.z)) DISABLE_AXIS_Z();
-  if (ENABLED(MMU_CLONE) && TERN0(DISABLE_E, !axis_active.e)) disable_e_steppers();
+  if (ENABLED(MSU) && TERN0(DISABLE_E, !axis_active.e)) disable_e_steppers();
 
   //
   // Update Fan speeds
@@ -2051,7 +2051,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move,
             ENABLE_AXIS_E##N(); \
             g_uc_extruder_last_move[N] = (BLOCK_BUFFER_SIZE) * 2; \
           } \
-          else if (DISABLED(MMU_CLONE) && !g_uc_extruder_last_move[N]) \
+          else if (DISABLED(MSU) && !g_uc_extruder_last_move[N]) \
             DISABLE_AXIS_E##N(); \
         }while(0);
 

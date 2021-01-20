@@ -213,8 +213,8 @@
   #include "feature/mmu2/mmu2.h"
 #endif
 
-#if ENABLED(MMU_CLONE)
-  #include"feature/mpmmu/mpmmu.h"
+#if ENABLED(MSU)
+  #include"feature/msu/msu.h"
 #endif
 
 #if HAS_L64XX
