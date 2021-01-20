@@ -151,7 +151,7 @@ void MSUMP::idler_servo_init(){
 #endif
 
 //used in the homing process. Will be used to fix the cold extrusion related bug when moving the idler
-bool MSUMP::idler_is_moving()
+bool MSUMP::idler_is_homing()
 {
   return homingIdler;
 }
