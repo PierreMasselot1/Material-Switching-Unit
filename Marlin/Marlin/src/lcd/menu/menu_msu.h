@@ -19,19 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+#pragma once
 
-#include "../../inc/MarlinConfig.h"
+#include <stdint.h>
 
-#if BOTH(HAS_LCD_MENU, MSU_MENU)
-
-#include "../../feature/msu/msu.h"
-#include "menu_item.h"
-void menu_msu() {
-  START_MENU();
-  BACK_ITEM(MSG_MAIN);
-  ACTION_ITEM(MSG_MMU2_LOAD_FILAMENT, []{ msu.idler_home(); });
-  END_MENU();
-}
-
-
-#endif // HAS_LCD_MENU && MMU2_MENUS
+void menu_msu();
