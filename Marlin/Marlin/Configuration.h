@@ -202,6 +202,8 @@
   //#define DIRECT_DRIVE //enable to work in a direct drive setup, if doing so don't forget to disable BOWDEN_TUBE
   //#define SERVO_IDLER //enable to control the idler using a servo
   
+  #define MSU_MENU//define to get an LCD menu
+
   #define MSU_EXTRUDER_PIN 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use 
   //MSU_EXTRUDER_PIN 1
 

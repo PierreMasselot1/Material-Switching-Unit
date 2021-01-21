@@ -189,6 +189,10 @@ void menu_main() {
     if (!busy) SUBMENU(MSG_MMU2_MENU, menu_mmu2);
   #endif
 
+  #if ENABLED (MSU_MENU)
+    SUBMENU(MSG_MSU_MENU, menu_msu)
+  #endif
+
   SUBMENU(MSG_CONFIGURATION, menu_configuration);
 
   #if ENABLED(CUSTOM_USER_MENUS)
