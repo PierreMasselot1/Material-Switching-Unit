@@ -255,6 +255,7 @@ Then go in advanced and change 4 things. The number of cooling moves: too low an
 
 ![enter image description here](https://i.postimg.cc/qRsH7sQx/image.png)
 
+In here you can adjust the filament change time in order to get more accurate time extimates for your print. While the speed is constantly changing as I improve the loading and unloading sequence and since it will also vary based on your ptfe tube length I recommend you measure the tool change time for your setup by sending T1 or any toolchange gcode and measure the time that it takes. This setting is very usefull since leaving it at 0 will give you some extremly optimistic results and on a 15 hr print it may be off by up to two hour, and this can result in lack of sleep...don't ask me why.
 The last thing in there that your will need to adjust is the ramming setting. The default one seems to work but with a bit of tweaking you can get a way cleaner filament tip the following picture is an example of what I am running but you will need to do a bit of experimenting on your side.
 
 ![enter image description here](https://i.postimg.cc/L6CKh6kw/image.png)
