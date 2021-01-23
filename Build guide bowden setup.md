@@ -1,4 +1,4 @@
-This file is written using the Markdown markup language. If you want to contribute to the documentation and have an easier way to edit Markdown you can use editors like stackedit.io
+This file is written using the Markdown markup language. If you want to contribute to the documentation and have an easier way to edit Markdown you can use editors like stackedit.io 
 
 **Multi-material upgrade on any printer: BUILD GUIDE**
 
