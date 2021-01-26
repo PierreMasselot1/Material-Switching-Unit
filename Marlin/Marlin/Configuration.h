@@ -216,6 +216,10 @@
     #define ORIGINAL_EXTRUDER_ENBR 2//define the extruder nbr that the actual extruder is connected to 
   #endif
  
+  #define IDLER_ENDSTOP_AXIS X //select the endstop connected
+  #define IDLER_ENDSTOP_MINMAX MAX
+  //#defin IDLER_ENDSTOP_PIN  //TODO              for a custom endstop pin. 
+
   #define BOWDEN_TUBE_LENGTH 200//bowden tube length from the crossing point of the merger to the nozzle
 
 #endif
