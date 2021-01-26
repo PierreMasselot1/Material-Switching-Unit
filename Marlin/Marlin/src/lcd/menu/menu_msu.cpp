@@ -25,6 +25,7 @@
 #if BOTH(HAS_LCD_MENU, MSU_MENU)
 
 #include "../../feature/msu/msu.h"
+#include "../../module/planner.h"
 #include "menu_item.h"
 
 
@@ -35,46 +36,46 @@ void menu_msu_change_filament() {
   END_MENU();
 }
 
-void menu_msu() {
-  START_MENU();
-  BACK_ITEM(MSG_MAIN);
-  ACTION_ITEM(MSG_MSU_IDLER_HOME, []{ msu.idler_home(); });
-  SUBMENU(MSG_MSU_SELECT_FILAMENT, menu_msu_change_filament;
-  END_MENU();
-}
+
 
 
 
 void menu_msu_adjust_bowden_length(){
   START_MENU();
   BACK_ITEM(MSG_MSU_MENU);
+  END_MENU();
 }
 
- static void lcd_move_e(TERN_(MULTI_MANUAL, const int8_t eindex=-1)) {
-    if (ui.use_click()) return ui.goto_previous_screen_no_defer();
-    if (ui.encoderPosition) {
-      if (!ui.manual_move.processing) {
-        const float diff = float(int32_t(ui.encoderPosition)) * ui.manual_move.menu_scale;
-        TERN(IS_KINEMATIC, ui.manual_move.offset, current_position.e) += diff;
-        ui.manual_move.soon(E_AXIS
-          #if MULTI_MANUAL
-            , eindex
-          #endif
-        );
-        ui.refresh(LCDVIEW_REDRAW_NOW);
-      }
-      ui.encoderPosition = 0;
+void menu_msu_move_extruder()
+{
+  if (ui.use_click())
+    ui.goto_screen(menu_msu_adjust_bowden_length);
+  if (ui.encoderPosition)
+  {
+    if (!ui.manual_move.processing)
+    {
+      const float diff = float(int32_t(ui.encoderPosition)) * ui.manual_move.menu_scale;
+      TERN(IS_KINEMATIC, ui.manual_move.offset, current_position.e) += diff;
+      ui.manual_move.soon(E_AXIS);
+      ui.refresh(LCDVIEW_REDRAW_NOW);
     }
-    if (ui.should_draw()) {
-      TERN_(MULTI_MANUAL, MenuItemBase::init(eindex));
-      MenuEditItemBase::draw_edit_screen(
-        GET_TEXT(TERN(MULTI_MANUAL, MSG_MOVE_EN, MSG_MOVE_E)),
-        ftostr41sign(current_position.e
-          + TERN0(IS_KINEMATIC, ui.manual_move.offset)
-          - TERN0(MANUAL_E_MOVES_RELATIVE, manual_move_e_origin)
-        )
-      );
-    } // should_draw
- }
+    ui.encoderPosition = 0;
+  }
+  if (ui.should_draw())
+  {
+    MenuEditItemBase::draw_edit_screen(
+        GET_TEXT(MSG_MOVE_E),
+        ftostr41sign(current_position.e));
+  }
+  
+}
 
-#endif // HAS_LCD_MENU && MMU2_MENUS
+void menu_msu() {
+  START_MENU();
+  BACK_ITEM(MSG_MAIN);
+  ACTION_ITEM(MSG_MSU_IDLER_HOME, []{ msu.idler_home(); });
+  SUBMENU(MSG_MSU_SELECT_FILAMENT, menu_msu_change_filament);
+  END_MENU();
+}
+
+#endif // HAS_LCD_MENU && MSU_MENU
