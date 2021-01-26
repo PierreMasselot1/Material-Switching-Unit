@@ -22,5 +22,5 @@
 #pragma once
 
 #include <stdint.h>
-
+void menu_msu_change_filament();
 void menu_msu();

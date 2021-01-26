@@ -28,21 +28,22 @@
 #include "menu_item.h"
 
 
-
-void menu_msu() {
-  START_MENU();
-  BACK_ITEM(MSG_MAIN);
-  ACTION_ITEM(MSG_MSU_IDLER_HOME, []{ msu.idler_home(); });
-  SUBMENU(MSG_MSU_SELECT_FILAMENT, menu_msu_change_filament);
-  END_MENU();
-}
-
 void menu_msu_change_filament() {
   START_MENU();
   BACK_ITEM(MSG_MSU_MENU);
   LOOP_L_N(i, 5) ACTION_ITEM_N(i, MSG_MSU_FILAMENT_N, []{ msu.tool_change(MenuItemBase::itemIndex); });
   END_MENU();
 }
+
+void menu_msu() {
+  START_MENU();
+  BACK_ITEM(MSG_MAIN);
+  ACTION_ITEM(MSG_MSU_IDLER_HOME, []{ msu.idler_home(); });
+  SUBMENU(MSG_MSU_SELECT_FILAMENT, menu_msu_change_filament;
+  END_MENU();
+}
+
+
 
 
 #endif // HAS_LCD_MENU && MMU2_MENUS
