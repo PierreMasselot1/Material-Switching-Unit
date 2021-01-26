@@ -51,20 +51,20 @@ void MSUMP::tool_change(uint8_t index)
   
   //unload filament slow
   position.e= -10;
-  planner.buffer_line(position, 4, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position, 4, MSU_EXTRUDER_ENBR);
 #ifdef DIRECT_DRIVE
   planner.position.resetExtruder();
   position.e= -10;
-  planner.buffer_line(position, 4, EXTRUDER_PIN);
+  planner.buffer_line(position, 4, ORIGINAL_EXTRUDER_ENBR);
 #endif
   //unload filament fast
   position.e= -BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position,  16, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position,  16, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
   
 #ifdef DIRECT_DRIVE
   position.e= -BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position , 16, EXTRUDER_PIN);
+  planner.buffer_line(position , 16, ORIGINAL_EXTRUDER_ENBR);
 #endif
   planner.synchronize();
   planner.position.resetExtruder();
@@ -75,27 +75,27 @@ void MSUMP::tool_change(uint8_t index)
   #else
   absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
   position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  2, MSU_IDLER_PIN);
+  planner.buffer_line(position,  2, MSU_IDLER_ENBR);
   planner.synchronize();
   planner.position.resetExtruder();
   #endif
 
   //reload the new filament slow
   position.e=10;
-  planner.buffer_line(position, 4, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position, 4, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   position.e=10;
-  planner.buffer_line(position, 10, 4, EXTRUDER_PIN);
+  planner.buffer_line(position, 10, 4, ORIGINAL_EXTRUDER_ENBR);
   planner.position.resetExtruder();
 #endif
   //reload the new filament fast
   position.e=BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position, 16, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position, 16, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   position.e=BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position, 16, EXTRUDER_PIN);
+  planner.buffer_line(position, 16, ORIGINAL_EXTRUDER_ENBR);
   planner.position.resetExtruder();
 #endif
 //reset all the positions to their original state
@@ -111,7 +111,7 @@ void MSUMP::tool_change(uint8_t index)
 #else
   absolutePosition = parkedPosition;
   position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  2, MSU_IDLER_PIN);
+  planner.buffer_line(position,  2, MSU_IDLER_ENBR);
   planner.synchronize();
   planner.position.resetExtruder();
 #endif
@@ -131,7 +131,7 @@ void MSUMP::idler_home()
   //apply_motion_limits(position);
   planner.position.resetExtruder();
   position.e= 100;
-  planner.buffer_line(position, 1, MSU_IDLER_PIN); //move towards endstop until it's hit
+  planner.buffer_line(position, 1, MSU_IDLER_ENBR); //move towards endstop until it's hit
   planner.synchronize();                                                    //wait for the move to finish
   endstops.validate_homing_move();
   homingIdler = false;              //homing completed
@@ -141,8 +141,8 @@ void MSUMP::idler_home()
 #endif
   
 }
-#if ENABLED(SERVO_IDLER)
 
+#if ENABLED(SERVO_IDLER)
 //servo initiation sequence
 void MSUMP::idler_servo_init(){
   servoidler.attach(SERVO_IDLER_PIN);
@@ -150,7 +150,7 @@ void MSUMP::idler_servo_init(){
 }
 #endif
 
-//used in the homing process. Will be used to fix the cold extrusion related bug when moving the idler
+//used in the homing process. Used to fix the cold extrusion false trigger when performing idler moves
 bool MSUMP::idler_is_homing()
 {
   return homingIdler;

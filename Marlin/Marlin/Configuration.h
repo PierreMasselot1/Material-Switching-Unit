@@ -202,21 +202,21 @@
   //#define DIRECT_DRIVE //enable to work in a direct drive setup, if doing so don't forget to disable BOWDEN_TUBE
   //#define SERVO_IDLER //enable to control the idler using a servo
   
-  #define MSU_EXTRUDER_PIN 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use 
-  //MSU_EXTRUDER_PIN 1
+  #define MSU_EXTRUDER_ENBR 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use 
+  //MSU_EXTRUDER_ENBR 1
 
   #if ENABLED(SERVO_IDLER)
       #define SERVO_IDLER_PIN SERVO0_PIN//if your board has servo support this is probably the default pin if not you can change it to match what ever you are using
       //If not make sure to change this to the gpio pin connected to your servo
   #else
-    #define MSU_IDLER_PIN 1 //define the idler extruder motor nbr.
+    #define MSU_IDLER_ENBR 1 //define the idler extruder motor nbr.
   #endif
 
   #if ENABLED(DIRECT_DRIVE)
-    #define EXTRUDER_PIN 2//define the extruder nbr that the actual extruder is connected to 
+    #define ORIGINAL_EXTRUDER_ENBR 2//define the extruder nbr that the actual extruder is connected to 
   #endif
  
-  #define BOWDEN_TUBE_LENGTH 40//bowden tube length from the crossing point of the merger to the nozzle
+  #define BOWDEN_TUBE_LENGTH 200//bowden tube length from the crossing point of the merger to the nozzle
 
 #endif
 
