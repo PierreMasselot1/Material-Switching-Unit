@@ -16,8 +16,8 @@
 #endif
 
 float idlerPosition; //stores the idler position in mm
-float offsetEndstopTo1 = 1.248;//space from the endstop to the first bearing position(Filament 1)
-float spaceBetweenBearings = 3.12;//space in between each bearing
+float offsetEndstopTo1 = 3.9;//space from the endstop to the first bearing position(Filament 1)
+float spaceBetweenBearings = 3;//space in between each bearing
 float servopos1=20;//first bearing position
 float servobearingangle=25;//space between each bearings
 float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
