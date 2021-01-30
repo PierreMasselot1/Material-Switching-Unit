@@ -548,7 +548,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_MSU_IDLER_HOME                  = _UxGT("Home idler");
   PROGMEM Language_Str MSG_MSU_SELECT_FILAMENT             = _UxGT("Choose filament");
   PROGMEM Language_Str MSG_MSU_FILAMENT_N                  = _UxGT("Filament ~");
-
+  PROGMEM Language_Str MSG_MSU_CALIBRATE_TUBE_LENGHT       = _UxGT("Calibrate tube length");
 
   PROGMEM Language_Str MSG_MMU2_CHOOSE_FILAMENT_HEADER     = _UxGT("CHOOSE FILAMENT");
   PROGMEM Language_Str MSG_MMU2_MENU                       = _UxGT("MMU");
