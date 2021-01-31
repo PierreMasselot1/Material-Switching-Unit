@@ -16,13 +16,14 @@
 #endif
 
 float idlerPosition; //stores the idler position in mm
-float offsetEndstopTo1 = 1.248;//space from the endstop to the first bearing position(Filament 1)
-float spaceBetweenBearings = 3.12;//space in between each bearing
+float offsetEndstopTo1 = 3.9;//space from the endstop to the first bearing position(Filament 1)
+float spaceBetweenBearings = 3;//space in between each bearing
 float servopos1=20;//first bearing position
 float servobearingangle=25;//space between each bearings
 float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
 float absolutePosition;  //used to represent the position in mm where the idler aligns with the correct filament
 float storeExtruderPosition; //used to store the extruder position before the tool change so that we are able to reset everything.
+float bowdenTubeLength= BOWDEN_TUBE_LENGTH;
 
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
 xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our MSU moves in order to be able to apply motion limits. We then apply the extruder movement we want to that
@@ -51,20 +52,20 @@ void MSUMP::tool_change(uint8_t index)
   
   //unload filament slow
   position.e= -10;
-  planner.buffer_line(position, 4, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position, 10, MSU_EXTRUDER_PIN);
 #ifdef DIRECT_DRIVE
   planner.position.resetExtruder();
   position.e= -10;
   planner.buffer_line(position, 4, EXTRUDER_PIN);
 #endif
   //unload filament fast
-  position.e= -BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position,  16, MSU_EXTRUDER_PIN);
+  position.e= -bowdenTubeLength;
+  planner.buffer_line(position,  20, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
   
 #ifdef DIRECT_DRIVE
-  position.e= -BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position , 16, EXTRUDER_PIN);
+  position.e= -bowdenTubeLength;
+  planner.buffer_line(position , 20, EXTRUDER_PIN);
 #endif
   planner.synchronize();
   planner.position.resetExtruder();
@@ -75,14 +76,14 @@ void MSUMP::tool_change(uint8_t index)
   #else
   absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
   position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  2, MSU_IDLER_PIN);
+  planner.buffer_line(position,  5, MSU_IDLER_PIN);
   planner.synchronize();
   planner.position.resetExtruder();
   #endif
 
   //reload the new filament slow
   position.e=10;
-  planner.buffer_line(position, 4, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position, 10, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
   position.e=10;
@@ -90,11 +91,11 @@ void MSUMP::tool_change(uint8_t index)
   planner.position.resetExtruder();
 #endif
   //reload the new filament fast
-  position.e=BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position, 16, MSU_EXTRUDER_PIN);
+  position.e=bowdenTubeLength;
+  planner.buffer_line(position, 20, MSU_EXTRUDER_PIN);
   planner.position.resetExtruder();
 #ifdef DIRECT_DRIVE
-  position.e=BOWDEN_TUBE_LENGTH;
+  position.e=bowdenTubeLength;
   planner.buffer_line(position, 16, EXTRUDER_PIN);
   planner.position.resetExtruder();
 #endif
@@ -131,7 +132,7 @@ void MSUMP::idler_home()
   //apply_motion_limits(position);
   planner.position.resetExtruder();
   position.e= 100;
-  planner.buffer_line(position, 1, MSU_IDLER_PIN); //move towards endstop until it's hit
+  planner.buffer_line(position, 5, MSU_IDLER_PIN); //move towards endstop until it's hit
   planner.synchronize();                                                    //wait for the move to finish
   endstops.validate_homing_move();
   homingIdler = false;              //homing completed
@@ -155,5 +156,19 @@ bool MSUMP::idler_is_homing()
 {
   return homingIdler;
 }
+
+void MSUMP::edit_bowden_tube_length(const float diff){
+  bowdenTubeLength+=diff;
+}
+void MSUMP::move_msu_extruder(const float diff){
+  position.e= -diff;
+  planner.buffer_line(position,  20, MSU_EXTRUDER_PIN);
+  planner.position.resetExtruder();
+  
+}
+const float MSUMP::get_bowden_tube_length(){
+  return bowdenTubeLength;
+}
+
 
 #endif
