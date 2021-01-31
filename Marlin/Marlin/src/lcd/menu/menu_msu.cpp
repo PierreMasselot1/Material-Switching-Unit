@@ -23,7 +23,8 @@
 #include "../../inc/MarlinConfig.h"
 
 #if BOTH(HAS_LCD_MENU, MSU_MENU)
-
+#include"../ultralcd.h" 
+#include "menu_msu.h"
 #include "../../feature/msu/msu.h"
 #include "../../module/planner.h"
 #include "menu_item.h"
@@ -36,14 +37,28 @@ void menu_msu_change_filament() {
   END_MENU();
 }
 
-
-
-
-
 void menu_msu_adjust_bowden_length(){
-  START_MENU();
-  BACK_ITEM(MSG_MSU_MENU);
-  END_MENU();
+  ui.defer_status_screen();//prevent timeout due to no input during the move
+  msu.move_msu_extruder(msu.get_bowden_tube_length()+30);
+  if (ui.use_click())
+    ui.goto_screen(menu_msu);
+  if (ui.encoderPosition)
+  {
+    if (!ui.manual_move.processing)
+    {
+      const float diff = float(int32_t(ui.encoderPosition)) * ui.manual_move.menu_scale;
+      msu.edit_bowden_tube_length(diff);
+      msu.move_msu_extruder(diff);
+      ui.refresh(LCDVIEW_REDRAW_NOW);
+    }
+    ui.encoderPosition = 0;
+  }
+  if (ui.should_draw())
+  {
+    MenuEditItemBase::draw_edit_screen(
+        GET_TEXT(MSG_MSU_BOWDEN_TUBE_LENGHT),
+        ftostr41sign(msu.get_bowden_tube_length()));
+  }
 }
 
 void menu_msu_move_extruder()
@@ -75,6 +90,7 @@ void menu_msu() {
   BACK_ITEM(MSG_MAIN);
   ACTION_ITEM(MSG_MSU_IDLER_HOME, []{ msu.idler_home(); });
   SUBMENU(MSG_MSU_SELECT_FILAMENT, menu_msu_change_filament);
+  SUBMENU(MSG_MSU_CALIBRATE_TUBE_LENGHT,menu_msu_move_extruder);
   END_MENU();
 }
 
