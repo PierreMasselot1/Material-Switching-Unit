@@ -23,6 +23,7 @@ float servobearingangle=25;//space between each bearings
 float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
 float absolutePosition;  //used to represent the position in mm where the idler aligns with the correct filament
 float storeExtruderPosition; //used to store the extruder position before the tool change so that we are able to reset everything.
+float bowdenTubeLength= BOWDEN_TUBE_LENGTH;
 
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
 xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our MSU moves in order to be able to apply motion limits. We then apply the extruder movement we want to that
@@ -155,5 +156,19 @@ bool MSUMP::idler_is_homing()
 {
   return homingIdler;
 }
+
+void MSUMP::edit_bowden_tube_length(const float diff){
+  bowdenTubeLength+=diff;
+}
+void MSUMP::move_msu_extruder(const float diff){
+  position.e= -diff;
+  planner.buffer_line(position,  20, MSU_EXTRUDER_PIN);
+  planner.position.resetExtruder();
+  
+}
+const float MSUMP::get_bowden_tube_length(){
+  return bowdenTubeLength;
+}
+
 
 #endif
