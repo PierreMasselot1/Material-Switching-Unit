@@ -90,7 +90,7 @@ void menu_msu() {
   BACK_ITEM(MSG_MAIN);
   ACTION_ITEM(MSG_MSU_IDLER_HOME, []{ msu.idler_home(); });
   SUBMENU(MSG_MSU_SELECT_FILAMENT, menu_msu_change_filament);
-  SUBMENU(MSG_MSU_CALIBRATE_TUBE_LENGHT,menu_msu_move_extruder);
+  //SUBMENU(MSG_MSU_CALIBRATE_TUBE_LENGHT,menu_msu_move_extruder); // still to unstable to be included in the main release but will keep working on it in the LCDMenu branch
   END_MENU();
 }
 
