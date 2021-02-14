@@ -7,13 +7,19 @@ The aim of this project is to popularize multi-material 3d printing by making a 
 
 ## **Different setups and compatibility**
 
-The MSU can be build in a few ways, and more options are being added. They all present benefits so we will go over the different setups that one can run. During the rest of the build guide information that is setup specific will be preceded by [**setup type**] and ended by [**/setup type**]
+The MSU can be build in a few ways, and more options are being added. They all present benefits so we will go over the different setups that one can run. The first thing that you will see are the board requirements which will help you decide which setup you can and want to  use. Those requirements don't include the filament flow sensor yet. If you also want to be able to support it when we finish working on it you will need two extra GPIO pins.
+
+ be preceded by [**setup type**] and ended by [**/setup type**]
 ex: 
 [**Bowden style version**] information specific to a bowden style setup [**/Bowden style version**]
 information relevant for both setups
 [**Direct drive version**]information specific to direct drive setups[/**Direct drive version**]
 
+
 **Bowden style version**
+
+requirements: servo idler: 4 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
+stepper motor controlled idler: 5 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port(the idler needs homing for positional accuracy)
 
 This is the first version and we already have a viable prototype. The next step in development is adding a filament flow sensor.
 It is the simplest setup, the MSU acts as the extruder and the filament changing process is simple, unload the filament until it clears the merger and then reload the new one by changing the idler position to put pressure on the filament that needs to be used.
@@ -22,12 +28,19 @@ The version that is currently tested and working is the **stepper motor version*
 
 **Direct drive version**
 
+requirements: servo idler: 5 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
+stepper motor controlled idler: 6 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port(the idler needs homing for positional accuracy).
+
 This is the version for direct drive printers. Since direct drive support more materials it makes total sense to run such a setup with a multi material upgrade. The only thing is that adding direct drive adds a layer of complexity due to the extra extruder to handle and to overcome when loading filaments. It also means that the main board will require an extra stepper motor because we can't simply replace the direct drive extruder by the MSU.
 In this setup there is still the options to have either a servo motor or a stepper motor controlling the idler but you will most likely use the servo version since few boards will be compatible with the stepper version since you needs 6 independent stepper motor controls
 
 **Direct drive version linked extruders**
 
-This is the same version as the direct drive one with the only difference being that the extruder son both the MSU and on the actual extruder will be connected to the same driver meaning that a lot more logic needs to be implemented in order to never have both of them running at the same time, since they have different steps per mm meaning that if we run them at the same time one will be fighting against the other
+requirements: servo idler: 4 stepper motor controls and drivers(X,Y,Z,(E and IDLER combined)), 1 GPIO pin (servo control) and access to 12V (servo power)
+stepper motor controlled idler: 5 stepper motor controls and driver(X,Y,Z,(E and IDLER combined)), 1 extra endstop port (the idler needs homing for positional accuracy)
+
+
+This is the same version as the direct drive one with the only difference being that the extruder son both the MSU and on the actual extruder will be connected to the same driver meaning that a lot more logic needs to be implemented in order to never have both of them running at the same time, since they have different steps per mm meaning that if we run them at the same time one will be fighting against the other.
 
 ## **Before you attempt to build this:**
 
@@ -43,7 +56,8 @@ Lastly, this is not perfect, and your printer may not work as well as before so 
 
 All the following links may be affiliate links (mostly the amazon ones) and I may earn money if a purchase is made using those links. All the profit will go directly back in this project. The price mentioned is only to give you an idea as they may fluctuate. The ones mentioned are the lowest ones I could find including shipping to NA at the date of writing this.
 
-Products in green are the ones that I consider as necessary to buy specifically for this build and in red the ones that you may need to buy but that come in big packs and that you will most likely use for other projects(let’s say that you need only 15 screws for this build and we are not going to count the 700 screws in the pack in the final price) and that you probably already have like M3 bolts and nuts. The red items will be allocated a very small budget but will not be included completely in the final price calculations.
+The price total will not match the list exactly since some of those components come in packs of 700 (like screws) when we only need a few and you probably already have them.
+
 | Part name | Picture | Links | Pcs in pack | Pcs needed | Price $ |
 |--|--|--|--|--|--|
 | 608 ball bearings| ![608 ball bearings](https://i.postimg.cc/25rbdbp3/image.png) |[https://amzn.to/35gdeBc](https://amzn.to/35gdeBc)<br />[https://amzn.to/3olusVk](https://amzn.to/3olusVk)<br />[https://amzn.to/3hQoNny](https://amzn.to/3hQoNny)<br />[https://aliexpi.com/Ep3X](https://aliexpi.com/Ep3X)| 20 <br /> 20 <br /> 10<br /> 10|6|5.17$|
@@ -66,8 +80,6 @@ The first thing you should do is to find some way to feed the filament to the ex
 
 You will also need to make sure that your extruder assembly can easily grab filament with minimum pressure applied. Since we need to change the filament multiple times during the print, the extruder gears need to be able to grab onto the filament and feed it to the nozzle without any clogs or jams. To test this you can simply go inside motion in Marlin and extrude a long distance, and while the extruder is running slowly insert the filament into the extruder. The pressure required for the filament to be grabbed by the gears should be minimal and once grabed the filament should be able to be fed up to the nozzle without any clogging or jamming. If the filament is not bein grabbed by the gears, you may need to reduce the extruder idle pressure by slightly shortening the spring (proceed at your own risk! this has a high chance of messing up your extruder and you will most likely end up needing to order a new extruder spring) if the filament is being grabbed by the gears but is not feeding correctly up to the nozzle its most likely because there are some gaps in the assembly where the filament can escape and cause jams. To fix this you will have to get creative but some modifications for your specific extruder probably already exist because printing with super flexible filaments has similar requirements. These modifications will most likely involve lining as much as the filament path with PTFE tubing. Finally, some extruders may simply not work very well for the MSU and you may have to switch to a known compatible extruder (I will work on a list of compatible extruders at some point in the future)
  [**/Direct drive version**]
-
-
 Before trying to build this upgrade, you should have a fully working printer, with a compatible mainboard (check below), with Marlin configured properly for a single extruder. You should get the Marlin source code from my GitHub repo: [https://github.com/PierreMasselot1/Material-Switching-Unit](https://github.com/PierreMasselot1/Material-Switching-Unit) (I will create a proper fork in the future and create a pull request so that we may have this upgrade in the actual official release of Marlin, but in order to do that I need to be at a more final and stable stage of development). Once you have Marlin configured for your printer before upgrading to the MSU keep a copy in a known location so that you can easily transition back to stock if the upgrade where to fail. After that, download the latest version of PrusaSlicer and follow this guide ([https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s](https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s) ) on how to set everything up for your printer in a single extruder mode. Once all off that is done download the latest files from my GitHub and start printing them using the methods and settings mentioned below. Check that you also have all the components and tools required.
 
 ## **Motherboard compatibility**
