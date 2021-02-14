@@ -67,10 +67,17 @@ The price total will not match the list exactly since some of those components c
 |5mm to 5mm coupler|![enter image description here](https://i.postimg.cc/yxv34Hzc/image.png)|[https://amzn.to/3otoqSL](https://amzn.to/3otoqSL)<br/>[https://amzn.to/3otoqSL](https://amzn.to/3otoqSL)<br/>if they are available to you I highly recommend going with the non-flexible couplers|2</br>2|1|7$|
 |Metal rod 5mmx125mm (a little longer won’t cause any problems)|![enter image description here](https://i.postimg.cc/mDVghy6G/image.png)|[https://amzn.to/2Lzjy0b](https://amzn.to/2Lzjy0b)<br/>[https://amzn.to/3nSM61z](https://amzn.to/3nSM61z)|5<br/>10|2|12$|
 |MK8 gears with filament groove|![enter image description here](https://i.postimg.cc/m2WTRqrF/image.png)|[https://amzn.to/3noCCuF](https://amzn.to/3noCCuF)|5|5|8$|
-|Nema 17 stepper motor|![enter image description here](https://i.postimg.cc/tJ3QYqgn/image.png)|[https://amzn.to/3osSZbb](https://amzn.to/3osSZbb)|1|1|14$|
+|Nema 17 stepper motor|![enter image description here](https://i.postimg.cc/tJ3QYqgn/image.png)|[https://amzn.to/3osSZbb](https://amzn.to/3osSZbb)|1|1 or 2 for direct drive<p>-1 if servo controlled idler|14$|
+|Servo (for servo controlled idler)|[![616z-Elw-Ukz-L-AC-SL1001.jpg](https://i.postimg.cc/Dydk3RVc/616z-Elw-Ukz-L-AC-SL1001.jpg)](https://postimg.cc/3dRbgSxy)|https://www.amazon.com/ANNIMOS-Digital-Waterproof-DS3218MG-Control/dp/B076CNKQX4<p>when using a servo you wil need one less stepper motor so take it into consideration when ordering|1|1 or 0|17$|
 |Endstops|![enter image description here](https://i.postimg.cc/hG6Hszz7/image.png)|[https://amzn.to/3hWqekq](https://amzn.to/3hWqekq)|10|1|8|
 |Idler springs|![idler springs](https://i.postimg.cc/RVdy8bJm/image.png)|[https://shop.prusa3d.com/en/spare-parts/599-idler-spring.html](https://shop.prusa3d.com/en/spare-parts/599-idler-spring.html) <br/>[https://www.voxelfactory.com/collections/original-prusa-i3-mk2-mk2s-parts/products/replacement-tension-spring-for-prusa-i3-mk2s-or-mk3](https://www.voxelfactory.com/collections/original-prusa-i3-mk2-mk2s-parts/products/replacement-tension-spring-for-prusa-i3-mk2s-or-mk3)|1|2|4-8$|
-|total|||||78$|
+||| [**Direct drive version**]<p>for the direct drive version you will only need one extra stepper motor, you can use the link above<p>[**/Direct drive version**]
+|||[**Direct drive version linked extruders**]for this version you will also need  the extra stepper driver but also a stepper motor splitter linked below[**/Direct drive version linked extruders**]|||
+|Stepper parallel module|[![61ma7umi-Js-L-SL1001.jpg](https://i.postimg.cc/VvrBwxHL/61ma7umi-Js-L-SL1001.jpg)](https://postimg.cc/LgSZBbpr)|https://www.amazon.com/Printer-Stepper-Parallel-Module-Double/dp/B07MC71QRW|3|1|8$
+|total bowden|||||78$|
+|total direct drive|||||83$|
+|total direct drive linked extruder|||||91$|
+
 
 
 
