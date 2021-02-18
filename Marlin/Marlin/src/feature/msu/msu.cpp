@@ -162,7 +162,7 @@ void MSUMP::edit_bowden_tube_length(const float diff){
 }
 void MSUMP::move_msu_extruder(const float diff){
   position.e= -diff;
-  planner.buffer_line(position,  20, MSU_EXTRUDER_PIN);
+  planner.buffer_line(position,  20, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
   
 }
