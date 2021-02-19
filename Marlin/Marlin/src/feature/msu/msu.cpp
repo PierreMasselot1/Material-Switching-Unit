@@ -32,20 +32,13 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 #if ENABLED(SERVO_IDLER)
   Servo servoidler;//if using a servo, create an instance of the class that will be the used to control the servo
-  bool servoinit=false; // boolean to check whether the servo has already been initiated.
 #endif
 
 
 
 void MSUMP::tool_change(uint8_t index)
 { if(!idlerHomed)idler_home();
-  #if ENABLED(SERVO_IDLER)
-    //if the servo hasn't been initiated before the tool change make sure to initiate it and update the init state of the servo
-    if(!servoinit)
-    idler_servo_init();
-    servoinit=true;
-  #endif
-
+  
   position= current_position;//get the current position of the nozzle, this will be used so that we don't move the axis when performing any moves at the MSU level
   storeExtruderPosition = planner.position.e;//get the extruder position to be able to revert it once the tool change is done
   apply_motion_limits(position);//apply the motion limits (this is what is used when you create an offset for the bed in the X and Y axis to get proper alignement),
