@@ -37,7 +37,8 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 
 void MSUMP::tool_change(uint8_t index)
-{ if(!idlerHomed)idler_home();
+{ 
+  if(!idlerHomed)idler_home();
   
   position= current_position;//get the current position of the nozzle, this will be used so that we don't move the axis when performing any moves at the MSU level
   storeExtruderPosition = planner.position.e;//get the extruder position to be able to revert it once the tool change is done

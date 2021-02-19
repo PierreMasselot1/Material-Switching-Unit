@@ -221,6 +221,7 @@
   //#defin IDLER_ENDSTOP_PIN  //TODO              for a custom endstop pin. 
 
   #define BOWDEN_TUBE_LENGTH 200//bowden tube length from the crossing point of the merger to the nozzle
+  #define NOZZLE_EXTRUDER_GEAR_LENGTH 40 //Only necessary for direct drive setups, the distance from the extruder gear up to the nozzle. 
 
 #endif
 
