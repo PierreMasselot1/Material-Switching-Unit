@@ -25,6 +25,8 @@ float absolutePosition;  //used to represent the position in mm where the idler 
 float storeExtruderPosition; //used to store the extruder position before the tool change so that we are able to reset everything.
 float bowdenTubeLength= BOWDEN_TUBE_LENGTH;
 
+bool idlerHomed=false;
+
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
 xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our MSU moves in order to be able to apply motion limits. We then apply the extruder movement we want to that
 
@@ -36,7 +38,7 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 
 void MSUMP::tool_change(uint8_t index)
-{
+{ if(!idlerHomed)idler_home();
   #if ENABLED(SERVO_IDLER)
     //if the servo hasn't been initiated before the tool change make sure to initiate it and update the init state of the servo
     if(!servoinit)
@@ -53,93 +55,96 @@ void MSUMP::tool_change(uint8_t index)
   //unload filament slow
   position.e= -10;
   planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
-#ifdef DIRECT_DRIVE
-  planner.position.resetExtruder();
-  position.e= -10;
-  planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
-#endif
+  #ifdef DIRECT_DRIVE
+    planner.position.resetExtruder();
+    position.e= -10;
+    planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
+    #endif
   //unload filament fast
   position.e= -BOWDEN_TUBE_LENGTH;
   planner.buffer_line(position,  20, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
   
-#ifdef DIRECT_DRIVE
-  position.e= -BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position , 20, ORIGINAL_EXTRUDER_ENBR);
-#endif
+  #ifdef DIRECT_DRIVE
+    position.e= -BOWDEN_TUBE_LENGTH;
+    planner.buffer_line(position , 20, ORIGINAL_EXTRUDER_ENBR);
+  #endif
   planner.synchronize();
   planner.position.resetExtruder();
 
   //idler select new filament
   #if ENABLED(SERVO_IDLER)
-  servoidler.write(servopos1+index*servobearingangle);
+    servoidler.write(servopos1+index*servobearingangle);
   #else
-  absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
-  position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  5, MSU_IDLER_ENBR);
-  planner.synchronize();
-  planner.position.resetExtruder();
+    absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
+    position.e=-(absolutePosition - idlerPosition);
+    planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+    planner.synchronize();
+    planner.position.resetExtruder();
   #endif
 
   //reload the new filament slow
   position.e=10;
   planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
-#ifdef DIRECT_DRIVE
-  position.e=10;
-  planner.buffer_line(position, 10, 4, ORIGINAL_EXTRUDER_ENBR);
-  planner.position.resetExtruder();
-#endif
-  //reload the new filament fast
-  position.e=BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position, 20, MSU_EXTRUDER_ENBR);
-  planner.position.resetExtruder();
-#ifdef DIRECT_DRIVE
-  position.e=BOWDEN_TUBE_LENGTH;
-  planner.buffer_line(position, 20, ORIGINAL_EXTRUDER_ENBR);
-  planner.position.resetExtruder();
-#endif
-//reset all the positions to their original state
+
+  #ifdef DIRECT_DRIVE
+    position.e=10;
+    planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
+    planner.position.resetExtruder();
+  #endif
+    //reload the new filament fast
+    position.e=BOWDEN_TUBE_LENGTH;
+    planner.buffer_line(position, 20, MSU_EXTRUDER_ENBR);
+    planner.position.resetExtruder();
+  #ifdef DIRECT_DRIVE
+    position.e=BOWDEN_TUBE_LENGTH;
+    planner.buffer_line(position, 20, ORIGINAL_EXTRUDER_ENBR);
+    planner.position.resetExtruder();
+  #endif
+  //reset all the positions to their original state
   planner.synchronize();//wait for all the moves to finish
   planner.position.resetExtruder();
   idlerPosition = absolutePosition;
   planner.position.e = storeExtruderPosition;
-//if direct drive is enabled park the idler leting the filament move freely through the MMU
-#ifdef DIRECT_DRIVE
+  //if direct drive is enabled park the idler leting the filament move freely through the MMU
+  #ifdef DIRECT_DRIVE
 
-#if ENABLED(SERVO_IDLER)
-  servoidler.write(parkedPosition);
-#else
-  absolutePosition = parkedPosition;
-  position.e=-(absolutePosition - idlerPosition);
-  planner.buffer_line(position,  2, MSU_IDLER_ENBR);
-  planner.synchronize();
-  planner.position.resetExtruder();
-#endif
+  #if ENABLED(SERVO_IDLER)
+    servoidler.write(parkedPosition);
+  #else
+    absolutePosition = parkedPosition;
+    position.e=-(absolutePosition - idlerPosition);
+    planner.buffer_line(position,  2, MSU_IDLER_ENBR);
+    planner.synchronize();
+    planner.position.resetExtruder();
+  #endif
 
-#endif
+  #endif//DIRECT_DRIVE
 }
 
 //homing sequence of the idler. If this is called when using the servo motor it will initiate it
+
 void MSUMP::idler_home()
-{
-#if ENABLED(SERVO_IDLER)
-  msu.idler_servo_init();
-#else
-  homingIdler = true;
-  endstops.enable(true);
-  position= current_position;
-  //apply_motion_limits(position);
-  planner.position.resetExtruder();
-  position.e= 100;
-  planner.buffer_line(position, 4, MSU_IDLER_ENBR); //move towards endstop until it's hit
-  planner.synchronize();                                                    //wait for the move to finish
-  endstops.validate_homing_move();
-  homingIdler = false;              //homing completed
-  idlerPosition = 0;                //new idler position
-  planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
-  endstops.not_homing();
-#endif
+{ 
+  #if ENABLED(SERVO_IDLER)
+    msu.idler_servo_init();
+  #else
+    homingIdler = true;
+    endstops.enable(true);
+    position= current_position;
+    //apply_motion_limits(position);
+    planner.position.resetExtruder();
+    position.e= 100;
+    planner.buffer_line(position, 4, MSU_IDLER_ENBR); //move towards endstop until it's hit
+    planner.synchronize();                                                    //wait for the move to finish
+    endstops.validate_homing_move();
+    homingIdler = false;              //homing completed
+    idlerPosition = 0;                //new idler position
+    planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
+    endstops.not_homing();
+  #endif
+  idlerHomed=true;
   
 }
 
