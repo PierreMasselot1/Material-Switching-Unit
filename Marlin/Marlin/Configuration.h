@@ -203,6 +203,8 @@
   //#define DIRECT_DRIVE_LINKED_EXTRUDER //enable to work in a direct drive setup where both the MSU extruder and the actual extruder are connected to a parrallel module
   //#define SERVO_IDLER //enable to control the idler using a servo
   
+  #define MSU_MENU//LCD Menu
+
   #define MSU_EXTRUDER_ENBR 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use 
   //MSU_EXTRUDER_ENBR 1
 
