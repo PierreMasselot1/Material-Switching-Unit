@@ -200,6 +200,7 @@
 #if ENABLED(MSU)
   #define BOWDEN_TUBE //enable when working with the MSU as a bowden extruder itself
   //#define DIRECT_DRIVE //enable to work in a direct drive setup, if doing so don't forget to disable BOWDEN_TUBE
+  //#define DIRECT_DRIVE_LINKED_EXTRUDER //enable to work in a direct drive setup where both the MSU extruder and the actual extruder are connected to a parrallel module
   //#define SERVO_IDLER //enable to control the idler using a servo
   
   #define MSU_EXTRUDER_ENBR 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use 
