@@ -23,7 +23,8 @@ float servobearingangle=25;//space between each bearings
 float parkedPosition = 0; //this is the parked position. when using the servo it will be the parked position in degree
 float absolutePosition;  //used to represent the position in mm where the idler aligns with the correct filament
 float storeExtruderPosition; //used to store the extruder position before the tool change so that we are able to reset everything.
-float bowdenTubeLength= BOWDEN_TUBE_LENGTH;
+float bowdenTubeLength = BOWDEN_TUBE_LENGTH;
+float nozzleExtruderGearLength = NOZZLE_EXTRUDER_GEAR_LENGTH;
 
 bool idlerHomed=false;
 
@@ -46,23 +47,25 @@ void MSUMP::tool_change(uint8_t index)
   // if not used the nozzle will move to the wrong position at every tool change
   planner.position.resetExtruder(); //reset the extruder position to 0 to avoid problems with next move
   
-  //unload filament slow
-  position.e= -10;
-  planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
+  //clear the extruder gears
   #ifdef DIRECT_DRIVE
     planner.position.resetExtruder();
-    position.e= -10;
+    position.e= -nozzleExtruderGearLength;
     planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
+    planner.position.resetExtruder();
+    //also move with the MSU(with the idler putting pressure on the right filament) if the extruder and the MSU are controlled independantly since they have different steps per mm
+    #ifndef DIRECT_DRIVE_LINKED_EXTRUDER
+      position.e=-nozzleExtruderGearLength;
+      planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
     #endif
-  //unload filament fast
-  position.e= -BOWDEN_TUBE_LENGTH;
+  #endif
+
+
+  //unload filament until it clears the merger
+
+  position.e= -bowdenTubeLength;
   planner.buffer_line(position,  20, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
-  
-  #ifdef DIRECT_DRIVE
-    position.e= -BOWDEN_TUBE_LENGTH;
-    planner.buffer_line(position , 20, ORIGINAL_EXTRUDER_ENBR);
-  #endif
   planner.synchronize();
   planner.position.resetExtruder();
 
@@ -77,25 +80,28 @@ void MSUMP::tool_change(uint8_t index)
     planner.position.resetExtruder();
   #endif
 
-  //reload the new filament slow
-  position.e=10;
-  planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
+  //reload the new filament up to the nozzle/extruder gear if running a direct drive setup
+  position.e=bowdenTubeLength;
+  planner.buffer_line(position, 20, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
 
   #ifdef DIRECT_DRIVE
-    position.e=10;
+    //put extra pressure to help the extruder gears grab the filament
+    position.e=1;
+    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
+
+    planner.position.resetExtruder();
+    position.e= nozzleExtruderGearLength;
     planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
     planner.position.resetExtruder();
+    //also move with the MSU(with the idler putting pressure on the right filament) if the extruder and the MSU are controlled independantly since they have different steps per mm
+    #ifndef DIRECT_DRIVE_LINKED_EXTRUDER
+      position.e=nozzleExtruderGearLength;
+      planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
+    #endif
   #endif
-    //reload the new filament fast
-    position.e=BOWDEN_TUBE_LENGTH;
-    planner.buffer_line(position, 20, MSU_EXTRUDER_ENBR);
-    planner.position.resetExtruder();
-  #ifdef DIRECT_DRIVE
-    position.e=BOWDEN_TUBE_LENGTH;
-    planner.buffer_line(position, 20, ORIGINAL_EXTRUDER_ENBR);
-    planner.position.resetExtruder();
-  #endif
+  
+
   //reset all the positions to their original state
   planner.synchronize();//wait for all the moves to finish
   planner.position.resetExtruder();
@@ -104,15 +110,15 @@ void MSUMP::tool_change(uint8_t index)
   //if direct drive is enabled park the idler leting the filament move freely through the MMU
   #ifdef DIRECT_DRIVE
 
-  #if ENABLED(SERVO_IDLER)
-    servoidler.write(parkedPosition);
-  #else
-    absolutePosition = parkedPosition;
-    position.e=-(absolutePosition - idlerPosition);
-    planner.buffer_line(position,  2, MSU_IDLER_ENBR);
-    planner.synchronize();
-    planner.position.resetExtruder();
-  #endif
+    #if ENABLED(SERVO_IDLER)
+      servoidler.write(parkedPosition);
+    #else
+      absolutePosition = parkedPosition;
+      position.e=-(absolutePosition - idlerPosition);
+      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
 
   #endif//DIRECT_DRIVE
 }
