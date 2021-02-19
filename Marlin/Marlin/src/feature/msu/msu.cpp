@@ -26,6 +26,9 @@ float storeExtruderPosition; //used to store the extruder position before the to
 float bowdenTubeLength = BOWDEN_TUBE_LENGTH;
 float nozzleExtruderGearLength = NOZZLE_EXTRUDER_GEAR_LENGTH;
 
+int SelectedFilamentNbr = 0;
+
+bool idlerEngaged = true;//idler engaged or not, this is used in direct drive setup with the MSU disengaging and letting the extruder do everything
 bool idlerHomed=false;
 
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
@@ -39,6 +42,23 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 void MSUMP::tool_change(uint8_t index)
 { 
+  
+  #ifdef DIRECT_DRIVE
+    if(!idlerEngaged)
+  {
+    #if ENABLED(SERVO_IDLER)
+      servoidler.write(parkedPosition);
+    #else
+      absolutePosition = offsetEndstopTo1 + SelectedFilamentNbr * spaceBetweenBearings;
+      position.e=-(absolutePosition - idlerPosition);
+      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
+  }
+    
+
+  #endif//DIRECT_DRIVE
   if(!idlerHomed)idler_home();
   
   position= current_position;//get the current position of the nozzle, this will be used so that we don't move the axis when performing any moves at the MSU level
@@ -79,6 +99,7 @@ void MSUMP::tool_change(uint8_t index)
     planner.synchronize();
     planner.position.resetExtruder();
   #endif
+  SelectedFilamentNbr = index;
 
   //reload the new filament up to the nozzle/extruder gear if running a direct drive setup
   position.e=bowdenTubeLength;
@@ -119,6 +140,8 @@ void MSUMP::tool_change(uint8_t index)
       planner.synchronize();
       planner.position.resetExtruder();
     #endif
+
+    idlerEngaged=false;
 
   #endif//DIRECT_DRIVE
 }
