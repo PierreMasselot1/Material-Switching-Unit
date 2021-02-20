@@ -47,7 +47,7 @@ void MSUMP::tool_change(uint8_t index)
     if(!idlerEngaged)
   {
     #if ENABLED(SERVO_IDLER)
-      servoidler.write(parkedPosition);
+      servoidler.write(servopos1+SelectedFilamentNbr*servobearingangle);
     #else
       absolutePosition = offsetEndstopTo1 + SelectedFilamentNbr * spaceBetweenBearings;
       position.e=-(absolutePosition - idlerPosition);
@@ -70,15 +70,38 @@ void MSUMP::tool_change(uint8_t index)
   //clear the extruder gears
   #ifdef DIRECT_DRIVE
     planner.position.resetExtruder();
-    position.e= -nozzleExtruderGearLength;
+    position.e= -nozzleExtruderGearLength-5;//go a bit further just to be sure, it doesn't change anything since the idler is not engaged
     planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
     planner.position.resetExtruder();
     //also move with the MSU(with the idler putting pressure on the right filament) if the extruder and the MSU are controlled independantly since they have different steps per mm
-    #ifndef DIRECT_DRIVE_LINKED_EXTRUDER
-      position.e=-nozzleExtruderGearLength;
-      planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
-    #endif
+    position.e=-nozzleExtruderGearLength;
+    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
+    
   #endif
+
+  //disengage idler and clear the extruder with actual extruder
+  #ifdef DIRECT_DRIVE_LINKED_EXTRUDER
+    
+  //disengage idler if it's engaged  
+  if(idlerEngaged)
+  {
+    #if ENABLED(SERVO_IDLER)
+      servoidler.write(parkedPosition);
+    #else
+      absolutePosition = parkedPosition;
+      position.e=-(absolutePosition - idlerPosition);
+      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
+  }
+  //clear the extruder gears
+  planner.position.resetExtruder();
+  position.e= -nozzleExtruderGearLength;
+  planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
+  planner.position.resetExtruder();
+
+  #endif //DIRECT_DRIVE_LINKED_EXTRUDER
 
 
   //unload filament until it clears the merger
@@ -121,6 +144,31 @@ void MSUMP::tool_change(uint8_t index)
       planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
     #endif
   #endif
+
+  #ifdef DIRECT_DRIVE_LINKED_EXTRUDER
+    //put extra pressure to help the extruder gears grab the filament, this is a synched move with both the MSU and the actual extruder
+    position.e=3;
+    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)
+    planner.position.resetExtruder();
+    //disengage idler
+    #if ENABLED(SERVO_IDLER)
+      servoidler.write(parkedPosition);
+    #else
+      absolutePosition = parkedPosition;
+      position.e=-(absolutePosition - idlerPosition);
+      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
+
+    idlerEngaged=false;
+
+  //finish loading
+
+    position.e=nozzleExtruderGearLength;
+    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
+    #endif
+  #endif //DIRECT_DRIVE_LINKED_EXTRUDER
   
 
   //reset all the positions to their original state
