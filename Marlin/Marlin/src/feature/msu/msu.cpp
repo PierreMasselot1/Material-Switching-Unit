@@ -163,11 +163,11 @@ void MSUMP::tool_change(uint8_t index)
 
     idlerEngaged=false;
 
-  //finish loading
+    //finish loading
 
     position.e=nozzleExtruderGearLength;
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
-    #endif
+   
   #endif //DIRECT_DRIVE_LINKED_EXTRUDER
   
 
