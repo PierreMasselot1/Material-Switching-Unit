@@ -1,4 +1,5 @@
 
+
 This file is written using the Markdown markup language. If you want to contribute to the documentation and have an easier way to edit Markdown you can use editors like stackedit.io 
 
 ## **Multi-material upgrade on any printer: BUILD GUIDE**
@@ -70,7 +71,7 @@ The price total will not match the list exactly since some of those components c
 |Nema 17 stepper motor|![enter image description here](https://i.postimg.cc/tJ3QYqgn/image.png)|[https://amzn.to/3osSZbb](https://amzn.to/3osSZbb)|1|1 or 2 for direct drive<p>-1 if servo controlled idler|14$|
 |Servo (for servo controlled idler)|[![616z-Elw-Ukz-L-AC-SL1001.jpg](https://i.postimg.cc/Dydk3RVc/616z-Elw-Ukz-L-AC-SL1001.jpg)](https://postimg.cc/3dRbgSxy)|https://www.amazon.com/ANNIMOS-Digital-Waterproof-DS3218MG-Control/dp/B076CNKQX4<p>when using a servo you wil need one less stepper motor so take it into consideration when ordering|1|1 or 0|17$|
 |Endstops|![enter image description here](https://i.postimg.cc/hG6Hszz7/image.png)|[https://amzn.to/3hWqekq](https://amzn.to/3hWqekq)|10|1|8|
-|Idler springs|![idler springs](https://i.postimg.cc/RVdy8bJm/image.png)|[https://shop.prusa3d.com/en/spare-parts/599-idler-spring.html](https://shop.prusa3d.com/en/spare-parts/599-idler-spring.html) <br/>[https://www.voxelfactory.com/collections/original-prusa-i3-mk2-mk2s-parts/products/replacement-tension-spring-for-prusa-i3-mk2s-or-mk3](https://www.voxelfactory.com/collections/original-prusa-i3-mk2-mk2s-parts/products/replacement-tension-spring-for-prusa-i3-mk2s-or-mk3)|1|2|4-8$|
+|Idler springs|![idler springs](https://i.postimg.cc/RVdy8bJm/image.png)|[https://shop.prusa3d.com/en/spare-parts/599-idler-spring.html](https://shop.prusa3d.com/en/spare-parts/599-idler-spring.html) <br/>[https://www.voxelfactory.com/collections/original-prusa-i3-mk2-mk2s-parts/products/replacement-tension-spring-for-prusa-i3-mk2s-or-mk3](https://www.voxelfactory.com/collections/original-prusa-i3-mk2-mk2s-parts/products/replacement-tension-spring-for-prusa-i3-mk2s-or-mk3)<br/>(next links are not originial prusa springs but match the specs closly and should work well)<br/>https://www.amazon.com/Calvas-Stainless-Compression-Extension-Electrical/dp/B08XP7KK5B  <br/> https://aliexpi.com/HHM1|1|2|4-8$|
 ||| [**Direct drive version**]<p>for the direct drive version you will only need one extra stepper motor, you can use the link above<p>[**/Direct drive version**]
 |||[**Direct drive version linked extruders**]<p>for this version you will also need  the extra stepper driver but also a stepper motor splitter linked below<p>[**/Direct drive version linked extruders**]|||
 |Stepper parallel module|[![61ma7umi-Js-L-SL1001.jpg](https://i.postimg.cc/VvrBwxHL/61ma7umi-Js-L-SL1001.jpg)](https://postimg.cc/LgSZBbpr)|https://www.amazon.com/Printer-Stepper-Parallel-Module-Double/dp/B07MC71QRW|3|1|8$
