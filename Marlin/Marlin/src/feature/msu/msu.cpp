@@ -30,6 +30,12 @@ int SelectedFilamentNbr = 0;
 
 bool idlerEngaged = true;//idler engaged or not, this is used in direct drive setup with the MSU disengaging and letting the extruder do everything
 bool idlerHomed=false;
+bool changingFilament=false;//keeps track of whether the MSU is performing a tool change or not. Will be used to trigger loading failure correction
+
+
+bool loading=false;
+bool unloading=false;
+
 
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
 xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our MSU moves in order to be able to apply motion limits. We then apply the extruder movement we want to that
@@ -41,8 +47,7 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 
 void MSUMP::tool_change(uint8_t index)
-{ 
-  
+{ changingFilament=true;
   #ifdef DIRECT_DRIVE
     if(!idlerEngaged)
   {
@@ -192,6 +197,7 @@ void MSUMP::tool_change(uint8_t index)
     idlerEngaged=false;
 
   #endif//DIRECT_DRIVE
+  changingFilament=false;
 }
 
 //homing sequence of the idler. If this is called when using the servo motor it will initiate it
@@ -242,8 +248,15 @@ void MSUMP::move_msu_extruder(const float diff){
   planner.position.resetExtruder();
   
 }
+void MSUMP::filament_runout(){
+  //TODO error handling for filament runout when the MSU is loading/unloading filament
+  
+}
 const float MSUMP::get_bowden_tube_length(){
   return bowdenTubeLength;
+}
+bool MSUMP::active_filament_change(){
+  return changingFilament;
 }
 
 

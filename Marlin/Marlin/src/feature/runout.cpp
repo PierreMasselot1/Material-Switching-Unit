@@ -67,9 +67,19 @@ bool FilamentMonitorBase::enabled = true,
 #if ENABLED(EXTENSIBLE_UI)
   #include "../lcd/extui/ui_api.h"
 #endif
+#if ENABLED(MSU)
+  #include "msu/msu.h" 
+#endif
 
 void event_filament_runout() {
-
+  
+  //if the MSU is changing filament and a filament runout is detected call the filament runout method to do the MSU related solving steps
+  #if ENABLED(MSU)
+    if(msu.active_filament_change()){
+      msu.filament_runout();
+      return
+    }
+  #endif
   if (TERN0(ADVANCED_PAUSE_FEATURE, did_pause_print)) return;  // Action already in progress. Purge triggered repeated runout.
 
   #if ENABLED(TOOLCHANGE_MIGRATION_FEATURE)
