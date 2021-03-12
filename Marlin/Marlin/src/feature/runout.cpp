@@ -77,7 +77,7 @@ void event_filament_runout() {
   #if ENABLED(MSU)
     if(msu.active_filament_change()){
       msu.filament_runout();
-      return
+      return;
     }
   #endif
   if (TERN0(ADVANCED_PAUSE_FEATURE, did_pause_print)) return;  // Action already in progress. Purge triggered repeated runout.
