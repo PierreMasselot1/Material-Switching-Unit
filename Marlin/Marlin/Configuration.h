@@ -220,7 +220,7 @@
     #define ORIGINAL_EXTRUDER_ENBR 2//define the extruder nbr that the actual extruder is connected to 
   #endif
 
-  #if ENABLED(SERVO_IDLER)
+  #if DISABLED(SERVO_IDLER)
     #define IDLER_ENDSTOP_AXIS X //select the endstop connected
     #define IDLER_ENDSTOP_MINMAX MAX
     //#defin IDLER_ENDSTOP_PIN  //TODO              for a custom endstop pin. 
