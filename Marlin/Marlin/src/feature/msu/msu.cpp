@@ -52,7 +52,7 @@ void MSUMP::tool_change(uint8_t index)
     if(!idlerEngaged)
   {
     #if ENABLED(SERVO_IDLER)
-      servoidler.write(servopos1+SelectedFilamentNbr*servobearingangle);
+      MOVE_SERVO(SERVO_IDLER_NBR,servopos1+SelectedFilamentNbr*servobearingangle);
     #else
       absolutePosition = offsetEndstopTo1 + SelectedFilamentNbr * spaceBetweenBearings;
       position.e=-(absolutePosition - idlerPosition);
@@ -91,7 +91,7 @@ void MSUMP::tool_change(uint8_t index)
   if(idlerEngaged)
   {
     #if ENABLED(SERVO_IDLER)
-      servoidler.write(parkedPosition);
+      MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
     #else
       absolutePosition = parkedPosition;
       position.e=-(absolutePosition - idlerPosition);
@@ -119,7 +119,7 @@ void MSUMP::tool_change(uint8_t index)
 
   //idler select new filament
   #if ENABLED(SERVO_IDLER)
-    servoidler.write(servopos1+index*servobearingangle);
+    MOVE_SERVO(SERVO_IDLER_NBR,servopos1+index*servobearingangle);
   #else
     absolutePosition = offsetEndstopTo1 + index * spaceBetweenBearings;
     position.e=-(absolutePosition - idlerPosition);
@@ -157,7 +157,7 @@ void MSUMP::tool_change(uint8_t index)
     planner.position.resetExtruder();
     //disengage idler
     #if ENABLED(SERVO_IDLER)
-      servoidler.write(parkedPosition);
+      MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
     #else
       absolutePosition = parkedPosition;
       position.e=-(absolutePosition - idlerPosition);
@@ -185,7 +185,7 @@ void MSUMP::tool_change(uint8_t index)
   #ifdef DIRECT_DRIVE
 
     #if ENABLED(SERVO_IDLER)
-      servoidler.write(parkedPosition);
+      MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
     #else
       absolutePosition = parkedPosition;
       position.e=-(absolutePosition - idlerPosition);
@@ -228,8 +228,8 @@ void MSUMP::idler_home()
 #if ENABLED(SERVO_IDLER)
 //servo initiation sequence
 void MSUMP::idler_servo_init(){
-  servoidler.attach(SERVO_IDLER_PIN);
-  servoidler.write(parkedPosition);
+  servo_init();
+  MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
 }
 #endif
 
