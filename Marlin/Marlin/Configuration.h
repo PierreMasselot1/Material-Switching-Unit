@@ -209,8 +209,9 @@
   //MSU_EXTRUDER_ENBR 1
 
   #if ENABLED(SERVO_IDLER)
-      #define SERVO_IDLER_PIN SERVO0_PIN//if your board has servo support this is probably the default pin if not you can change it to match what ever you are using
-      //If not make sure to change this to the gpio pin connected to your servo
+      #define SERVO_IDLER_NBR 0//if your board has servo support select the servo nbr you want to use(if you are not sure you can check in the pins file of your board).
+      //If your board doesn't  support them directly you can also define a custom in your pins file once again
+      
   #else
     #define MSU_IDLER_ENBR 1 //define the idler extruder motor nbr.
   #endif
