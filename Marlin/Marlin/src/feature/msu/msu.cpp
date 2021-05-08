@@ -112,7 +112,7 @@ void MSUMP::tool_change(uint8_t index)
   //unload filament until it clears the merger
 
   position.e= -bowdenTubeLength;
-  planner.buffer_line(position,  20, MSU_EXTRUDER_ENBR);
+  planner.buffer_line(position,  30, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
   planner.synchronize();
   planner.position.resetExtruder();
@@ -131,7 +131,7 @@ void MSUMP::tool_change(uint8_t index)
 
   //reload the new filament up to the nozzle/extruder gear if running a direct drive setup
   position.e=bowdenTubeLength;
-  planner.buffer_line(position, 20, MSU_EXTRUDER_ENBR);
+  planner.buffer_line(position, 25, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
 
   #ifdef DIRECT_DRIVE
