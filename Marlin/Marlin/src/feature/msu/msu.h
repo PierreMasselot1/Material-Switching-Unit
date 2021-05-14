@@ -15,6 +15,7 @@ public:
     static void edit_bowden_tube_length(const float diff);
     static void move_msu_extruder(const float diff);
     static void filament_runout();
+    static void error_on_load();
 
     static bool active_filament_change();
     static const float get_bowden_tube_length();

@@ -252,6 +252,45 @@ void MSUMP::filament_runout(){
   //TODO error handling for filament runout when the MSU is loading/unloading filament
   
 }
+
+
+void MSUMP::error_on_load(){
+  //retract filament
+  position.e= -10;
+  planner.buffer_line(position,  10, MSU_EXTRUDER_ENBR);
+  planner.position.resetExtruder();
+  planner.synchronize();
+  planner.position.resetExtruder();
+  //try loading it again
+  position.e= 20;
+  planner.buffer_line(position,  10, MSU_EXTRUDER_ENBR);
+  planner.position.resetExtruder();
+  planner.synchronize();
+  planner.position.resetExtruder();
+
+//TODO handle direct drive, add "attempt counter" to call for the user when the printer is unable to fix the load
+}
+
+void MSUMP::error_on_unload(){
+  //push filament inside the nozzle
+  position.e= 10;
+  planner.buffer_line(position,  10, MSU_EXTRUDER_ENBR);
+  planner.position.resetExtruder();
+  planner.synchronize();
+  planner.position.resetExtruder();
+
+  gcode.dwell(2000);//fait for filament to "take shape"
+
+  //retract it
+  position.e= -20;
+  planner.buffer_line(position,  10, MSU_EXTRUDER_ENBR);
+  planner.position.resetExtruder();
+  planner.synchronize();
+  planner.position.resetExtruder();
+
+//TODO handle direct drive, add "attempt counter" to call for the user when the printer is unable to fix the unload
+}
+
 const float MSUMP::get_bowden_tube_length(){
   return bowdenTubeLength;
 }
