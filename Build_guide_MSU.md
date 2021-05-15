@@ -1,5 +1,6 @@
 
 
+
 This file is written using the Markdown markup language. If you want to contribute to the documentation and have an easier way to edit Markdown you can use editors like stackedit.io 
 
 ## **Multi-material upgrade on any printer: BUILD GUIDE**
@@ -183,9 +184,14 @@ The merger may require a bit of post processing since any stringing and print de
 
 Assembly is relatively easy.
 
+### Old merger only
 The first thing is to assemble the merger and check that it works properly as mentioned previously. It uses only PC4 M10 pneumatic couplers that you should be able to screw in by hand. You may need a bit more force for the end, but it should not take too much force otherwise you could strip the connectors and have to reprint the model.
 
 ![enter image description here](https://i.postimg.cc/zXw0vdnQ/image.png)
+
+### New merger
+the merger needs a bit of support touching build plate in order to print successfully. It only needs one PC4 M10 coupler on the output since it is a press fit design.
+Also check that the clearances are right before assembly by checking every filament path.
 
 You can now set the merger aside.
 
@@ -213,7 +219,7 @@ Attach each PC4-M6 couplers to the output of the MSU.
 
 ![enter image description here](https://i.postimg.cc/XqY751rg/image.png)
 
-You then have to wire up the endstop for idler body, which you will then secure using M2*12 screws and nuts. It should be facing inward towards the center of the idler
+If using the stepper idler version of the upgrade, you then have to wire up the endstop for idler body, which you will then secure using M2*12 screws and nuts. It should be facing inward towards the center of the idler
 
 ![enter image description here](https://i.postimg.cc/SKbSdxXR/image.png)
 
@@ -221,11 +227,13 @@ Place a bearing on the end of the idler and pass it through the motor hole of th
 
 ![enter image description here](https://i.postimg.cc/XJVVM1k0/image.png)
 
-Once it is done insert the motor in the idler and secure it to the body using M3x8 screws. After this is done put M3x12 screws in the idler (in the heated inserts) and secure it to the motor. No need to tighten them extremely hard since you might rip out the inserts.
+Once it is done insert the motor in the idler and secure it to the body using M3x8 screws.
+If you are using the servo version the procedure is similar with the only difference being that you will need M4 screw in order to secure it to the idler-servo body.
+ After this is done put M3x12 screws in the idler (in the heated inserts) and secure it to the motor. No need to tighten them extremely hard since you might rip out the inserts.
 
 ![enter image description here](https://i.postimg.cc/KjWFMGSZ/image.png)
 
-After this is done check that the idler can properly rotate and triggers the endstop properly.
+After this is done check that the idler can properly rotate and triggers the endstop properly (once again only for the stepper controlled idler).
 
 ![enter image description here](https://i.postimg.cc/yYws68yj/image.png)
 
@@ -233,7 +241,7 @@ Assemble the idler body and pulley body as shown and insert the remaining metal 
 
 ![enter image description here](https://i.postimg.cc/MGwwR34j/image.png)
 
-The amount of force required to insert the rods may vary depending on your print settings but I still need feedback regarding clearances so if you have a well calibrated printer let me know whether the clearances are right or whether I need to increase them.
+The amount of force required to insert the rods may vary depending on your print settings but I still need feedback regarding clearances so if you have a well calibrated printer let me know whether the clearances are right or whether I need to increase/decrease them.
 
 ![enter image description here](https://i.postimg.cc/5yXW1hHD/image.png)
 
@@ -242,15 +250,17 @@ You can now insert the spring and the screws: M3x(from 25 mm up to 35 mm) in ord
 ![enter image description here](https://i.postimg.cc/1565qFt2/image.png)
 
 You will then need to mount the MSU to your printer. A mount for aluminum extrusions will be designed shortly but you will have to improvise for now, either design your own or use zip ties.
-
-You can then connect the merger to the nozzle. Try to have about 5 cm of space in between so that the filament changes can be as fast as possible but not below 4 cm so that the ptfe tube bend isn’t too hard (potentially causing issues).
+### Old merger only(will remove after testing)
+(You can then connect the merger to the nozzle. Try to have about 5 cm of space in between so that the filament changes can be as fast as possible but not below 4 cm so that the ptfe tube bend isn’t too hard (potentially causing issues).)
 
 You can then connect each of the merger inputs to the MSU outputs making sure that the ptfe tubing is long enough to reach the extremities of the axis.
+### New merger (V2)
+Insert the merger inside the pulley body (the fit should be a press fit), and secure it in place using 2 M3x8 mm. You can now connect the PTFE tube from the output of the merger up to the nozzle. Make sure that the PTFE tube is going inside it's dedicated slot inside the merger (and not simply into the coupler), if there are clogs with regular filament (1.75mm that hasn't been inside the nozzle) inside the merger try with and without the coupler. If it doesn't  jam without the coupler it means that the PTFE tube was not properly inserted. If it jams in both cases it means that your clearances a probably off, try increasing the scale of the model.
 
 You are now done with the building process.
 
-## **Marlin configuration**
-
+## **Marlin configuration[TODO: update to the latest version]**
+### if you are building it now and find a setting that you are not sure about, contact me on discord
 This needs to be done **after** you have successfully configured Marlin for a single extruder setup (You may have seen that in the configuration file there is a default of 3 extruders, but this should not cause any problems when setting up your printer for a single nozzle. If it does you can switch it back to one but remember that you need to switch it back to 3 when configuring for the multi-material upgrade).
 
 ![enter image description here](https://i.postimg.cc/HL0y4KLG/image.png)
@@ -349,11 +359,9 @@ The purge block is a huge waste of filament, but it can be adjusted based on the
 
 ## **Working on**
 
-As I said this not a final version and I am working on multiple improvements. First off, use interface on the lcd to be easily able to load in new filaments, select a specific filament when working with a single extruder print.
+I am working on a filament sensor which would help a lot with filament load failures, filament jams, filament slipping in the extruder and would help a lot with the success rate of multicolor and single-color prints.
 
-I am also working on a filament sensor which would help a lot with filament load failures, filament jams, filament slipping in the extruder and would help a lot with the success rate of multicolor and single-color prints.
-
-Servomotor controlled idler: no need for homing, more board compatibility since no stepper drivers required
+Servomotor controlled idler: needs testing and design improvements
 
 A lot of nice to have features and complex multi-material 3d designs to demonstrate the capabilities of such multi-material upgrades, using different materials as well as some that are not supposed to bond well together (I have a few ideas of 3d printing processes that could fix that).
 
