@@ -40,10 +40,6 @@ bool unloading=false;
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
 xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our MSU moves in order to be able to apply motion limits. We then apply the extruder movement we want to that
 
-#if ENABLED(SERVO_IDLER)
-  Servo servoidler;//if using a servo, create an instance of the class that will be the used to control the servo
-#endif
-
 
 
 void MSUMP::tool_change(uint8_t index)
@@ -153,7 +149,7 @@ void MSUMP::tool_change(uint8_t index)
   #ifdef DIRECT_DRIVE_LINKED_EXTRUDER
     //put extra pressure to help the extruder gears grab the filament, this is a synched move with both the MSU and the actual extruder
     position.e=3;
-    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)
+    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
     planner.position.resetExtruder();
     //disengage idler
     #if ENABLED(SERVO_IDLER)
@@ -171,7 +167,7 @@ void MSUMP::tool_change(uint8_t index)
     //finish loading
 
     position.e=nozzleExtruderGearLength;
-    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
+    planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);//two extruder moves at the same time: needs testing
    
   #endif //DIRECT_DRIVE_LINKED_EXTRUDER
   
