@@ -45,7 +45,7 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 void MSUMP::tool_change(uint8_t index)
 { changingFilament=true;
-  SelectedFilamentNbr = index;
+  
 
   #ifdef DIRECT_DRIVE
     if(!idlerEngaged)
@@ -59,6 +59,7 @@ void MSUMP::tool_change(uint8_t index)
       planner.synchronize();
       planner.position.resetExtruder();
     #endif
+    idlerEngaged=true;
   }
     
 
@@ -98,6 +99,7 @@ void MSUMP::tool_change(uint8_t index)
       planner.synchronize();
       planner.position.resetExtruder();
     #endif
+    idlerEngaged=false;
   }
   //clear the extruder gears
   planner.position.resetExtruder();
@@ -105,6 +107,18 @@ void MSUMP::tool_change(uint8_t index)
   planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
   planner.synchronize();
+
+  //engage idler to finish the unloading process
+  #if ENABLED(SERVO_IDLER)
+      MOVE_SERVO(SERVO_IDLER_NBR,servopos1+SelectedFilamentNbr*servobearingangle);
+    #else
+      absolutePosition = offsetEndstopTo1 + SelectedFilamentNbr * spaceBetweenBearings;
+      position.e=-(absolutePosition - idlerPosition);
+      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif
+    idlerEngaged=true;
 
   #endif //DIRECT_DRIVE_LINKED_EXTRUDER
 
@@ -128,6 +142,7 @@ void MSUMP::tool_change(uint8_t index)
     planner.position.resetExtruder();
   #endif
   
+  SelectedFilamentNbr = index;
 
   //reload the new filament up to the nozzle/extruder gear if running a direct drive setup
   position.e=bowdenTubeLength;
