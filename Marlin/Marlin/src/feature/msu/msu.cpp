@@ -153,6 +153,17 @@ void MSUMP::tool_change(uint8_t index)
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
     planner.position.resetExtruder();
 
+    //disengage idler and let the original direct drive extruder take over
+    #if ENABLED(SERVO_IDLER)
+      MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
+    #else
+      absolutePosition = parkedPosition;
+      position.e=-(absolutePosition - idlerPosition);
+      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
+      planner.synchronize();
+      planner.position.resetExtruder();
+    #endif  
+
     //finish loading
     position.e=nozzleExtruderGearLength;
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);//two extruder moves at the same time: needs testing
