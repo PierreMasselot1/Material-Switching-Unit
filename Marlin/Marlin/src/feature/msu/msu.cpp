@@ -143,12 +143,6 @@ void MSUMP::tool_change(uint8_t index)
     position.e= nozzleExtruderGearLength;
     planner.buffer_line(position, 10, ORIGINAL_EXTRUDER_ENBR);
     planner.position.resetExtruder();
-    //also move with the MSU(with the idler putting pressure on the right filament) if the extruder and the MSU are controlled independantly since they have different steps per mm
-    #ifndef DIRECT_DRIVE_LINKED_EXTRUDER
-      position.e=nozzleExtruderGearLength;
-      planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
-    #endif
-
     planner.synchronize();
   #endif
 
@@ -157,34 +151,15 @@ void MSUMP::tool_change(uint8_t index)
     position.e=3;
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
     planner.position.resetExtruder();
-    //disengage idler
-    #if ENABLED(SERVO_IDLER)
-      MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
-    #else
-      absolutePosition = parkedPosition;
-      position.e=-(absolutePosition - idlerPosition);
-      planner.buffer_line(position,  5, MSU_IDLER_ENBR);
-      planner.synchronize();
-      planner.position.resetExtruder();
-    #endif
-
-    idlerEngaged=false;
 
     //finish loading
-
     position.e=nozzleExtruderGearLength;
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);//two extruder moves at the same time: needs testing
+    planner.synchronise();
    
   #endif //DIRECT_DRIVE_LINKED_EXTRUDER
   
-
-  //reset all the positions to their original state
-  planner.synchronize();//wait for all the moves to finish
-  planner.position.resetExtruder();
-  idlerPosition = absolutePosition;
-  planner.position.e = storeExtruderPosition;
-  
-  //if direct drive is enabled park the idler letting the filament move freely through the MMU
+  //if direct drive park the idler, may change for direct drive setups to allow for filament "prefeed" with the MSU which would help reduce the strain on the extruder
   #ifdef DIRECT_DRIVE || DIRECT_DRIVE_LINKED_EXTRUDER
 
     #if ENABLED(SERVO_IDLER)
@@ -200,6 +175,12 @@ void MSUMP::tool_change(uint8_t index)
     idlerEngaged=false;
 
   #endif//DIRECT_DRIVE
+
+  //reset all the positions to their original state
+  planner.synchronize();//wait for all the moves to finish
+  planner.position.resetExtruder();
+  idlerPosition = absolutePosition;
+  planner.position.e = storeExtruderPosition;
   changingFilament=false;
 }
 
