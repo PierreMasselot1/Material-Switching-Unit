@@ -40,6 +40,7 @@ bool unloading=false;
 bool homingIdler=false;//homing status used in the homing sequence, but will also be useful in order to disable the bug where the idler won't move if the nozzle is cold(prevent cold extrusion feature)
 xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our MSU moves in order to be able to apply motion limits. We then apply the extruder movement we want to that
 
+#define DIRECT_DRIVE_OR_LINKED_DIRECT_DRIVE == DIRECT_DRIVE || DIRECT_DRIVE_LINKED_EXTRUDER // checks if we are in a direct drive setup(regular or using paralled extruders)
 
 
 void MSUMP::tool_change(uint8_t index)
@@ -155,12 +156,12 @@ void MSUMP::tool_change(uint8_t index)
     //finish loading
     position.e=nozzleExtruderGearLength;
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);//two extruder moves at the same time: needs testing
-    planner.synchronise();
+    planner.synchronize();
    
   #endif //DIRECT_DRIVE_LINKED_EXTRUDER
   
   //if direct drive park the idler, may change for direct drive setups to allow for filament "prefeed" with the MSU which would help reduce the strain on the extruder
-  #ifdef DIRECT_DRIVE || DIRECT_DRIVE_LINKED_EXTRUDER
+  #ifdef DIRECT_DRIVE_OR_LINKED_DIRECT_DRIVE
 
     #if ENABLED(SERVO_IDLER)
       MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
@@ -174,7 +175,7 @@ void MSUMP::tool_change(uint8_t index)
 
     idlerEngaged=false;
 
-  #endif//DIRECT_DRIVE
+  #endif//DIRECT_DRIVE OR LINKED_DIRECT_DRIVE_EXTRUDER
 
   //reset all the positions to their original state
   planner.synchronize();//wait for all the moves to finish
