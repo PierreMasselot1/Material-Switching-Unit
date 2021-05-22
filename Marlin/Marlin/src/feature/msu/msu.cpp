@@ -44,6 +44,8 @@ xyze_pos_t position;//we have to create a fake destination(x,y,z) when doing our
 
 void MSUMP::tool_change(uint8_t index)
 { changingFilament=true;
+  SelectedFilamentNbr = index;
+
   #ifdef DIRECT_DRIVE
     if(!idlerEngaged)
   {
@@ -77,7 +79,7 @@ void MSUMP::tool_change(uint8_t index)
     //also move with the MSU(with the idler putting pressure on the right filament) if the extruder and the MSU are controlled independantly since they have different steps per mm
     position.e=-nozzleExtruderGearLength;
     planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
-    
+    planner.synchronize();
   #endif
 
   //disengage idler and clear the extruder with actual extruder
@@ -101,6 +103,7 @@ void MSUMP::tool_change(uint8_t index)
   position.e= -nozzleExtruderGearLength;
   planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
+  planner.synchronize();
 
   #endif //DIRECT_DRIVE_LINKED_EXTRUDER
 
@@ -123,12 +126,13 @@ void MSUMP::tool_change(uint8_t index)
     planner.synchronize();
     planner.position.resetExtruder();
   #endif
-  SelectedFilamentNbr = index;
+  
 
   //reload the new filament up to the nozzle/extruder gear if running a direct drive setup
   position.e=bowdenTubeLength;
   planner.buffer_line(position, 25, MSU_EXTRUDER_ENBR);
   planner.position.resetExtruder();
+  planner.synchronize();
 
   #ifdef DIRECT_DRIVE
     //put extra pressure to help the extruder gears grab the filament
@@ -144,6 +148,8 @@ void MSUMP::tool_change(uint8_t index)
       position.e=nozzleExtruderGearLength;
       planner.buffer_line(position, 10, MSU_EXTRUDER_ENBR)//two extruder moves at the same time: needs testing
     #endif
+
+    planner.synchronize();
   #endif
 
   #ifdef DIRECT_DRIVE_LINKED_EXTRUDER
@@ -177,8 +183,9 @@ void MSUMP::tool_change(uint8_t index)
   planner.position.resetExtruder();
   idlerPosition = absolutePosition;
   planner.position.e = storeExtruderPosition;
-  //if direct drive is enabled park the idler leting the filament move freely through the MMU
-  #ifdef DIRECT_DRIVE
+  
+  //if direct drive is enabled park the idler letting the filament move freely through the MMU
+  #ifdef DIRECT_DRIVE || DIRECT_DRIVE_LINKED_EXTRUDER
 
     #if ENABLED(SERVO_IDLER)
       MOVE_SERVO(SERVO_IDLER_NBR,parkedPosition);
