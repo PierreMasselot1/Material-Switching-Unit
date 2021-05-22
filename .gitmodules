@@ -1,0 +1,3 @@
+[submodule "Marlin"]
+	path = Marlin
+	url = https://github.com/PierreMasselot1/Marlin
