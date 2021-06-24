@@ -273,53 +273,31 @@ This line needs to be uncommented in order to enable MSU functionalities
 The following lines of code are responsible for the selection of the type of setup you want to run. Choose one between bowden, direct-drive, and direct-drive with linked extruders. On top of that you have the option to use a servo controlled iderl, the default being a stepper-controlled idler
 ```cpp
 #if  ENABLED(MSU)
-
 //#define MSU_BOWDEN_TUBE_SETUP //enable when working with the MSU as a bowden extruder itself
-
 //#define MSU_DIRECT_DRIVE_SETUP //enable to work in a direct drive setup, if doing so don't forget to disable MSU_BOWDEN_TUBE_SETUP
-
 //#define MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP //enable to work in a direct drive setup where both the MSU extruder and the actual extruder are connected to a parrallel module
-
 //#define MSU_SERVO_IDLER //enable to control the idler using a servo
 ```
 The following lines are additional configuration options that are most likely already good but that you want to double check in case you have a different setup. Use the description to understand what each setting does and adjust them accordingly
 ```cpp
 #define MSU_MENU//LCD Menu
 
-  
-
 #define MSU_EXTRUDER_ENBR 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use MSU_EXTRUDER_ENBR 1
 
-  
-
 #if ENABLED(MSU_SERVO_IDLER)
-
-#define MSU_SERVO_IDLER_NBR 0//if your board has servo support select the servo nbr you want to use(if you are not sure you can check in the pins file of your board but 0 will most likely be the default servo port for your board). If your board doesn't support them directly you can also define a custom one in your pins file once again
-
+	#define MSU_SERVO_IDLER_NBR 0//if your board has servo support select the servo nbr you want to use(if you are not sure you can check in the pins file of your board but 0 will most likely be the default servo port for your board). If your board doesn't support them directly you can also define a custom one in your pins file once again
 #else
-
-#define MSU_IDLER_ENBR 1 //define the idler extruder motor nbr.
-
+	#define MSU_IDLER_ENBR 1 //define the idler extruder motor nbr.
 #endif
-
-  
 
 #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-
-#define MSU_ORIGINAL_EXTRUDER_ENBR 2//define the extruder nbr that the actual extruder is connected to
-
+	#define MSU_ORIGINAL_EXTRUDER_ENBR 2//define the extruder nbr that the actual extruder is connected to
 #endif
-
   
-
 #if DISABLED(MSU_SERVO_IDLER)
-
-#define MSU_IDLER_ENDSTOP_AXIS X //select the endstop connected
-
-#define MSU_IDLER_ENDSTOP_MINMAX MAX
-
-//#defin IDLER_ENDSTOP_PIN //TODO for a custom endstop pin.
-
+	#define MSU_IDLER_ENDSTOP_AXIS X //select the endstop connected
+	#define MSU_IDLER_ENDSTOP_MINMAX MAX
+	//#define IDLER_ENDSTOP_PIN //TODO for a custom endstop pin.
 #endif
 
   
@@ -336,35 +314,22 @@ The two next lines are to set the length of the bowden tube and of the distance 
 Remember to set your extrude_maxlength higher than your bowden tube length
 ```cpp
 /**
-
 * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
-
 * Note: For Bowden Extruders make this large enough to allow load/unload.
-
 */
-
 #define  PREVENT_LENGTHY_EXTRUDE
-
 #define  EXTRUDE_MAXLENGTH  200
 ```
 You should then enable XMAX plug (uncomment it by removing the //) since this is what we are going to be using to home the idler.
 ```cpp
 // Specify here all the endstop connectors that are connected to any endstop or probe.
-
 // Almost all printers will be using one per axis. Probes will use one or more of the
-
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
-
 #define  USE_XMIN_PLUG
-
 #define  USE_YMIN_PLUG
-
 #define  USE_ZMIN_PLUG
-
 //#define USE_XMAX_PLUG
-
 //#define USE_YMAX_PLUG
-
 //#define USE_ZMAX_PLUG
 ```
  If you board does not have an XMAX endstop you can find a free IO pin and connect your enstop to that, but you will need to configure an XMAX enstop inside your boards pins file similarly to what is shown below. If you won't know where that pins file is you can find it using google but the general location is:
