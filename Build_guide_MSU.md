@@ -382,6 +382,11 @@ Similarly to your XYZ axis you can change the direction of the extruder stepper 
 #define  INVERT_E6_DIR false
 #define  INVERT_E7_DIR false
 ```
+
+you will also need to enable distinc e factors if you are using a stepper controlled idler since you will need different steps per mm for the extruder and for the idler
+```cpp
+#define DISTINCT_E_FACTORS
+```
 You are now done with the software modifications.
 
 ## **Slicer settings.**
