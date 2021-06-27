@@ -1,4 +1,4 @@
-[![you can get this shield at shields.io](https://img.shields.io/discord/771052481538031637?color=7289da&logo=discord&logoColor=white)](https://discord.gg/ygBBdRRwJY)
+[![you can get this shield at shields.io](https://img.shields.io/discord/771052481538031637?color=7289da&logo=discord&logoColor=white)](https://discord.gg/TXhCJRbFFt)            ![GitHub](https://img.shields.io/github/license/PierreMasselot1/Material-Switching-Unit) [![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCF2tb5Hu6G_z-tB3_e_9U4A?style=social)](https://www.youtube.com/channel/UCF2tb5Hu6G_z-tB3_e_9U4A)   
 # Material Switching Unit (MSU)
 
   <img src="https://i.ibb.co/pQHj8GD/DSC00081.jpg"> 
