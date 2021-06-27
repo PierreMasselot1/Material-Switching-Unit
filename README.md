@@ -1,3 +1,4 @@
+[![you can get this shield at shields.io](https://img.shields.io/discord/771052481538031637?color=7289da&logo=discord&logoColor=white)](https://discord.gg/ygBBdRRwJY)
 # Material Switching Unit (MSU)
 
   <img src="https://i.ibb.co/pQHj8GD/DSC00081.jpg"> 
