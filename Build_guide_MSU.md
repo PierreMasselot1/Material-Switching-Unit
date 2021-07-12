@@ -90,7 +90,7 @@ You will also need to make sure that your extruder assembly can easily grab fila
 
  [**/Direct drive version**]
  
-Before trying to build this upgrade, you should have a fully working printer, with a compatible mainboard (check below), with Marlin configured properly for a single extruder. You should get the Marlin source code from the Marlin fork that is inside the repo, it is currently a submodule of this repo so you will have to close it independantly. Once you have Marlin configured for your printer before upgrading to the MSU keep a copy in a known location so that you can easily transition back to stock if the upgrade where to fail. 
+Before trying to build this upgrade, you should have a fully working printer, with a compatible mainboard (check below), with Marlin configured properly for a single extruder. You should get the Marlin source code from the Marlin fork that is inside the repo, it is currently a submodule of this repo so you will have to clone it independantly. Once you have Marlin configured for your printer before upgrading to the MSU keep a copy in a known location so that you can easily transition back to stock if the upgrade where to fail. 
 
 After that, download the latest version of PrusaSlicer and follow this guide ([https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s](https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s) ) on how to set everything up for your printer in a single extruder mode. 
 
