@@ -387,6 +387,10 @@ you will also need to enable distinc e factors if you are using a stepper contro
 ```cpp
 #define DISTINCT_E_FACTORS
 ```
+Also if you are using a servo controlled idler don't forget to have NUM_SERVO parameter defined to the number of servos you are running (at least one for the idler)
+```cpp	
+#define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
+```	
 You are now done with the software modifications.
 
 ## **Slicer settings.**
