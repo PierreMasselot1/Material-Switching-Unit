@@ -8,6 +8,8 @@ The aim of this project is to popularize multi-material 3d printing by making a 
 
 ## **Different setups and compatibility**
 
+# We are going to remove stepper controlled idler support so please build the servo version if you can
+
 The MSU can be build in a few ways, and more options are being added. They all present benefits so we will go over the different setups that one can run. The first thing that you will see are the board requirements which will help you decide which setup you can and want to  use. Those requirements don't include the filament flow sensor yet. If you also want to be able to support it when we finish working on it you will need two extra GPIO pins.
 
  be preceded by [**setup type**] and ended by [**/setup type**]
@@ -22,14 +24,14 @@ requirements:
 
 servo idler **(recommended)**: 4 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
 
-stepper motor controlled idler: 5 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port (the idler needs homing for positional accuracy)
+~~stepper motor controlled idler: 5 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port (the idler needs homing for positional accuracy)~~ please don't build the stepper version, not removed from the build guide yet but it's definitly going to dissapear at some point
 
 It is the simplest setup, the MSU acts as the extruder and the filament changing process is simple, unload the filament until it clears the merger and then reload the new one by changing the idler position to put pressure on the filament that needs to be used.
 This will be compatible with almost every printer and motherboard when using the servo-version.
 
 **Direct drive version**
-requirements: servo idler: 5+1 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
-stepper motor controlled idler **(ideal)**: 6+1 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port (the idler needs homing for positional accuracy).
+requirements: servo idler **(ideal)**: 5+1 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
+~~stepper motor controlled idler : 6+1 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port (the idler needs homing for positional accuracy).~~
 
 The additional optional stepper motor control is used in order to be able to control the extruder and the MSU independantly, will allow for slightly faster tool change and less complexity
 
