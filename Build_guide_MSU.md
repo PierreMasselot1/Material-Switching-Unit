@@ -8,11 +8,10 @@ The aim of this project is to popularize multi-material 3d printing by making a 
 
 ## **Different setups and compatibility**
 
-# We are going to remove stepper controlled idler support so please build the servo version if you can
 
-The MSU can be build in a few ways, and more options are being added. They all present benefits so we will go over the different setups that one can run. The first thing that you will see are the board requirements which will help you decide which setup you can and want to  use. Those requirements don't include the filament flow sensor yet. If you also want to be able to support it when we finish working on it you will need two extra GPIO pins.
+The MSU can be build in a few ways, and more options are being added. They all present benefits so we will go over the different setups that one can run. The first thing that you will see are the board requirements which will help you decide which setup you can and want to  use. Those requirements don't include the filament flow sensor yet. If you also want to be able to support it when we finish working on it you will need one extra GPIO pins.
 
- be preceded by [**setup type**] and ended by [**/setup type**]
+information relevant to one specific setup will be preceded by [**setup type**] and ended by [**/setup type**]
 ex: 
 [**Bowden style version**] information specific to a bowden style setup [**/Bowden style version**]
 information relevant for both setups
@@ -20,28 +19,21 @@ information relevant for both setups
 
 
 **Bowden style version**
-requirements: 
-
-servo idler **(recommended)**: 4 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
-
-~~stepper motor controlled idler: 5 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port (the idler needs homing for positional accuracy)~~ please don't build the stepper version, not removed from the build guide yet but it's definitly going to dissapear at some point
+requirements:4 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
 
 It is the simplest setup, the MSU acts as the extruder and the filament changing process is simple, unload the filament until it clears the merger and then reload the new one by changing the idler position to put pressure on the filament that needs to be used.
 This will be compatible with almost every printer and motherboard when using the servo-version.
 
 **Direct drive version**
-requirements: servo idler **(ideal)**: 5+1 stepper motor controls and drivers(X,Y,Z,E), 1 GPIO pin(servo control) and access to 12V (servo power)
-~~stepper motor controlled idler : 6+1 stepper motor controls and driver(X,Y,Z,E, IDLER), 1 extra endstop port (the idler needs homing for positional accuracy).~~
 
-The additional optional stepper motor control is used in order to be able to control the extruder and the MSU independantly, will allow for slightly faster tool change and less complexity
+requirements: 5 stepper motor controls and drivers(X,Y,Z,E,MSU_E), 1 GPIO pin(servo control) and access to 12V (servo power)
 
 **Direct drive version linked extruders**
 
-requirements: servo idler: 4 stepper motor controls and drivers(X,Y,Z,(E and IDLER combined)), 1 GPIO pin (servo control) and access to 12V (servo power)
-stepper motor controlled idler: 5 stepper motor controls and driver(X,Y,Z,(E and IDLER combined)), 1 extra endstop port (the idler needs homing for positional accuracy)
+requirements: servo idler: 4 stepper motor controls and drivers(X,Y,Z,(E and E_MSU combined)), 1 GPIO pin (servo control) and access to 12V (servo power)
 
 
-This is the same version as the direct drive one with the only difference being that the extruder son both the MSU and on the actual extruder will be connected to the same driver meaning that a lot more logic needs to be implemented in order to never have both of them running at the same time, since they have different steps per mm meaning that if we run them at the same time one will be fighting against the other.
+This is the same version as the direct drive one with the only difference being that the extruder on both the MSU and the actual extruder will be connected to the same driver meaning that a lot more logic needs to be implemented in order to never have both of them running at the same time, since they have different steps per mm meaning that if we run them at the same time one will be fighting against the other. This setup should be chosen if your board doesn't allow you to run the previous setup.
 
 ## **Before you attempt to build this:**
 
@@ -57,7 +49,7 @@ Lastly, this is not perfect, and your printer may not work as well as before so 
 
 All the following links may be affiliate links (mostly the amazon ones) and I may earn money if a purchase is made using those links. All the profit will go directly back in this project. The price mentioned is only to give you an idea as they may fluctuate. The ones mentioned are the lowest ones I could find including shipping to NA at the date of writing this.
 
-The price total will not match the list exactly since some of those components come in packs of 700 (like screws) when we only need a few and you probably already have them.
+The price total will not match the list exactly since some of those components come in packs of 700 (like screws) when we only need a few and you probably already have them, they will therefore not be part of the total.
 
 | Part name | Picture | Links | Pcs in pack | Pcs needed | Price $ |
 |--|--|--|--|--|--|
@@ -94,31 +86,18 @@ You will also need to make sure that your extruder assembly can easily grab fila
  
 Before trying to build this upgrade, you should have a fully working printer, with a compatible mainboard (check below), with Marlin configured properly for a single extruder. You should get the Marlin source code from the Marlin fork that is inside the repo, it is currently a submodule of this repo so you will have to clone it independantly. Once you have Marlin configured for your printer before upgrading to the MSU keep a copy in a known location so that you can easily transition back to stock if the upgrade where to fail. 
 
-After that, download the latest version of PrusaSlicer and follow this guide ([https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s](https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s) ) on how to set everything up for your printer in a single extruder mode. 
+After that, download the latest version of PrusaSlicer or SuperSlicer and follow this guide ([https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s](https://www.youtube.com/watch?v=Wz2Soog4HkQ&t=245s) ) on how to set everything up for your printer in a single extruder mode. 
 
-Once all off that is done download the latest files from my GitHub and start printing them using the methods and settings mentioned below. Check that you also have all the components and tools required.
+Once all off that is done download the latest files from this repo and start printing them using the methods and settings mentioned below. Check that you also have all the components and tools required.
 
 ## **Motherboard compatibility**
 
-Your mother board will need to have 5 dedicated stepper motor control (and in case of a dual Z make sure that your printer is using a splitter internally, meaning that you have 6 motor plugs available or use a splitter for your Z axis : [https://amzn.to/35fcFaS](https://amzn.to/35fcFaS) or [https://amzn.to/2L60ard](https://amzn.to/2L60ard) ). Once you have checked that your motherboard supports enough motor controls make sure that you have a way to access to at least two I/O pins: one for the endstop and one for the magnetic rotary encoder (will most likely be an AS5600 in I2C mode) that I am working on. You should also have some access to VCC and ground but even if there are no extra dedicated pins you could easily use one from any of the endstops. You will also need to make sure that you have access to 3.3V (or be ready to convert 5 to 3.3) but as I said your endstops may already have this available. If you have endstop pins for X,Y and Z max you should be good to go.
-
-We are currently working with Paul Lewis to replace/ give the option to have a servo motor controlling the idler instead of a servo motor. This means that we will eventually need only 4 stepper motor control and a servo port (you will need a single free pin and some ways to get your servo connected to vcc and ground).
-
-Mother board with extra endstops connector and easily accessible expansion pins will be the easiest to work with since less tweaking will have to be done to the Pins file of your specific board. If by any chance you were to modify something to fit your setup and think that it could be useful to other people, make sure to let me know and maybe do a pull request.
-
-If your current motherboard isn’t compatible, changing your printer’s mainboard is an easy process and I recommend the SKR 1.4 or SKR PRO V1.1 boards if you are buying them specifically for this
+Your motherboard will need to have all the ports required for the specific setup to choose. One extra thing to keep in mind is that you will need a splitter if you have a double Z axis. This is probably already integrated into your mainboard but if not those can be bought easily(same part as the splitter in the BOM). If your motherboard is not compatible with the setup that you wanted to build changing motherboard is an easy process and you can find board like the SKR 1.4 turbo for pretty cheap. If you are looking for a boar specifically for this setup something like the SKR PRO is ideal as it has a lot of stepper motor controls and expansion capabilities.
 
 ## **Printing**
 
-Since we are currently working on the 3d files constantly, you will need to download the original files from GitHub and then convert them into an stl file in order to be able to print them. All the files are currently in .f3d which means that fusion 360 is needed in order to convert them. If you have any problem regarding the stl conversion message me and I will add the STLs in GitHub as well.
+The STL files can be found in this repo. They are also available on thingiverse, search for MSU and you will have everything you need. Most parts can be printed at 0.2 mm with a 30% infill and without supports. The merger needs supports touching build plate and should be printed with a 0.1 mm layer height and at least 50% infill, with 100% being preferable.
 
-## **Idler body, pulley body and merger:**
-
-All of those files are in the F3D folder insider the parts folder. In order to convert them to stl you will need to download fusion 360([https://www.autodesk.ca/en/products/fusion-360/personal](https://www.autodesk.ca/en/products/fusion-360/personal) ) after doing all of the setup you will have to open each file, select the object you want to print by right clicking on it and using save as STL
-
-![enter image description here](https://i.postimg.cc/yNjDSKk5/image.png)
-
-The idler body and the pulley body are both in the same file, the merger and the idler are in a separate file each. Once you have all of them converted to stl they are easy to print, they do not require any support (except the idler but see details below) and you can print them at a 0.2 mm layer height and 0.1mm layer height for the merger. Infill should be at least 20%.
 
 **Idler**
 
@@ -187,12 +166,7 @@ The merger may require a bit of post processing since any stringing and print de
 
 Assembly is relatively easy.
 
-### Old merger only
-The first thing is to assemble the merger and check that it works properly as mentioned previously. It uses only PC4 M10 pneumatic couplers that you should be able to screw in by hand. You may need a bit more force for the end, but it should not take too much force otherwise you could strip the connectors and have to reprint the model.
-
-![enter image description here](https://i.postimg.cc/zXw0vdnQ/image.png)
-
-### New merger
+### Merger
 the merger needs a bit of support touching build plate in order to print successfully. It only needs one PC4 M10 coupler on the output since it is a press fit design.
 Also check that the clearances are right before assembly by checking every filament path.
 
@@ -214,15 +188,8 @@ They are not that difficult to use just make sure to not heat up your part for t
 
 ![enter image description here](https://i.postimg.cc/RZFKmGGK/image.png)
 
-You can then insert the motor and shaft assembly. Secure the motor using M3*8 screws, if they don’t align with the motor (by about 1mm) checkout the latest update of this model since the previous one didn’t have the correct spacing (with a bit of work even that one worked just not perfectly). You can now align each of the gears with the filament slot corresponding and properly tighten them.
+You can then insert the motor and shaft assembly. Secure the motor using M3*8 screws, if they don’t align with the motor (by about 1mm) checkout the latest update of this model since the previous one didn’t have the correct spacing (with a bit of work even that one worked just not perfectly). You can now align each of the gears with the filament slot corresponding and properly tighten them. If you see that your gears are sliding onto the rod you can use a Dremel to flatten a spot for the set screw, this will help a lot and works much better than simply trying to tighten everything more as you won't risk damaging the threads
 
-![enter image description here](https://i.postimg.cc/PJyvs8wS/image.png)
-
-Attach each PC4-M6 couplers to the output of the MSU.
-
-![enter image description here](https://i.postimg.cc/XqY751rg/image.png)
-
-If using the stepper idler version of the upgrade, you then have to wire up the endstop for idler body, which you will then secure using M2*12 screws and nuts. It should be facing inward towards the center of the idler
 
 ![enter image description here](https://i.postimg.cc/SKbSdxXR/image.png)
 
@@ -230,8 +197,7 @@ Place a bearing on the end of the idler and pass it through the motor hole of th
 
 ![enter image description here](https://i.postimg.cc/XJVVM1k0/image.png)
 
-Once it is done insert the motor in the idler and secure it to the body using M3x8 screws.
-If you are using the servo version the procedure is similar with the only difference being that you will need M4 screw in order to secure it to the idler-servo body.
+Once inserted use M4 screws to secure the servo to the idler body.
  After this is done put M3x12 screws in the idler (in the heated inserts) and secure it to the motor. No need to tighten them extremely hard since you might rip out the inserts.
 
 ![enter image description here](https://i.postimg.cc/KjWFMGSZ/image.png)
@@ -248,23 +214,26 @@ The amount of force required to insert the rods may vary depending on your print
 
 ![enter image description here](https://i.postimg.cc/5yXW1hHD/image.png)
 
-You can now insert the spring and the screws: M3x(from 25 mm up to 35 mm) in order to tension the idler. For now idler tension will be made through trial and error but a good indicator is when you are able to open idler slightly and that the springs push it back in a closed position. I will add visual indicators in a later model as well as find other springs.
+You can now insert the spring and the screws: M3x(from 25 mm up to 35 mm) in order to tension the idler. For now idler tension will be made through trial and error but a good indicator is when you are able to open idler slightly and that the springs push it back in a closed position. I will add visual indicators in a later model once we have found a cheap, widely available spring that works well with the MSU.
 
 ![enter image description here](https://i.postimg.cc/1565qFt2/image.png)
 
-You will then need to mount the MSU to your printer. A mount for aluminum extrusions will be designed shortly but you will have to improvise for now, either design your own or use zip ties.
-### Old merger only(will remove after testing)
-(You can then connect the merger to the nozzle. Try to have about 5 cm of space in between so that the filament changes can be as fast as possible but not below 4 cm so that the ptfe tube bend isn’t too hard (potentially causing issues).)
-
-You can then connect each of the merger inputs to the MSU outputs making sure that the ptfe tubing is long enough to reach the extremities of the axis.
-### New merger (V2)
+You will then need to mount the MSU to your printer. A mount is included in the 3D files and it fits onto 20 by 20 extrusions, you will just have to print the proper nuts in order to attach it to the extrusion. If this mount doesn't work with your printer you can design and share your own.
+### Connecting the Merger
 Insert the merger inside the pulley body (the fit should be a press fit), and secure it in place using 2 M3x8 mm. You can now connect the PTFE tube from the output of the merger up to the nozzle. Make sure that the PTFE tube is going inside it's dedicated slot inside the merger (and not simply into the coupler), if there are clogs with regular filament (1.75mm that hasn't been inside the nozzle) inside the merger try with and without the coupler. If it doesn't  jam without the coupler it means that the PTFE tube was not properly inserted. If it jams in both cases it means that your clearances a probably off, try increasing the scale of the model.
 
 You are now done with the building process.
 
-## **Marlin configuration[TODO: update to the latest version]**
-### if you are building it now and find a setting that you are not sure about, contact me on discord
-This needs to be done **after** you have successfully configured Marlin for a single extruder setup (You may have seen that in the configuration file there is a default of 3 extruders, but this should not cause any problems when setting up your printer for a single nozzle. If it does you can switch it back to one but remember that you need to switch it back to 3 when configuring for the multi-material upgrade).
+## **Marlin configuration**
+
+
+This needs to be done **after** you have successfully configured Marlin for a single extruder setup.
+It is recommended that you work off off a branch of my Marlin branch, this will help you get any update I do to the codebase without having to reconfigure Marlin. This is particularly usefull in our case since this is a work in progress and things are bound to change. If you know how to use git and github this shouldn't give you any problems but in case you are not familiar with how everything works the following links are resources to get you started
+
+Getting started with GitHub Desktop: https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop
+How to fork a repository: https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop
+How to keep your fork up to date with the original repo: https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/keeping-your-local-repository-in-sync-with-github/syncing-your-branch
+And make sure that you configure Marlin using my branch of Marlin, if you use the original one you won't have access to the following settings.
 
 The following code snippet are the MSU related settings inside the Configuration.h file (Marlin/Marlin/Configuration.h)
 
@@ -322,37 +291,7 @@ Remember to set your extrude_maxlength higher than your bowden tube length
 #define  PREVENT_LENGTHY_EXTRUDE
 #define  EXTRUDE_MAXLENGTH  200
 ```
-You should then enable XMAX plug (uncomment it by removing the //) since this is what we are going to be using to home the idler.
-```cpp
-// Specify here all the endstop connectors that are connected to any endstop or probe.
-// Almost all printers will be using one per axis. Probes will use one or more of the
-// extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
-#define  USE_XMIN_PLUG
-#define  USE_YMIN_PLUG
-#define  USE_ZMIN_PLUG
-//#define USE_XMAX_PLUG
-//#define USE_YMAX_PLUG
-//#define USE_ZMAX_PLUG
-```
- If you board does not have an XMAX endstop you can find a free IO pin and connect your enstop to that, but you will need to configure an XMAX enstop inside your boards pins file similarly to what is shown below. If you won't know where that pins file is you can find it using google but the general location is:
- Marlin\Marlin\src\pins\...
- 
- 
-```cpp
-#define X_MAX_PIN PC2 // use your boards pin diagram to figure out which pin to use
-```
-You may also need to invert the endstop logic depending on your board. If the idler doesn’t home (considers the endstop as always triggered) this may be the problem.
-```cpp
-// Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-#define  X_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define  Y_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define  Z_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define  X_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define  Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define  Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define  Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
-```
-You will also need to define driver type for each motor
+You will also need to define driver type for each motor(should already be the case but make sure to add stepper driver type if ou are using an extra motor for the MSU)
 
 ```cpp
 #define  X_DRIVER_TYPE A4988
@@ -372,7 +311,7 @@ You will also need to define driver type for each motor
 //#define E6_DRIVER_TYPE A4988
 //#define E7_DRIVER_TYPE A4988
 ```
-Similarly to your XYZ axis you can change the direction of the extruder stepper in order to match the expected behavior. If when homing the idler goes in the opposite direction you would change E1 dir to false(Or E x if you have setup custom extruder pins)
+Similarly to your XYZ axis you can change the direction of the extruder stepper in order to match the expected behavior. If the idler goes in the opposite direction you would change E1 dir to false(Or E x if you have setup custom extruder pins)
 ```cpp
 // For direct drive extruder v9 set to true, for geared extruder set to false.
 #define  INVERT_E0_DIR false
@@ -385,15 +324,13 @@ Similarly to your XYZ axis you can change the direction of the extruder stepper 
 #define  INVERT_E7_DIR false
 ```
 
-you will also need to enable distinc e factors if you are using a stepper controlled idler since you will need different steps per mm for the extruder and for the idler
-```cpp
-#define DISTINCT_E_FACTORS
-```
 Also if you are using a servo controlled idler don't forget to have NUM_SERVO parameter defined to the number of servos you are running (at least one for the idler)
 ```cpp	
 #define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
 ```	
 You are now done with the software modifications.
+**if at any point you are seeing unexpected behavior it is recommended to connect your printer to your computer and use something like pronterface in order to get more debuggin info through the serial communication**
+
 
 ## **Slicer settings.**
 
@@ -463,15 +400,3 @@ If your filaments are all new, then it is recommended to turn on prime all print
 Another failure point that I have seen is on the coupler and the gears, if they are not tight enough, they will slip on the rod, resulting in under extrusion or even no extrusion in some cases.
 
 The purge block is a huge waste of filament, but it can be adjusted based on the filament transition (transitioning from blue to cyan will require less purging that from black to white). Other things like wipe in object and wipe in infill can be enabled an optimized in order to reduce filament waste.
-
-## **Working on**
-
-I am working on a filament sensor which would help a lot with filament load failures, filament jams, filament slipping in the extruder and would help a lot with the success rate of multicolor and single-color prints.
-
-Documentation improvements.
-
-Compatibility lists.
-
-Adding as many hotend settings specifically for the MSU.
-
-A lot of nice to have features and complex multi-material 3d designs to demonstrate the capabilities of such multi-material upgrades, using different materials as well as some that are not supposed to bond well together (I have a few ideas of 3d printing processes that could fix that).
