@@ -329,7 +329,7 @@ Also don't forget to have NUM_SERVO parameter defined to the number of servos yo
 #define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
 ```	
 
-If you need to use multiple servos on motherboard, the following tutorial will be useful.
+If you need to use multiple servos on motherboard or if your motherboard isn't pre configured to support servos, the following tutorial will be useful. This is specifically for the SKR V1.4 but the process is similar for other boards (just make sure to edit the correct pins file).
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=E4N4GjqYsy4
 " target="_blank"><img src="http://img.youtube.com/vi/E4N4GjqYsy4/0.jpg" 
