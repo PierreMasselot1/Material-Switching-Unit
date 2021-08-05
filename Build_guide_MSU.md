@@ -323,10 +323,21 @@ Similarly to your XYZ axis you can change the direction of the extruder stepper 
 #define  INVERT_E7_DIR false
 ```
 
-Also if you are using a servo controlled idler don't forget to have NUM_SERVO parameter defined to the number of servos you are running (at least one for the idler)
+Also don't forget to have NUM_SERVO parameter defined to the number of servos you are running (at least one for the idler)
+
 ```cpp	
 #define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
 ```	
+
+If you need to use multiple servos on motherboard or if your motherboard isn't pre configured to support servos, the following tutorial will be useful. This is specifically for the SKR V1.4 but the process is similar for other boards (just make sure to edit the correct pins file).
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=E4N4GjqYsy4
+" target="_blank"><img src="http://img.youtube.com/vi/E4N4GjqYsy4/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
+
+	
+
 You are now done with the software modifications.
 **if at any point you are seeing unexpected behavior it is recommended to connect your printer to your computer and use something like pronterface in order to get more debuggin info through the serial communication**
 
