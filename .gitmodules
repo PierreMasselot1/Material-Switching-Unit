@@ -4,4 +4,3 @@
 [submodule "klipper-MSU"]
 	path = klipper-MSU
 	url = https://github.com/PierreMasselot1/klipper-MSU
-	branch = master
