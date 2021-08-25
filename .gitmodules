@@ -5,3 +5,7 @@
 	path = klipper-MSU
 	url = https://github.com/PierreMasselot1/klipper-MSU
 	branch = master
+[submodule "https://github.com/PierreMasselot1/klipper-MSU"]
+	branch = master
+[submodule "https://github.com/PierreMasselot1/Marlin"]
+	branch = bugfix-2.0.x
