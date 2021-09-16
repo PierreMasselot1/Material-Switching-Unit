@@ -343,12 +343,13 @@ You are now done with the software modifications.
 
 
 ## **Slicer settings.**
+The pictures are for PrusaSlicer but as of now I recommend using [SuperSlicer](https://github.com/supermerill/SuperSlicer/releases) which offers better multi-material capabilities. The picture are still relevant as the UI is pretty much the same. Will be updating them shortly.
 
 You will now need to configure the slicer in order to adapt it to your printer.
 
 You can use the same slicer profile that you were using or create a new one (recommended)
 
-The first thing you will need to do is change the number of extruders to 3, in the printer settings tab and to check the single extruder multi material
+The first thing you will need to do is change the number of extruders to 5, in the printer settings tab and to check the single extruder multi material
 
 ![enter image description here](https://i.postimg.cc/wThRdZh1/image.png)
 
@@ -356,7 +357,7 @@ You also need to use relative E distance
 
 You should now have 5 extruders to work with.
 
-In there you can change retraction settings (choose a setting similar to what you were using before) and also select the extruder color: extremely useful for multi-color prints.
+In there you can change retraction settings, this might need to be a bit higher than before but 10mm is on the really high side of things. Just pick the smallest value that doesn't give you too much stringing.
 
 ![enter image description here](https://i.postimg.cc/Y0NrJcJk/image.png)
 
@@ -366,16 +367,17 @@ You will have four things to adjust. First off, the cooling tube position. In or
 
 ![enter image description here](https://i.postimg.cc/hGHKvPnc/image.png)
 
-You will then go in filament settings and make sure that you have keep fan always on turned on since it will stop when doing tool changes and not turn on for small patch of color.
+You will then go in filament settings and make sure that you have keep fan always on turned on since it will stop when doing tool changes and not turn on for small patches of color.
 
 ![enter image description here](https://i.postimg.cc/ZKVZ3Lmf/image.png)
 
-Then go in advanced and change 4 things. The number of cooling moves: too low and it will jam and too high and it will take a huge amount of time. 3 seems to work well for me, the speed of the cooling move can also be adjusted but it doesn’t matter much, a little faster will speed up a filament change
 
-![enter image description here](https://i.postimg.cc/qRsH7sQx/image.png)
+This is where SuperSlicer varies and comes in with a lot more options. Got to the multi-material tab and this is where you will find a ton of options. I personally haven't  had enough time to do advanced comparative testing on all of them so the process is still trial and error but I will try to sumarize what every option is. Extra info is also available directly in the slicer, just hover your mouse over a specific setting and it will give you a detailed summary of what that option does.
+![SuperSlicer](https://i.ibb.co/L8jvQtS/Screenshot-2021-09-15-223657.png)
+So the first section that you can see is the toolchange temperature. This allows you to drop the temperature in order to reduce stringing while still being able to print at the temperature you usually use. The fast mode and cooling fan options are self explanatory(just know that fast mode will not wait for the hot end to reach the specified temperature but try it's best to reach it in time). You then have the skinny dipping menu which allows you to dip the filament back into the meltzone after extraction in order to reduce stringing. Start with a low insertion distance and increase until stringing dissapears. Also notice that this setting will be impacted by the cooling tube position so any change on that will also impact the required insertion distance.
 
-In here you can adjust the filament change time in order to get more accurate time extimates for your print. While the speed is constantly changing as I improve the loading and unloading sequence and since it will also vary based on your ptfe tube length I recommend you measure the tool change time for your setup by sending T1 or any toolchange gcode and measure the time that it takes. This setting is very usefull since leaving it at 0 will give you some extremly optimistic results and on a 15 hr print it may be off by up to two hour, and this can result in lack of sleep...don't ask me why.
-The last thing in there that your will need to adjust is the ramming setting. The default one seems to work but with a bit of tweaking you can get a way cleaner filament tip the following picture is an example of what I am running but you will need to do a bit of experimenting on your side.
+The next settings are also part of PrusaSlicer, you can adjust the filament change time in order to get more accurate time extimates for your print. I recommend you measure the tool change time for your setup by sending T1 or any toolchange gcode and measure the time that it takes. This setting is very usefull since leaving it at 0 will give you some extremly optimistic results and on a 15 hr print it may be off by up to two hour, and this can result in lack of sleep...don't ask me why.
+The last thing in there that your will need to adjust is the ramming setting. The default one seems to work but with a bit of tweaking you can get a way cleaner filament tip the following picture is an example of what I \*was\* running (settings all over the place right now but will share once I have good results) but you will need to do a bit of experimenting on your side.
 
 ![enter image description here](https://i.postimg.cc/L6CKh6kw/image.png)
 
@@ -405,7 +407,7 @@ If you have any problems, make sure to message me on discord so that I can both 
 
 Idler tension is key to get good prints. If you see any extrusion discrepancies or under extrusion, then the fix will most likely be to increase idler tension.
 
-If your filaments are all new, then it is recommended to turn on prime all printing extruders since it will shape all the filaments at the start of the print which will help you detect any problems at the beginning.
+If a specific filament gives you more trouble than the other create a profile specifically for it that is more aggresive and takes up more time but gives better result (have a slower BAD FILAMENT profile)
 
 Another failure point that I have seen is on the coupler and the gears, if they are not tight enough, they will slip on the rod, resulting in under extrusion or even no extrusion in some cases.
 
