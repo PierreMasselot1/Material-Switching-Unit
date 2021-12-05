@@ -1,10 +1,11 @@
-  
+# The documentation is not up to date with the latest model revision, while most parts apply some don't  exactly match the currrent models. I will be working on updating it asap but due to finals this might not happen until winter break (aka early January). Thank you for your understanding.
+
 
 This file is written using the Markdown markup language. If you want to contribute to the documentation and have an easier way to edit Markdown you can use editors like stackedit.io 
 
 ## **Multi-material upgrade on any printer: BUILD GUIDE**
 
-The aim of this project is to popularize multi-material 3d printing by making a more reliable, cheaper, and hopefully better multi-material upgrade based on the MMU2 from Prusa. There is still a lot of work to do but this is prototype that works well enough to be considered as viable.
+The aim of this project is to popularize multi-material 3d printing by making a more reliable, cheaper, and hopefully better multi-material upgrade based on the MMU2 from Prusa. There is still a lot of work to do but this second iteration can be considered as "viable", be ready to put in some work before getting realiable results though!
 
 ## **Different setups and compatibility**
 
@@ -130,15 +131,14 @@ From the drop-down menu select pause at layer No and change the pause layer to t
 
 Reslice your model one last time and start the print, your printer should pause before closing a bearing enclosure and insert the 608 ball bearings before resuming the print.
 
-Once the print is completely done make sure that your bearings can spin freely and insert the heated inserts/embedded nuts into your print (heated inserts position and demo below)
-
-![enter image description here](https://i.postimg.cc/cHWpgKv7/image.png)
+Once the print is completely done make sure that your bearings can spin freely and insert the heated inserts. You will then be able to screw the servo connector into the idler.
 
 You are now done with the idler.
 
 ## **For PrusaSlicer**
 
-Use paint on supports to support the endstop slot and support blockers to prevent any supports from blocking the motor shaft.
+~~Use paint on supports to support the endstop slot and support blockers to prevent any supports from blocking the motor shaft.~~
+not required anymore
 
 ![enter image description here](https://i.postimg.cc/KYSVwKDX/image.png)
 
@@ -159,7 +159,7 @@ M0 ; Do the actual pause
 M109 S200 ; resume temperature you may need to change that value to match the material you are using
 
 
-The merger may require a bit of post processing since any stringing and print defects that happened insider the tube may jam the filament. First try to insert your ptfe tube in each dedicated slot and then put a filament through. If holes themselves seem too tight for the filament you most likely have problems with horizontal expansion, so I recommend that you make use of the help channel on discord. If there seems to be a point where the filament gets jammed then make sure that your ptfe tube is cut straight and properly inserted, if it is the case try to put a bit of pressure on the filament or use a hard object to remove the jam. If there is some slight friction this is normal, and it will get better and better and the merger wears out.
+The merger might a bit hard to print due to the low surface contact. I might be reworking the models to improve bed adhesion.
 
 ## **Assembly:**
 
