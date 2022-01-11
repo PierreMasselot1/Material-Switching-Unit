@@ -9,9 +9,6 @@ The aim of this project is to popularize multi-material 3d printing by making a 
 
 ## **Different setups and compatibility**
 
-
-The MSU can be build in a few ways, and more options are being added. They all present benefits so we will go over the different setups that one can run. The first thing that you will see are the board requirements which will help you decide which setup you can and want to  use. Those requirements don't include the filament flow sensor yet. If you also want to be able to support it when we finish working on it you will need one extra GPIO pins.
-
 information relevant to one specific setup will be preceded by [**setup type**] and ended by [**/setup type**]
 ex: 
 [**Bowden style version**] information specific to a bowden style setup [**/Bowden style version**]
@@ -27,20 +24,22 @@ This will be compatible with almost every printer and motherboard when using the
 
 **Direct drive version**
 
-requirements: 5 stepper motor controls and drivers(X,Y,Z,E,MSU_E), 1 GPIO pin(servo control) and access to 12V (servo power)
+requirements: 5 stepper motor controls and drivers(X,Y,Z,E,MSU_E), 1 GPIO pin(servo control) and access to 12V (servo power),
+
+This setup is a bit more complicated, it is recommended that you get your setup working in a bowden configuration before attempting this.
 
 **Direct drive version linked extruders**
 
 requirements: servo idler: 4 stepper motor controls and drivers(X,Y,Z,(E and E_MSU combined)), 1 GPIO pin (servo control) and access to 12V (servo power)
 
 
-This is the same version as the direct drive one with the only difference being that the extruder on both the MSU and the actual extruder will be connected to the same driver meaning that a lot more logic needs to be implemented in order to never have both of them running at the same time, since they have different steps per mm meaning that if we run them at the same time one will be fighting against the other. This setup should be chosen if your board doesn't allow you to run the previous setup.
+This is the same version as the direct drive one with the only difference being that the extruder on both the MSU and the actual extruder will be connected to the same driver meaning that a lot more logic needs to be implemented in order to never have both of them running at the same time, since they have different steps per mm meaning that if we run them at the same time one will be fighting against the other. This setup should be chosen if your board doesn't allow you to run the previous setup, and it is highly recommended that you get your setup working in a bowden configuration before starting this.
 
 ## **Before you attempt to build this:**
 
 This guide is currently meant for more advanced user, comfortable with Marlin configuration and with a bit of programming experience. The models may still need work and are not final. You will need to do a lot of tuning before you get everything going, parts modification may be required, and you will almost certainly need to do some troubleshooting. If you are still reading this and want to build this for yourself, I highly recommend you join the discord server (you will find it in the readme file). There is a help channel in there specifically to answer any questions or issues you have while building the MSU.
 
-There are also a few things to know before deciding to build this upgrade. I don’t take any responsibility regarding your actions, this is still a prototype and requires heavy modifications of your printer, which could result in permanent damage, which is a risk that you should be willing to take if attempting this build.
+There are also a few things to know before deciding to build this upgrade. I don’t take any responsibility regarding your actions, this is still a prototype and requires heavy modifications of your printer, which could result in permanent damage, which is a risk that you should be willing to take when attempting this build.
 
 There will also be improvements that may require extra parts in the future, you should be easily able to transition from this version to the newer ones, but this will add extra costs.
 
@@ -48,9 +47,9 @@ Lastly, this is not perfect, and your printer may not work as well as before so 
 
 ## **Parts required**
 
-All the following links may be affiliate links (mostly the amazon ones) and I may earn money if a purchase is made using those links. All the profit will go directly back in this project. The price mentioned is only to give you an idea as they may fluctuate. The ones mentioned are the lowest ones I could find including shipping to NA at the date of writing this.
-
 The price total will not match the list exactly since some of those components come in packs of 700 (like screws) when we only need a few and you probably already have them, they will therefore not be part of the total.
+
+The following links were affiliate links, amazon closed the affiliate account since I probably don't have enough subscribers for it. I will hopefully be able to get those back soon enough.
 
 | Part name | Picture | Links | Pcs in pack | Pcs needed | Price $ |
 |--|--|--|--|--|--|
@@ -70,8 +69,6 @@ The price total will not match the list exactly since some of those components c
 |total bowden |||||78$|
 |total direct drive|||||83$|
 |total direct drive linked extruder|||||91$|
-
-
 
 
 ## **Prebuild checks**
@@ -99,91 +96,79 @@ Your motherboard will need to have all the ports required for the specific setup
 The STL files can be found in this repo. They are also available on thingiverse, search for MSU and you will have everything you need. Most parts can be printed at 0.2 mm with a 30% infill and without supports. The merger needs supports touching build plate and should be printed with a 0.1 mm layer height and at least 50% infill, with 100% being preferable.
 
 
-**Idler**
+## **Idler**
 
-This model prints vertically as shown below:
+The following slicing instrcutions are for PrusaSlicer and SuperSlicer. This is a good time to download SuperSlicer(PrusaSlicer would also work but since SuperSlicer has more multi-material related features this is what we are going to be working with).
 
-![enter image description here](https://i.postimg.cc/ryBSSSVL/image.png)
+The idler prints vertically like shown below:
 
-Once the model is on the build plate you will need to use supports only touching build plate and add a support blocker in the center of the idler.
+![idler](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idler-vertical.png)
 
-![enter image description here](https://i.postimg.cc/MTcQBGgT/image.png)
+You can then slice the idler using a layer height of or under .2mm.
+The parts needs multiple pauses in the print, this allows for the insertion of bearings before restarting the print.
 
-All of the settings that I am using can easily be found inside other slicers (PrusaSlicer shown below)
+In order to insert a pause at a specific layer you will first need to slice your model, then, in the sliced preview, you will use the slider on the right side to place yourself on one of the top layers of one bearing slot.
 
-![enter image description here](https://i.postimg.cc/WpkZbhMY/image.png)
+You will then find the exact layer where the shaft increases in diameter using the up and down arrows to move by one layer at a time, and insert a pause on the last layer with the regular shaft size.
 
-once you have selected support blocker you will need to click once at the center of the idler so that no support is printed inside the motor shaft mount. Slice the model using the layer height that you want to use (I personally used 0.2mm)
+![idler before shaft size increase](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idler-before.png)
 
-go into preview mode and use the slider to mark the last layer before closing the bearing enclosure as shown below. In the latest version of the idler there is a step at each end of the bearing to help with friction. You will need to make sure to put the pause before that step.
+![idler after shaft size increase](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idler-after.png))
 
-![enter image description here](https://i.postimg.cc/NMrKMzr2/image.png)
+In this case the pause script will be inserted on layer 93. To insert that pause you will want to put the slider back at that position using the arrows and **right** click the little plus icon on the right of the slider.
 
-Use the arrow up and down to go up layer by layer.
+![slider plus option](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/sliderplus.png))
 
-Mark down this layer height for each bearing, you should have 5 values for the 5 bearings.
+After right clicking that button you will see multiple options and one of those being add custom Gcode, click on the custom Gcode option. Enter the following Gcode commands in the text field that appears:
 
-You then have to add a pause at layer line script for each of those values in cura go to extensions-> post processing-> modify gcode->add a script->pause at height.
+	G0 X0 Y0
 
-From the drop-down menu select pause at layer No and change the pause layer to the first value that you took. Repeat with each value.
+	M104 S0 ; standby temperature
 
-![enter image description here](https://i.postimg.cc/vBWGCFVh/image.png)
+	M0 ; Do the actual pause
 
-Reslice your model one last time and start the print, your printer should pause before closing a bearing enclosure and insert the 608 ball bearings before resuming the print.
+	M109 S200 ; resume temperature you may need to change that value to match the material you are using
 
-Once the print is completely done make sure that your bearings can spin freely and insert the heated inserts. You will then be able to screw the servo connector into the idler.
+Pausing scripts can be a bit of a pain depending on your printers manufacturer. A bit of googling should hel you find adequate gcode, the previous snippet is what has been the most sucessful in my case.
 
-You are now done with the idler.
+## **Merger**
 
-## **For PrusaSlicer**
-
-~~Use paint on supports to support the endstop slot and support blockers to prevent any supports from blocking the motor shaft.~~
-not required anymore
-
-![enter image description here](https://i.postimg.cc/KYSVwKDX/image.png)
-
-Layer pause
-
-![enter image description here](https://i.postimg.cc/C1vchdkx/image.png)
-
-Right click on the orange plus icon and insert pause print Gcode
-
-Here it is so that you can copy it
-
-G0 X0 Y0
-
-M104 S0 ; standby temperature
-
-M0 ; Do the actual pause
-
-M109 S200 ; resume temperature you may need to change that value to match the material you are using
-
-
-The merger might a bit hard to print due to the low surface contact. I might be reworking the models to improve bed adhesion.
+The merger is one of the hardest parts to print due to it's low contact surface. Make sure that your bed is well leveled, and that you don't have any supports inside the tubes and you should be good to go. (This is one of the parts that I will rework to allow for easier printing).
 
 ## **Assembly:**
-
-Assembly is relatively easy.
-
-### Merger
-the merger needs a bit of support touching build plate in order to print successfully. It only needs one PC4 M10 coupler on the output since it is a press fit design.
-Also check that the clearances are right before assembly by checking every filament path.
-
-You can now set the merger aside.
 
 ![enter image description here](https://i.postimg.cc/FK6x8w4Y/image.png)
 
 You will then need to setup your motor. Connect the motor and one of the 5mm metal rod. If you are using a flexible coupler, make sure that the two ends are touching to reduce flex to a maximum. Slide all the extruder gears onto the rod but do not tighten them too much yet: the screws used are really small and can be damaged easily and you will need to be further in assembly in order to align the gears properly.
 
+
 ![enter image description here](https://i.postimg.cc/h4T0ZC3G/image.png)
 
-The next parts that will need work are the pulley body and the idler. They both need heated inserts.
+The next step will be to insert heated inserts in all of the parts that need them. The following images show those locations.
 
-[idler picture todo still not reprinted]
+Pulley body:
+
+Just note that for this next picture the heated inserts are optional and can be replaced by M3 nuts (less stylish but will perform better in the long run).
+![heated inserts top of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodyinsertstop.png))
+
+![heated inserts front of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodyfrontinserts.png))
+
+![heated inserts bottom of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodybottominserst.png))
+
+Idler body:
+
+![heated inserts bottom of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idlerbodyinserts.png))
+
 
 If you are not familiar with heated inserts here is a guide: [https://hackaday.com/2019/02/28/threading-3d-printed-parts-how-to-use-heat-set-inserts/](https://hackaday.com/2019/02/28/threading-3d-printed-parts-how-to-use-heat-set-inserts/)
 
 They are not that difficult to use just make sure to not heat up your part for too long.
+
+
+
+:warning: THE BUILD GUIDE HAS BEEN UPDATED UP TO THIS POINT, I WILL TRY TO FINISH THE REST THIS WEEK BUT NOTE THAT ANYTHING AFTER THIS IS REALLY OUTDATED
+
+
 
 ![enter image description here](https://i.postimg.cc/RZFKmGGK/image.png)
 
