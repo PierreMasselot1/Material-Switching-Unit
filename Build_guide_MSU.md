@@ -113,11 +113,11 @@ You will then find the exact layer where the shaft increases in diameter using t
 
 ![idler before shaft size increase](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idler-before.png)
 
-![idler after shaft size increase](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idler-after.png))
+![idler after shaft size increase](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idler-after.png)
 
 In this case the pause script will be inserted on layer 93. To insert that pause you will want to put the slider back at that position using the arrows and **right** click the little plus icon on the right of the slider.
 
-![slider plus option](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/sliderplus.png))
+![slider plus option](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/sliderplus.png)
 
 After right clicking that button you will see multiple options and one of those being add custom Gcode, click on the custom Gcode option. Enter the following Gcode commands in the text field that appears:
 
@@ -149,15 +149,15 @@ The next step will be to insert heated inserts in all of the parts that need the
 Pulley body:
 
 Just note that for this next picture the heated inserts are optional and can be replaced by M3 nuts (less stylish but will perform better in the long run).
-![heated inserts top of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodyinsertstop.png))
+![heated inserts top of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodyinsertstop.png)
 
-![heated inserts front of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodyfrontinserts.png))
+![heated inserts front of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodyfrontinserts.png)
 
-![heated inserts bottom of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodybottominserst.png))
+![heated inserts bottom of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/pulleybodybottominserst.png)
 
 Idler body:
 
-![heated inserts bottom of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idlerbodyinserts.png))
+![heated inserts bottom of pulley body](https://github.com/PierreMasselot1/Material-Switching-Unit/blob/main/img/idlerbodyinserts.png)
 
 
 If you are not familiar with heated inserts here is a guide: [https://hackaday.com/2019/02/28/threading-3d-printed-parts-how-to-use-heat-set-inserts/](https://hackaday.com/2019/02/28/threading-3d-printed-parts-how-to-use-heat-set-inserts/)
