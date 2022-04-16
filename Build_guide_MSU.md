@@ -166,13 +166,10 @@ They are not that difficult to use just make sure to not heat up your part for t
 
 
 
-:warning: THE BUILD GUIDE HAS BEEN UPDATED UP TO THIS POINT, I WILL TRY TO FINISH THE REST THIS WEEK BUT NOTE THAT ANYTHING AFTER THIS IS REALLY OUTDATED
-
-
 
 ![enter image description here](https://i.postimg.cc/RZFKmGGK/image.png)
 
-You can then insert the motor and shaft assembly. Secure the motor using M3*8 screws, if they don’t align with the motor (by about 1mm) checkout the latest update of this model since the previous one didn’t have the correct spacing (with a bit of work even that one worked just not perfectly). You can now align each of the gears with the filament slot corresponding and properly tighten them. If you see that your gears are sliding onto the rod you can use a Dremel to flatten a spot for the set screw, this will help a lot and works much better than simply trying to tighten everything more as you won't risk damaging the threads
+You can then insert the motor and shaft assembly. Secure the motor using M3*8 screws. You can now align each of the gears with the filament slot corresponding and properly tighten them. If you see that your gears are sliding onto the rod you can use a Dremel to flatten a spot for the set screw, this will help a lot and works much better than simply trying to tighten everything more as you won't risk damaging the threads.
 
 
 ![enter image description here](https://i.postimg.cc/SKbSdxXR/image.png)
@@ -181,12 +178,10 @@ Place a bearing on the end of the idler and pass it through the motor hole of th
 
 ![enter image description here](https://i.postimg.cc/XJVVM1k0/image.png)
 
-Once inserted use M4 screws to secure the servo to the idler body.
- After this is done put M3x12 screws in the idler (in the heated inserts) and secure it to the motor. No need to tighten them extremely hard since you might rip out the inserts.
+Once inserted use M4 screws to secure the servo to the idler body. Don't bother tightening them much at this point since you will need to re align the idler once the firmware is flashed.
 
 ![enter image description here](https://i.postimg.cc/KjWFMGSZ/image.png)
 
-After this is done check that the idler can properly rotate and triggers the endstop properly (once again only for the stepper controlled idler).
 
 ![enter image description here](https://i.postimg.cc/yYws68yj/image.png)
 
