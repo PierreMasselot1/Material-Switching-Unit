@@ -223,40 +223,42 @@ This line needs to be uncommented in order to enable MSU functionalities
 The following lines of code are responsible for the selection of the type of setup you want to run. Choose one between bowden, direct-drive, and direct-drive with linked extruders. On top of that you have the option to use a servo controlled iderl, the default being a stepper-controlled idler
 ```cpp
 #if  ENABLED(MSU)
-//#define MSU_BOWDEN_TUBE_SETUP //enable when working with the MSU as a bowden extruder itself
-//#define MSU_DIRECT_DRIVE_SETUP //enable to work in a direct drive setup, if doing so don't forget to disable MSU_BOWDEN_TUBE_SETUP
-//#define MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP //enable to work in a direct drive setup where both the MSU extruder and the actual extruder are connected to a parrallel module
-//#define MSU_SERVO_IDLER //enable to control the idler using a servo
+//#define MSU_BOWDEN_TUBE_SETUP //enable when using a bowden style setup
+//#define MSU_DIRECT_DRIVE_SETUP //enable when using a direct-drive setup
+//#define MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP //enable when using a direct-drive setup using a single driver for both the MSU and the extruder
 ```
-The following lines are additional configuration options that are most likely already good but that you want to double check in case you have a different setup. Use the description to understand what each setting does and adjust them accordingly
+The following lines are additional configuration options that are most likely already good but that you want to double check in case you have a different setup. Use the description to understand what each setting does and adjust them accordingly if need be.
+
+One thing that you will more than likely have to do is adjusting the servo angle so that it aligns properly with each filament slot. Here is how to do it:
+
+Before attaching the idler to the servo, power up the printer and use the MSU menu (or the Gcode command T0, T2,..., T4) to move the idler to each filament position. Each time, use the M280 Gcode command to read the corresponding servo position and write them down.  Once this is completed, set the idler to the position for the first filament (or use the Gcode command T1).  Attach the idler to the servo, ensuring that the position of the  bearing for filament 1 is aligned with the first extrusion gear. You might not be able to get that alignment perfect at this time due to the way the servo and idler are coupled, this is not a problem since this can be fine tuned at a later stage, just get it "close enough". Once the idler is attached to the servo, use the M280 command to position the idler drum "perfectly" for filaments 1 and 5, noting the angle setting for each "perfect" setting. If need be you can subtract the position 1 to the position 5, divide it by 4 and you will obtain the proper value for MSU_BEARING_ANGLES (the defaults should be close but if you modify the idler for example ths will allow you to get an accurate value for your setup). You should have one initial angle for the first filament and one adjusted angle(first and second steps), set the MSU_SERVO_OFFSET setting in the firmware to the difference between the two.
+
+If this is a bit confusing... well that's because it is. If you aren't able to get good alignment try to do small adjustments and re-flashing the firmware  until you get the idler to align with each filament.
+
 ```cpp
 #define MSU_MENU//LCD Menu
 
-#define MSU_EXTRUDER_ENBR 0//define the MSU extruder motor nbr. ex: when using the E1 port and if defined correctly in the pins file of you board you would use MSU_EXTRUDER_ENBR 1
-
-#if ENABLED(MSU_SERVO_IDLER)
-	#define MSU_SERVO_IDLER_NBR 0//if your board has servo support select the servo nbr you want to use(if you are not sure you can check in the pins file of your board but 0 will most likely be the default servo port for your board). If your board doesn't support them directly you can also define a custom one in your pins file once again
-#else
-	#define MSU_IDLER_ENBR 1 //define the idler extruder motor nbr.
-#endif
+#define MSU_SERVO_IDLER_NBR 0 //define the servo motor number
+#define MSU_SERVO_OFFSET 0 //defines the offset in degrees for the idler, this can be used to fine tune idler alignment
+#define MSU_BEARING_ANGLES 26 //defines the angle from on ball-bearing to the next on the idler
+#define MSU_SPEED 25 //unload and load speed of the MSU in mm/s, fine tuning can be done from the slicer
+#define MSU_EXTRUDER_NBR 0 //define the MSU extruder motor number (as setup in your board pins file)
+#define MSU_PARKING_POSITION 270 //define angle of the servo for the parking position
 
 #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-	#define MSU_ORIGINAL_EXTRUDER_ENBR 2//define the extruder nbr that the actual extruder is connected to
+	#define MSU_ORIGINAL_EXTRUDER_NBR 2//define the extruder nbr that the actual extruder is connected to 
 #endif
-  
-#if DISABLED(MSU_SERVO_IDLER)
-	#define MSU_IDLER_ENDSTOP_AXIS X //select the endstop connected
-	#define MSU_IDLER_ENDSTOP_MINMAX MAX
-	//#define IDLER_ENDSTOP_PIN //TODO for a custom endstop pin.
+
+#if ENABLED(MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP)
+	#define MSU_EXTRUDER_STEPS_PER_MM 120 //steps per mm of the MSU, should not require any tuning. Necessary since we are using a single driver with motors that potentially have different steps per mm
 #endif
 
   
 ```
 The two next lines are to set the length of the bowden tube and of the distance from the nozzle to the extruder gears (only required for direct drive)
 ```cpp
-#define MSU_BOWDEN_TUBE_SETUP_LENGTH 200//bowden tube length from the crossing point of the merger to the nozzle
-
-#define MSU_NOZZLE_EXTRUDER_GEAR_LENGTH 40 //Only necessary for direct drive setups, the distance from the extruder gear up to the nozzle.
+ #define MSU_BOWDEN_TUBE_LENGTH 600 //length between MSU and the nozzle or from the MSU to the extruder gears (for direct drive setups)
+ #define MSU_GEAR_LENGTH 40 //for direct drive setups only, amount of retraction needed to disengage the filaments from the extruder gears
 
 #endif 
 ```
