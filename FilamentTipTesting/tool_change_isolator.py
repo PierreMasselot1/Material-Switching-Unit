@@ -11,9 +11,26 @@ def toolChangeFromFile(filename):
     endline= int(0)
     testline= int(0)
     StartOfToolChange=False
-    
+
+
+
+    #First print all relevant information as comments on top of the file
     for line in lines:
-        testline= testline + 1
+
+        if "; FILAMENT-SPECIFIC STARTING GCODE END" in line and line-4>=0:
+            filament= re.sub(r'[;]', '', lines[line - 4]) #use regular expressions to remove semicolons
+            TipTest.write('; Filament profile name: '+filament+'\n')
+            
+        if "; filament" in line:
+            TipTest.write(line)
+    
+    
+    testline=0 #resest focused line
+    TipTest.write('\n')
+
+
+    #Actually go through the gcode and extract the toolchange sequence
+    for line in lines:
         if StartOfToolChange==True:
             if "; Filament-specific end gcode" in line:
                 endline= testline
@@ -41,28 +58,6 @@ def toolChangeFromFile(filename):
             TipTest.write('G1 E15 F1000\n')
             TipTest.write(';Script generated Gcode end\n\n')
             TipTest.write(';Slicer generated Gcode begin\n')
-            
-    testline= startline
-    while True:
-        if "; FILAMENT-SPECIFIC STARTING GCODE END" in lines[testline]:
-            filament= re.sub(r'[;]', '', lines[testline - 4]) #use regular expressions to remove semicolons
-            TipTest.write('; Filament profile name: '+filament+'\n')
-            #print(filament)
-            break
-        if testline== 1:
-            TipTest.write('; No filament profile name found\n')
-            break
-        testline -= 1
-    
-    StartOfFilamentParams=False
-    for line in reversed(lines):
-        if StartOfFilamentParams==True:
-            if "; filament" not in line:
-                break
-            TipTest.write(line)
-        elif "; filament" in line:
-            StartOfFilamentParams=True
-            TipTest.write(line)
             
     TipTest.close()
     return

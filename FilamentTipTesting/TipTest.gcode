@@ -1,6 +1,95 @@
+; filament used [mm] = 13188.47, 7473.81, 2303.77, 1106.26, 1674.54
+; filament used [cm3] = 31.72, 17.98, 5.54, 2.66, 4.03
+; filament used [g] = 39.33, 22.29, 6.87, 3.30, 4.99
+; filament cost = 0.77, 0.43, 0.13, 0.06, 0.10
+; filament_colour = #FFE200;#FFE200;#FFE200;#FFE200;#FFE200
+; filament_cooling_final_speed = 3.4,3.4,3.4,3.4,3.4
+; filament_cooling_initial_speed = 2.2,2.2,2.2,2.2,2.2
+; filament_cooling_moves = 4,4,4,4,4
+; filament_cooling_zone_pause = 0,0,0,0,0
+; filament_cost = 19.5,19.5,19.5,19.5,19.5
+; filament_custom_variables = ;;;;
+; filament_density = 1.24,1.24,1.24,1.24,1.24
+; filament_diameter = 1.75,1.75,1.75,1.75,1.75
+; filament_dip_extraction_speed = 70,70,70,70,70
+; filament_dip_insertion_speed = 33,33,33,33,33
+; filament_enable_toolchange_part_fan = 0,0,0,0,0
+; filament_enable_toolchange_temp = 0,0,0,0,0
+; filament_load_time = 0,0,0,0,0
+; filament_loading_speed = 28,28,28,28,28
+; filament_loading_speed_start = 3,3,3,3,3
+; filament_max_overlap = 100%,100%,100%,100%,100%
+; filament_max_speed = 0,0,0,0,0
+; filament_max_volumetric_speed = 15,15,15,15,15
+; filament_max_wipe_tower_speed = 0,0,0,0,0
+; filament_melt_zone_pause = 0,0,0,0,0
+; filament_minimal_purge_on_wipe_tower = 15,15,15,15,15
+; filament_notes = ;;;;
+; filament_ramming_parameters = "120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6"
+; filament_settings_id = "123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY"
+; filament_shrink = 100%,100%,100%,100%,100%
+; filament_skinnydip_distance = 31,31,31,31,31
+; filament_soluble = 0,0,0,0,0
+; filament_spool_weight = 0,0,0,0,0
+; filament_toolchange_delay = 0,0,0,0,0
+; filament_toolchange_part_fan_speed = 50,50,50,50,50
+; filament_toolchange_temp = 200,200,200,200,200
+; filament_type = PLA;PLA;PLA;PLA;PLA
+; filament_unload_time = 0,0,0,0,0
+; filament_unloading_speed = 90,90,90,90,90
+; filament_unloading_speed_start = 100,100,100,100,100
+; filament_use_fast_skinnydip = 0,0,0,0,0
+; filament_use_skinnydip = 0,0,0,0,0
+; filament_vendor = 123-3D
+; filament_wipe_advanced_pigment = 0.5,0.5,0.5,0.5,0.5
+; filament used [mm] = 13188.47, 7473.81, 2303.77, 1106.26, 1674.54
+; filament used [cm3] = 31.72, 17.98, 5.54, 2.66, 4.03
+; filament used [g] = 39.33, 22.29, 6.87, 3.30, 4.99
+; filament cost = 0.77, 0.43, 0.13, 0.06, 0.10
+; filament_colour = #FFE200;#FFE200;#FFE200;#FFE200;#FFE200
+; filament_cooling_final_speed = 3.4,3.4,3.4,3.4,3.4
+; filament_cooling_initial_speed = 2.2,2.2,2.2,2.2,2.2
+; filament_cooling_moves = 4,4,4,4,4
+; filament_cooling_zone_pause = 0,0,0,0,0
+; filament_cost = 19.5,19.5,19.5,19.5,19.5
+; filament_custom_variables = ;;;;
+; filament_density = 1.24,1.24,1.24,1.24,1.24
+; filament_diameter = 1.75,1.75,1.75,1.75,1.75
+; filament_dip_extraction_speed = 70,70,70,70,70
+; filament_dip_insertion_speed = 33,33,33,33,33
+; filament_enable_toolchange_part_fan = 0,0,0,0,0
+; filament_enable_toolchange_temp = 0,0,0,0,0
+; filament_load_time = 0,0,0,0,0
+; filament_loading_speed = 28,28,28,28,28
+; filament_loading_speed_start = 3,3,3,3,3
+; filament_max_overlap = 100%,100%,100%,100%,100%
+; filament_max_speed = 0,0,0,0,0
+; filament_max_volumetric_speed = 15,15,15,15,15
+; filament_max_wipe_tower_speed = 0,0,0,0,0
+; filament_melt_zone_pause = 0,0,0,0,0
+; filament_minimal_purge_on_wipe_tower = 15,15,15,15,15
+; filament_notes = ;;;;
+; filament_ramming_parameters = "120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6"
+; filament_settings_id = "123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY"
+; filament_shrink = 100%,100%,100%,100%,100%
+; filament_skinnydip_distance = 31,31,31,31,31
+; filament_soluble = 0,0,0,0,0
+; filament_spool_weight = 0,0,0,0,0
+; filament_toolchange_delay = 0,0,0,0,0
+; filament_toolchange_part_fan_speed = 50,50,50,50,50
+; filament_toolchange_temp = 200,200,200,200,200
+; filament_type = PLA;PLA;PLA;PLA;PLA
+; filament_unload_time = 0,0,0,0,0
+; filament_unloading_speed = 90,90,90,90,90
+; filament_unloading_speed_start = 100,100,100,100,100
+; filament_use_fast_skinnydip = 0,0,0,0,0
+; filament_use_skinnydip = 0,0,0,0,0
+; filament_vendor = 123-3D
+; filament_wipe_advanced_pigment = 0.5,0.5,0.5,0.5,0.5
+
 ;Script generated Gcode begin
 M83
-M109 S320
+M109 S213
 G28
 G1 Z50
 T1
@@ -70,46 +159,5 @@ G4 S0
 G1 E-100
 ;Script generated Gcode end
 
-; Original Gcode file start line: 2060
-; Original Gcode file end line: 2115
-; No filament profile name found
-; filament_wipe_advanced_pigment = 0.5,0.5,0.5,0.5,0.5
-; filament_vendor = 123-3D
-; filament_use_skinnydip = 0,0,0,0,0
-; filament_use_fast_skinnydip = 0,0,0,0,0
-; filament_unloading_speed_start = 100,100,100,100,100
-; filament_unloading_speed = 90,90,90,90,90
-; filament_unload_time = 0,0,0,0,0
-; filament_type = PLA;PLA;PLA;PLA;PLA
-; filament_toolchange_temp = 200,200,200,200,200
-; filament_toolchange_part_fan_speed = 50,50,50,50,50
-; filament_toolchange_delay = 0,0,0,0,0
-; filament_spool_weight = 0,0,0,0,0
-; filament_soluble = 0,0,0,0,0
-; filament_skinnydip_distance = 31,31,31,31,31
-; filament_shrink = 100%,100%,100%,100%,100%
-; filament_settings_id = "123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY";"123-3D Jupiter PLA @CREALITY"
-; filament_ramming_parameters = "120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6";"120 100 6.6 6.8 7.2 7.6 7.9 8.2 8.7 9.4 9.9 10.0| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6"
-; filament_notes = ;;;;
-; filament_minimal_purge_on_wipe_tower = 15,15,15,15,15
-; filament_melt_zone_pause = 0,0,0,0,0
-; filament_max_wipe_tower_speed = 0,0,0,0,0
-; filament_max_volumetric_speed = 15,15,15,15,15
-; filament_max_speed = 0,0,0,0,0
-; filament_max_overlap = 100%,100%,100%,100%,100%
-; filament_loading_speed_start = 3,3,3,3,3
-; filament_loading_speed = 28,28,28,28,28
-; filament_load_time = 0,0,0,0,0
-; filament_enable_toolchange_temp = 0,0,0,0,0
-; filament_enable_toolchange_part_fan = 0,0,0,0,0
-; filament_dip_insertion_speed = 33,33,33,33,33
-; filament_dip_extraction_speed = 70,70,70,70,70
-; filament_diameter = 1.75,1.75,1.75,1.75,1.75
-; filament_density = 1.24,1.24,1.24,1.24,1.24
-; filament_custom_variables = ;;;;
-; filament_cost = 19.5,19.5,19.5,19.5,19.5
-; filament_cooling_zone_pause = 0,0,0,0,0
-; filament_cooling_moves = 4,4,4,4,4
-; filament_cooling_initial_speed = 2.2,2.2,2.2,2.2,2.2
-; filament_cooling_final_speed = 3.4,3.4,3.4,3.4,3.4
-; filament_colour = #FFE200;#FFE200;#FFE200;#FFE200;#FFE200
+; Original Gcode file start line: 1
+; Original Gcode file end line: 0
