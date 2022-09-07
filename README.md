@@ -3,10 +3,6 @@
 
 The Material Switching Unit is a multi-material upgrade for 3D printers based on the MMU2 that allows printing of up to 5 filaments while staying under 80$ and being compatible with most FDM 3D printers out there.
 
-```diff
-- This project is currently in a limbo state, I do not have access to the physical device for the next 2 months so won't be making a lot of progress. I will try my best to help sort out any bugs that may appear.
-```
-
 # Getting started
 
 Clone the repository using the following command (you will need [git](https://git-scm.com/downloads) on your machine)
