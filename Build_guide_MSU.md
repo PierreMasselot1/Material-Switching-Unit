@@ -318,10 +318,24 @@ If you need to use multiple servos on motherboard or if your motherboard isn't p
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 
-	
+### Direct Drive Setup
+Additionally if you are building the MSU for a direct drive setup you will need to define an additional extruder (only for the non-linked version). To do so increment the number of extruders in Configuration.h
+```cpp
+#define EXTRUDERS 2
+```
+
+
+You will need single nozzle to be enabled by uncommenting the following line in Configuration.h
+```cpp
+#define SINGLENOZZLE
+```
+
+You might also need to update the pins file on your board if it does not support dual extruders natively.
+
+
 
 You are now done with the software modifications.
-**if at any point you are seeing unexpected behavior it is recommended to connect your printer to your computer and use something like pronterface in order to get more debuggin info through the serial communication**
+**if at any point you are seeing unexpected behavior it is recommended to connect your printer to your computer and use something like pronterface in order to get more debugging info through the serial communication**
 
 
 ## **Slicer settings.**
