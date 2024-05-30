@@ -1,3 +1,4 @@
+# This is just for personal experimentation at this time. If you happen to have a usecase for this script let me know and I will rewrite it to be more user friendly and add more features.
 import os
 
 FILE_NAME = "TipTest"
@@ -55,7 +56,7 @@ def filament_stamping(
 
     # enable cold extrusion protection
     gcode_commands.append("M302 P0")
-    return gcode_commands   
+    return gcode_commands
 
 
 def filament_change_and_picture_or_user_prompt(
@@ -72,7 +73,7 @@ def filament_change_and_picture_or_user_prompt(
     else:
         gcode_commands.append("M117 " + str(settings))
         gcode_commands.append("M0")
-        
+
     return gcode_commands
 
 
@@ -106,6 +107,46 @@ def setting_string_builder(
     )
 
 
+def filament_change(
+    working_temp,
+    ramming_speed,
+    stamping_speed,
+    parking_position,
+    extract_speed_start,
+    extract_speed,
+    ramming_distance,
+    stamping_distance,
+    stream,
+):
+    gcode_commands = filament_stamping(
+        working_temp,
+        ramming_speed,
+        stamping_speed,
+        parking_position,
+        extract_speed_start,
+        extract_speed,
+        ramming_distance,
+        stamping_distance,
+    )
+    settings_string = setting_string_builder(
+        working_temp,
+        ramming_speed,
+        stamping_speed,
+        parking_position,
+        extract_speed_start,
+        extract_speed,
+        ramming_distance,
+        stamping_distance,
+    )
+    gcode_commands.insert(0, "; " + settings_string)
+    all_commands = filament_change_and_picture_or_user_prompt(
+        gcode_commands, "ramming_" + str(ramming_speed), settings_string
+    )
+    # Write the commands to the file
+    for command in all_commands:
+        stream.write(command + "\n")
+
+
 def filament_tip_shaping_experimentation(filename_and_version, directory=None):
     # Create a new file in the directory
     stream = None
@@ -127,61 +168,21 @@ def filament_tip_shaping_experimentation(filename_and_version, directory=None):
     ramming_distance_range = (1, 10)
     stamping_distance_range = (1, 4)
 
-    num_tests_per_range = 10
+    num_tests = 10
 
-    # TEST RAMMING AND STAMPING SPEED
-    ramming_speed_values = [
-        ramming_speed_range[0]
-        + i * (ramming_speed_range[1] - ramming_speed_range[0]) / num_tests_per_range
-        for i in range(num_tests_per_range)
-    ]
-    stamping_speed_values = [
-        stamping_speed_range[0]
-        + i * (stamping_speed_range[1] - stamping_speed_range[0]) / num_tests_per_range
-        for i in range(num_tests_per_range)
-    ]
 
-    for ramming_speed in ramming_speed_values:
-        for stamping_speed in stamping_speed_values:
-            extract_speed_start = (
-                extract_speed_start_range[0] + extract_speed_start_range[1]
-            ) / 2
-            extract_speed = ((extract_speed_range[0] + extract_speed_range[1]) / 2,)
-            ramming_distance = (
-                ramming_distance_range[0] + ramming_distance_range[1]
-            ) / 2
-            stamping_distance = (
-                stamping_distance_range[0] + stamping_distance_range[1]
-            ) / 2
-
-            gcode_commands = filament_stamping(
-                working_temp,
-                ramming_speed,
-                stamping_speed,
-                parking_position,
-                extract_speed_start,
-                extract_speed,
-                ramming_distance,
-                stamping_distance,
-            )
-            settings_string = setting_string_builder(
-                working_temp,
-                ramming_speed,
-                stamping_speed,
-                parking_position,
-                extract_speed_start,
-                extract_speed,
-                ramming_distance,
-                stamping_distance,
-            )
-            gcode_commands.insert(0, "; " + settings_string)
-
-            all_commands = filament_change_and_picture_or_user_prompt(
-                gcode_commands, "ramming_" + str(ramming_speed), settings_string
-            )
-            # Write the commands to the file
-            for command in all_commands:
-                stream.write(command + "\n")
+    for i in range(num_tests):
+        filament_change(
+            working_temp,
+            20,
+            20,
+            parking_position,
+            20,
+            20,
+            1,
+            1,
+            stream,
+        )
 
     return
 
