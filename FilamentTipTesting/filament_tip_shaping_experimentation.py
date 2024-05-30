@@ -157,7 +157,7 @@ def filament_tip_shaping_experimentation(filename_and_version, directory=None):
 
     # TEST STAMPING WITHOUT COOLDOWN
     working_temp = 200
-    parking_position = 75
+    parking_position = 50
     ramming_speed_range = (20, 40)
     stamping_speed_range = (20, 40)
     extract_speed_start_range = (20, 40)
